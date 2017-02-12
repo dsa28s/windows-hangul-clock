@@ -11,6 +11,9 @@
 ## 한글시계 사용하기
 다운로드 : https://s3.ap-northeast-2.amazonaws.com/sangscdn/hangulclock/windows/HangulClockSetup.exe
 
+### 설치 위치
+C:\Program Files\Hangul Clock\
+
 ### 실행조건
 Windows 7+
 
