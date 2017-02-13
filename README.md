@@ -12,6 +12,7 @@
 다운로드 : https://s3.ap-northeast-2.amazonaws.com/sangscdn/hangulclock/windows/HangulClockSetup.exe
 설치에 오류가 발생하는경우(포터블) : https://s3.ap-northeast-2.amazonaws.com/sangscdn/hangulclock/windows/HangulClock.zip
 포터블 버전을 받을 경우 "Node.js" 가 설치되어 있어야합니다. 설치되어 있지 않은경우, 오류가 난답니다.
+(포터블은 추천하지 않아요... 해도해도 안될때만 써주세요ㅠㅠ)
 
 ### 설치 위치
 C:\Program Files\Hangul Clock\
