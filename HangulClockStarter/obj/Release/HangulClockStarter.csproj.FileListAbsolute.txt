@@ -1,0 +1,6 @@
+C:\Users\MR.LEE(상훈)\Desktop\hangulclockrenderer\HangulClockStarter\bin\Release\HangulClockStarter.exe.config
+C:\Users\MR.LEE(상훈)\Desktop\hangulclockrenderer\HangulClockStarter\bin\Release\HangulClockStarter.exe
+C:\Users\MR.LEE(상훈)\Desktop\hangulclockrenderer\HangulClockStarter\bin\Release\HangulClockStarter.pdb
+C:\Users\MR.LEE(상훈)\Desktop\hangulclockrenderer\HangulClockStarter\obj\Release\HangulClockStarter.csprojResolveAssemblyReference.cache
+C:\Users\MR.LEE(상훈)\Desktop\hangulclockrenderer\HangulClockStarter\obj\Release\HangulClockStarter.exe
+C:\Users\MR.LEE(상훈)\Desktop\hangulclockrenderer\HangulClockStarter\obj\Release\HangulClockStarter.pdb
