@@ -2,7 +2,7 @@ Copyright. 2017 MR.LEE(LEE SANG HUN) / 이 프로그램은 저작권으로 보�
 
 # 한글시계 - 오늘도 수고한 당신에게
 ### Hangul Clock for Windows (Desktop Widget)
-![Screenshot!](https://raw.githubusercontent.com/dsa28s/windows-hangul-clock/master/Screenshot/shot5.PNG)
+![Screenshot!](https://raw.githubusercontent.com/dsa28s/windows-hangul-clock/master/Screenshot/shot6.PNG)
 ![Screenshot!](https://raw.githubusercontent.com/dsa28s/windows-hangul-clock/master/Screenshot/shot1.PNG)
 ![Screenshot!](https://raw.githubusercontent.com/dsa28s/windows-hangul-clock/master/Screenshot/shot3.png)
 ![Screenshot!](https://raw.githubusercontent.com/dsa28s/windows-hangul-clock/master/Screenshot/shot4.png)
