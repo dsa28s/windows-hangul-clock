@@ -9,8 +9,8 @@
 바탕화면 위젯으로 사용할 수 있으며 마치 바탕화면처럼(?) 사용한답니다. 
 
 ## 한글시계 사용하기
-다운로드 : https://s3.ap-northeast-2.amazonaws.com/sangscdn/hangulclock/windows/HangulClockSetup.exe
-설치에 오류가 발생하는경우(포터블) : https://s3.ap-northeast-2.amazonaws.com/sangscdn/hangulclock/windows/HangulClock.zip
+다운로드 : http://hangulclock-cdn.jtjsoft.com/hangulclock-v2.3.1/HangulClockSetup.exe
+설치에 오류가 발생하는경우(포터블) : http://hangulclock-cdn.jtjsoft.com/hangulclock-v2.3.1/HangulClock.zip
 포터블 버전을 받을 경우 "Node.js" 가 설치되어 있어야합니다. 설치되어 있지 않은경우, 오류가 난답니다.
 (포터블은 추천하지 않아요... 해도해도 안될때만 써주세요ㅠㅠ)
 
@@ -38,4 +38,4 @@ GPLv3(GNU General Public License v3)
 * **MR.LEE(leeshoon1344@gmail.com) / LEE SANG HUN** - *Main developer* - [지극히 평범한 다발자가 되고싶은 학생](https://github.com/dsa28s)
 
 ## 버전 히스토리
-* **1.4** - *First Publishing*
+* **2.3.1** - *First Publishing*
