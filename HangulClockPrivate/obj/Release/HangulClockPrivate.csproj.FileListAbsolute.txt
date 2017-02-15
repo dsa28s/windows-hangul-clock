@@ -1,0 +1,5 @@
+C:\Users\MR.LEE(상훈)\Desktop\hangulclockrenderer\HangulClockPrivate\bin\Release\HangulClockPrivate.dll
+C:\Users\MR.LEE(상훈)\Desktop\hangulclockrenderer\HangulClockPrivate\bin\Release\HangulClockPrivate.pdb
+C:\Users\MR.LEE(상훈)\Desktop\hangulclockrenderer\HangulClockPrivate\obj\Release\HangulClockPrivate.dll
+C:\Users\MR.LEE(상훈)\Desktop\hangulclockrenderer\HangulClockPrivate\obj\Release\HangulClockPrivate.pdb
+C:\Users\MR.LEE(상훈)\Desktop\hangulclockrenderer\HangulClockPrivate\obj\Release\HangulClockPrivate.csprojResolveAssemblyReference.cache
