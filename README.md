@@ -12,10 +12,7 @@ Copyright. 2017 MR.LEE(LEE SANG HUN) / 이 프로그램은 저작권으로 보�
 바탕화면 위젯으로 사용할 수 있으며 마치 바탕화면처럼(?) 사용한답니다. 
 
 ## 한글시계 사용하기
-다운로드 : https://hangulclock-cdn.jtjsoft.com/hangulclock-v2.3.3/HangulClockSetup.exe
-설치에 오류가 발생하는경우(포터블) : https://hangulclock-cdn.jtjsoft.com/hangulclock-v2.3.3/HangulClock.zip
-포터블 버전을 받을 경우 "Node.js" 가 설치되어 있어야합니다. 설치되어 있지 않은경우, 오류가 난답니다.
-(포터블은 추천하지 않아요... 해도해도 안될때만 써주세요ㅠㅠ)
+다운로드 : https://hangulclock-cdn.jtjsoft.com/hangulclock-v2.5.0/HangulClockSetup.exe
 
 ### 설치 위치
 C:\Program Files\Hangul Clock\
@@ -41,4 +38,5 @@ GPLv3(GNU General Public License v3)
 * **MR.LEE(leeshoon1344@gmail.com) / LEE SANG HUN** - *Main developer* - [지극히 평범한 다발자가 되고싶은 학생](https://github.com/dsa28s)
 
 ## 버전 히스토리
+* **2.5.0** - *Change UI / Customizing Text / Hangul Clock Size / Bug fix*
 * **2.3.1** - *First Publishing*
