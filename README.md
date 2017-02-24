@@ -12,7 +12,7 @@ Copyright. 2017 MR.LEE(LEE SANG HUN) / 이 프로그램은 저작권으로 보�
 바탕화면 위젯으로 사용할 수 있으며 마치 바탕화면처럼(?) 사용한답니다. 
 
 ## 한글시계 사용하기
-다운로드 : https://hangulclock-cdn.jtjsoft.com/hangulclock-v2.5.0/HangulClockSetup.exe
+다운로드 : https://hangulclock-cdn.jtjsoft.com/hangulclock-v2.5.1/HangulClockSetup.exe
 
 ### 설치 위치
 C:\Program Files\Hangul Clock\
