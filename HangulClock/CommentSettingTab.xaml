@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="HangulClock.CommentSettingTab"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:uiKit="clr-namespace:HangulClockUIKit;assembly=HangulClockUIKit"
+      xmlns:uiKitControls="clr-namespace:HangulClockUIKit.Controls;assembly=HangulClockUIKit.Controls"
+      xmlns:local="clr-namespace:HangulClock"
+      mc:Ignorable="d" 
+      Width="1024" Height="700">
+    <UserControl.Resources>
+        <FontFamily x:Key="NanumSquareBold">/Resources/#NanumSquare Bold</FontFamily>
+        <FontFamily x:Key="NanumSquareRegular">/Resources/#NanumSquare</FontFamily>
+    </UserControl.Resources>
+    <Grid>
+        <Label Content="밑줄이 있는 텍스트를 수정하면 한글시계에 적용됩니다." FontFamily="{StaticResource NanumSquareRegular}" FontSize="18" Foreground="White" Height="35" HorizontalContentAlignment="Center" Margin="0,125,0,540" />
+        <Grid HorizontalAlignment="Center" Height="50" MaxWidth="850" Margin="0, -310, 0, 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="commentNameField" BorderThickness="0, 0, 0, 1" Margin="0, 6, 0, 0" TextWrapping="Wrap" Foreground="White" Background="Transparent" MinWidth="50" MaxWidth="100" Grid.Column="0" FontFamily="{StaticResource NanumSquareRegular}" FontSize="40" HorizontalContentAlignment="Center" MaxLength="3" />
+            <Label x:Name="nameJongsungText" Content="아, " FontSize="40" Foreground="White" FontFamily="{StaticResource NanumSquareRegular}" Grid.Column="1" />
+            <TextBox x:Name="commentField" BorderThickness="0, 0, 0, 1" Margin="0, 6, 0, 0" TextWrapping="Wrap" Foreground="White" Background="Transparent" MinWidth="100" MaxWidth="700" Grid.Column="2" FontFamily="{StaticResource NanumSquareRegular}" FontSize="40" HorizontalContentAlignment="Center" MaxLength="25" />
+        </Grid>
+        <uiKitControls:ToggleSwitch x:Name="commentSettingONToggle" FontFamily="{StaticResource NanumSquareBold}" FontSize="16" Foreground="White" CheckedText="사용" UncheckedText="사용안함"
+                          IsChecked="False"  
+                          HorizontalAlignment="Left" UncheckedForeground="White" UncheckedBorderBrush="White" CheckedForeground="White" CheckedBorderBrush="White" CheckedBackground="#20FFFFFF"
+                          Margin="298,295,0,358" Checked="commentSettingONToggle_Checked" Unchecked="commentSettingONToggle_Unchecked"/>
+        <Label Content="시계에 문구 사용" Foreground="White" FontFamily="{StaticResource NanumSquareRegular}" FontSize="16 " Margin="438,304,378,364" />
+        <uiKitControls:ToggleSwitch x:Name="commentFromServerToggle" FontFamily="{StaticResource NanumSquareBold}" FontSize="16" Foreground="White" CheckedText="사용" UncheckedText="사용안함"
+            IsChecked="False" 
+            HorizontalAlignment="Left" UncheckedForeground="White" UncheckedBorderBrush="White" CheckedForeground="White" CheckedBorderBrush="White" CheckedBackground="#20FFFFFF"
+            Margin="297,344,0,309"/>
+        <Label Content="서버에서 자동으로 문구 가져오기" Foreground="White" FontFamily="{StaticResource NanumSquareRegular}" FontSize="16 " Margin="438,353,347,315" />
+        <uiKitControls:ToggleSwitch x:Name="registerCommentOnServerToggle" FontFamily="{StaticResource NanumSquareBold}" FontSize="16" Foreground="White" CheckedText="사용" UncheckedText="사용안함"
+            IsChecked="False" 
+            HorizontalAlignment="Left" UncheckedForeground="White" UncheckedBorderBrush="White" CheckedForeground="White" CheckedBorderBrush="White" CheckedBackground="#20FFFFFF"
+            Margin="296,390,0,263"/>
+        <Label Content="내가 설정한 문구를 한글시계 서버에 등록" Foreground="White" FontFamily="{StaticResource NanumSquareRegular}" FontSize="16" Margin="438,399,305,269" />
+        <Label Content="다른 사람들이 올린 문구를 보고싶다면" FontFamily="{StaticResource NanumSquareRegular}" FontSize="12" Foreground="White" HorizontalContentAlignment="Center" Margin="0,492,0,182" />
+        <Label Content="https://hangulclock.today/#/fighting 에서 확인할 수 있습니다." FontFamily="{StaticResource NanumSquareRegular}" FontSize="12" Foreground="White" HorizontalContentAlignment="Center" Margin="0,513,0,161" />
+        <Label Content="서버에서 가져오는 문구에는 한글시계 사용자가 등록한 문구도 포함되어 있습니다." FontFamily="{StaticResource NanumSquareRegular}" FontSize="12" Foreground="White" HorizontalContentAlignment="Center" Margin="0,548,0,126" />
+    </Grid>
+</UserControl>

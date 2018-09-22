@@ -1,0 +1,57 @@
+﻿<Window x:Class="HangulClockRenderer.HangulClockDesktop"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:local="clr-namespace:HangulClockRenderer"
+        xmlns:uiKit="clr-namespace:HangulClockUIKit;assembly=HangulClockUIKit"
+        xmlns:asf="clr-namespace:AirspaceFixer;assembly=AirspaceFixer"
+        xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+        mc:Ignorable="d" 
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        AllowsTransparency="False"
+        Background="Transparent"
+        BorderBrush="Transparent"
+        ShowInTaskbar="False" Width="1920" Height="1080" RenderTransformOrigin="0.5,0.5">
+    <Grid Loaded="Grid_Loaded" Background="#50000000" x:Name="mainContent">
+        <Image x:Name="backgroundImage" Stretch="UniformToFill" />
+        <asf:AirspacePanel FixAirspace="{Binding FixAirspace}">
+            <cefSharp:ChromiumWebBrowser x:Name="youtubeView" />
+        </asf:AirspacePanel>
+                             
+        <Grid Background="#70000000" >
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <uiKit:NotoSansLabel x:Name="hangulClockLeftComment" Grid.Column="0" Margin="0, 0, 50, 50" VerticalContentAlignment="Center"  HorizontalContentAlignment="Center" />
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Height="Auto" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <uiKit:NotoSansLabel x:Name="hangulClockTopComment" Grid.Row="0" Margin="0, 0, 0, 50"/>
+                    <uiKit:HangulClock x:Name="hangulClock" Width="350" Height="350" VerticalAlignment="Center" HorizontalAlignment="Center" ClockFontSize="35" ShowClockBold="True" Grid.Row="1">
+                        <!--<uiKit:HangulClock.Effect>
+                    <DropShadowEffect ShadowDepth="0.5" Opacity="0" BlurRadius="5" />
+                </uiKit:HangulClock.Effect>-->
+                    </uiKit:HangulClock>
+                    <uiKit:NotoSansLabel x:Name="hangulClockBottomComment" HorizontalContentAlignment="Center" Grid.Row="2" Margin="0, 50, 0, 50"/>
+                </Grid>
+                <uiKit:NotoSansLabel x:Name="hangulClockRightComment" Grid.Column="2" Margin="50, 0, 0, 50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            </Grid>
+            <Canvas Name="weatherCanvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
+            <Grid.LayoutTransform>
+                <ScaleTransform x:Name="ucScale"
+                        ScaleX="1.0"
+                        ScaleY="1.0" />
+            </Grid.LayoutTransform>
+        </Grid>
+    </Grid>
+</Window>

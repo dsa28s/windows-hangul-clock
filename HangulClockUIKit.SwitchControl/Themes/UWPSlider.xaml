@@ -1,0 +1,71 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:HangulClockUIKit.Controls"
+                    xmlns:converters="clr-namespace:HangulClockUIKit.Controls.Converters"
+                    xmlns:base="clr-namespace:HangulClockUIKit.Controls.Base">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HangulClockUIKit.Controls;component/Resources/ColorStyles.Xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <converters:AddValueConverter x:Key="AddValueConverter" />
+
+    <Style TargetType="{x:Type local:Slider}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:Slider}">
+                    <Canvas x:Name="PART_Canvas" Background="Transparent" VerticalAlignment="Center" Height="16" Width="{TemplateBinding ActualWidth,Converter={StaticResource AddValueConverter},ConverterParameter={x:Static base:Constants.UWPSliderCanvasLengthOffset}}">
+                        <Rectangle x:Name="PART_Track" Margin="{x:Static base:Constants.HorizontalUWPSliderMargin}" Canvas.Top="6" Panel.ZIndex="0" Height="2" Width="{TemplateBinding ActualWidth}" Fill="{Binding Path=TrackBackground,RelativeSource={RelativeSource TemplatedParent}}"/>
+                        <Rectangle x:Name="PART_Bar" Margin="{x:Static base:Constants.HorizontalUWPSliderMargin}" HorizontalAlignment="Left" Canvas.Top="6" Panel.ZIndex="1" Height="2" Width="{Binding Path=BarFillPosition,RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" Fill="{Binding Path=BarBackground,RelativeSource={RelativeSource TemplatedParent}}"/>
+                        <Button x:Name="PART_Button" Margin="{x:Static base:Constants.HorizontalUWPSliderMargin}" Panel.ZIndex="2" Height="{x:Static base:Constants.UWPSliderButtonSize}" Width="{x:Static base:Constants.UWPSliderButtonSize}" Opacity="0" BorderThickness="0" Canvas.Left="{Binding Path=Position,RelativeSource={RelativeSource TemplatedParent},Mode=TwoWay}">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}">
+                                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                <Border x:Name="PART_Border" Panel.ZIndex="1" Background="{Binding Path=ButtonInnerBackground,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Slider}}}" BorderThickness="1.5" BorderBrush="{Binding Path=ButtonBackground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Slider}}}" CornerRadius="8"/>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="true">
+                                                        <Setter Property="Cursor" Value="Hand"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Setter TargetName="PART_Border" Property="Background" Value="{Binding Path=ButtonBackground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Slider}}}"/>
+                                                        <Setter TargetName="PART_Border" Property="BorderThickness" Value="0"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=IsMouseOver, ElementName=PART_Canvas}" Value="True">
+                                            <DataTrigger.EnterActions>
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <DoubleAnimation  
+                                                            Storyboard.TargetProperty="Opacity"
+                                                            From="0.0" To="1.0" Duration="{x:Static base:Constants.MouseEnterDuration}" />
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </DataTrigger.EnterActions>
+                                            <DataTrigger.ExitActions>
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <DoubleAnimation  
+                                                            Storyboard.TargetProperty="Opacity"
+                                                            From="1.0" To="0.0" Duration="{x:Static base:Constants.MouseLeaveDuration}" />
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </DataTrigger.ExitActions>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </Canvas>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

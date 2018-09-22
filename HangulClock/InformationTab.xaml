@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="HangulClock.InformationTab"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:uiKit="clr-namespace:HangulClockUIKit;assembly=HangulClockUIKit"
+      xmlns:uiKitControls="clr-namespace:HangulClockUIKit.Controls;assembly=HangulClockUIKit.Controls"
+      xmlns:local="clr-namespace:HangulClock"
+      mc:Ignorable="d" 
+      Width="1024" Height="700">
+    <UserControl.Resources>
+        <FontFamily x:Key="NanumSquareBold">/Resources/#NanumSquare Bold</FontFamily>
+        <FontFamily x:Key="NanumSquareRegular">/Resources/#NanumSquare</FontFamily>
+    </UserControl.Resources>
+    <Grid>
+        <Label Content="한글시계 - 너가 있어 아름다운 오늘" Foreground="White" FontSize="25" FontFamily="{StaticResource NanumSquareBold}" Margin="0,129,0,529" HorizontalContentAlignment="Center" />
+        <Label Content="v 3.0dev1" Foreground="White" FontSize="15" FontFamily="{StaticResource NanumSquareRegular}" Margin="0,171,0,487" HorizontalContentAlignment="Center" />
+        <Label Content="개발자 : Lee Dora (leeshoon1344@gmail.com)" Foreground="White" FontSize="15" FontFamily="{StaticResource NanumSquareRegular}" Margin="0,273,0,385" HorizontalContentAlignment="Center" />
+        <Label Content="개발자 Github : https://github.com/dsa28s" Foreground="White" FontSize="15" FontFamily="{StaticResource NanumSquareRegular}" Margin="0,315,0,343" HorizontalContentAlignment="Center" />
+        <Label Content="한글시계 for Windows 코드 : https://github.com/dsa28s/windows-hangul-clock" Foreground="White" FontSize="15" FontFamily="{StaticResource NanumSquareRegular}" Margin="0,357,0,301" HorizontalContentAlignment="Center" />
+        <Label Content="라이센스 : GPLv3" Foreground="White" FontSize="13" FontFamily="{StaticResource NanumSquareRegular}" Margin="0,399,0,259" HorizontalContentAlignment="Center" />
+        <Label Content="한글시계에 등장한 시계의 배치는 D.Lab의 한글시계(원작자 : 이호민)로부터 파생되었으며&#xD;&#xA;해당 프로그램은 GPLv3으로 보호됩니다.&#xD;&#xA;&#xD;&#xA;허가하에 개발되었습니다. 이는 한글시계 for Android / for Mac에도 동일하게 적용됩니다." Foreground="White" FontSize="10" FontFamily="{StaticResource NanumSquareRegular}" Margin="0,498,0,92" HorizontalContentAlignment="Center"/>
+    </Grid>
+</UserControl>

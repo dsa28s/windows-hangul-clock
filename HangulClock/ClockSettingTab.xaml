@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="HangulClock.ClockSettingTab"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:uiKit="clr-namespace:HangulClockUIKit;assembly=HangulClockUIKit"
+      xmlns:uiKitControls="clr-namespace:HangulClockUIKit.Controls;assembly=HangulClockUIKit.Controls"
+      xmlns:local="clr-namespace:HangulClock"
+      mc:Ignorable="d" 
+      Width="1024" Height="700">
+    <UserControl.Resources>
+        <FontFamily x:Key="NanumSquareBold">/Resources/#NanumSquare Bold</FontFamily>
+        <FontFamily x:Key="NanumSquareRegular">/Resources/#NanumSquare</FontFamily>
+    </UserControl.Resources>
+    <Grid>
+        <uiKit:HangulClock x:Name="hangulClock" Width="310" Height="310" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="120,194,0,196" ClockFontSize="30" ShowClockBold="True" />
+        <!-- <uiKit:MinimalButton x:Name="clockPositionSettingButton" ButtonText="시계 위치 설정" Width="150" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="200,530,0,110" /> -->
+        <uiKit:MinimalButton x:Name="externalDisplaySettingButton" ButtonText="외부모니터 설정" Width="150" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="756,106,0,534" MouseDown="externalDisplaySettingButton_MouseDown" />
+        <TextBlock x:Name="currentMonitorSettingText" Foreground="White" FontFamily="{StaticResource NanumSquareRegular}" FontSize="16" Margin="416,126,289,536"><Run Text="현재 모니터 : %s"/></TextBlock>
+        <!--<uiKitControls:Slider ButtonInnerBackground="White" ButtonBackground="White" TrackBackground="#20FFFFFF" BarBackground="White" Value="50" Margin="295,500,487,170" ChangeValueWhileDragging="True" />-->
+        <uiKitControls:ToggleSwitch x:Name="clockColorToggle" FontFamily="{StaticResource NanumSquareBold}" FontSize="16" Foreground="White" CheckedText="검은색" UncheckedText="하얀색"
+                          IsChecked="False" 
+                          HorizontalAlignment="Right" UncheckedForeground="White" UncheckedBorderBrush="White" CheckedForeground="White" CheckedBorderBrush="White" CheckedBackground="#20FFFFFF"
+                          Margin="0,276,404,377"/>
+        <Label Content="한글시계 색깔" Foreground="White" FontFamily="{StaticResource NanumSquareRegular}" FontSize="16" Margin="643,285,173,383" />
+        <uiKitControls:ToggleSwitch x:Name="clockColorToggle_Copy" FontFamily="{StaticResource NanumSquareBold}" FontSize="16" Foreground="White" CheckedText="켜짐" UncheckedText="꺼짐"
+            IsChecked="False" 
+            IsEnabled="False"
+            HorizontalAlignment="Right" UncheckedForeground="White" UncheckedBorderBrush="White" CheckedForeground="White" CheckedBorderBrush="White" CheckedBackground="#20FFFFFF"
+            Margin="0,329,419,324" Opacity="0.3"/>
+        <TextBlock Foreground="White" FontFamily="{StaticResource NanumSquareRegular}" FontSize="16" Margin="648,334,65,326"  Opacity="0.3">
+            <Run Text="바탕화면에서 마우스 움직임에 따라"/>
+            <LineBreak />
+            <Run Text="시계 움직이기 (패럴렉스 효과) (예정)"/>
+        </TextBlock>
+        <uiKitControls:ToggleSwitch x:Name="clockColorToggle_Copy1" FontFamily="{StaticResource NanumSquareBold}" FontSize="16" Foreground="White" CheckedText="켜짐" UncheckedText="꺼짐"
+            IsChecked="False" 
+            IsEnabled="False"
+            HorizontalAlignment="Right" UncheckedForeground="White" UncheckedBorderBrush="White" CheckedForeground="White" CheckedBorderBrush="White" CheckedBackground="#20FFFFFF"
+            Margin="0,381,419,272" Opacity="0.3"/>
+        <TextBlock Foreground="White" FontFamily="{StaticResource NanumSquareRegular}" FontSize="16" Margin="648,395,65,265" Opacity="0.3"><Run Text="시계에 그림자 효과 사용하기 (예정)"/><!--<LineBreak /><Run Text="그림자 효과 사용하기"/>--></TextBlock>
+        <Label x:Name="clockSizeValueText" Content="시계 크기 (0%)" Foreground="White" FontFamily="{StaticResource NanumSquareRegular}" FontSize="17" Margin="527,461,289,207" />
+        <uiKitControls:Slider x:Name="clockSizeSlider" ButtonInnerBackground="White" ButtonBackground="White" TrackBackground="#20FFFFFF" BarBackground="White" Value="50" Margin="533,493,118,177" ChangeValueWhileDragging="True" ValueChanged="clockSizeSlider_ValueChanged" Minimum="50" Maximum="150" />
+    </Grid>
+</UserControl>
