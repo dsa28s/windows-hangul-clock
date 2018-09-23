@@ -21,7 +21,7 @@
         <uiKitControls:ToggleSwitch x:Name="clockColorToggle" FontFamily="{StaticResource NanumSquareBold}" FontSize="16" Foreground="White" CheckedText="검은색" UncheckedText="하얀색"
                           IsChecked="False" 
                           HorizontalAlignment="Right" UncheckedForeground="White" UncheckedBorderBrush="White" CheckedForeground="White" CheckedBorderBrush="White" CheckedBackground="#20FFFFFF"
-                          Margin="0,276,404,377"/>
+                          Margin="0,276,404,377" Checked="clockColorToggle_Checked"/>
         <Label Content="한글시계 색깔" Foreground="White" FontFamily="{StaticResource NanumSquareRegular}" FontSize="16" Margin="643,285,173,383" />
         <uiKitControls:ToggleSwitch x:Name="clockColorToggle_Copy" FontFamily="{StaticResource NanumSquareBold}" FontSize="16" Foreground="White" CheckedText="켜짐" UncheckedText="꺼짐"
             IsChecked="False" 
@@ -40,6 +40,6 @@
             Margin="0,381,419,272" Opacity="0.3"/>
         <TextBlock Foreground="White" FontFamily="{StaticResource NanumSquareRegular}" FontSize="16" Margin="648,395,65,265" Opacity="0.3"><Run Text="시계에 그림자 효과 사용하기 (예정)"/><!--<LineBreak /><Run Text="그림자 효과 사용하기"/>--></TextBlock>
         <Label x:Name="clockSizeValueText" Content="시계 크기 (0%)" Foreground="White" FontFamily="{StaticResource NanumSquareRegular}" FontSize="17" Margin="527,461,289,207" />
-        <uiKitControls:Slider x:Name="clockSizeSlider" ButtonInnerBackground="White" ButtonBackground="White" TrackBackground="#20FFFFFF" BarBackground="White" Value="50" Margin="533,493,118,177" ChangeValueWhileDragging="True" ValueChanged="clockSizeSlider_ValueChanged" Minimum="50" Maximum="150" />
+        <uiKitControls:Slider x:Name="clockSizeSlider" ButtonInnerBackground="White" ButtonBackground="White" TrackBackground="#20FFFFFF" BarBackground="White" Margin="533,493,118,177" ChangeValueWhileDragging="True" ValueChanged="clockSizeSlider_ValueChanged" Minimum="50" Maximum="150" />
     </Grid>
 </UserControl>

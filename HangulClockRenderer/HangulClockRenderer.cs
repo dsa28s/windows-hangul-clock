@@ -240,20 +240,26 @@ namespace HangulClockRenderer
                 HookKit.MoveWindow(hangulClockDesktopHwnd, currentScreen.x, currentScreen.y, (int)(currentScreen.width), (int)(currentScreen.height), true);
             });
 
-            hangulClockDesktop.ShowDialog();
+            // hangulClockDesktop.Show();
 
             new Thread(new ThreadStart(MainThread)).Start();
-            // app.Run(hangulClockDesktop);
+            app.Run(hangulClockDesktop);
         }
 
         private static void MainThread()
         {
             while(true)
             {
-
-
                 try
                 {
+                    hangulClockDesktop.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+                    {
+                        hangulClockDesktop.ucScale.ScaleX = 1.5;
+                        hangulClockDesktop.ucScale.ScaleY = 1.5;
+
+                        hangulClockDesktop.setRightCommentText("누군가는 너를 필요로하겠지.\n\n그 사람때문이라도\n힘내줬으면 해.");
+                    }));
+
                     Thread.Sleep(1000);
                 }
                 catch(ThreadInterruptedException e)

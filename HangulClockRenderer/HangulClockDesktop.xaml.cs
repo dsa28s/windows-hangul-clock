@@ -42,13 +42,14 @@ namespace HangulClockRenderer
 
             if (HangulClockRenderer.monitorIndeX == 0)
             {
-                youtubeView.Address = "https://www.youtube.com/embed/xRbPAVnqtcs?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&mute=1"; //.ShowYouTubeVideo("xRbPAVnqtcs");
-            } else
+                youtubeView.Address = "https://www.youtube.com/embed/Xaqpvy-ZbMg?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&mute=1&playlist=Xaqpvy-ZbMg"; //.ShowYouTubeVideo("xRbPAVnqtcs");
+            }
+            else
             {
-                youtubeView.Address = "https://www.youtube.com/embed/WNCl-69POro?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&mute=1"; //.ShowYouTubeVideo("xRbPAVnqtcs");
+                youtubeView.Address = "https://www.youtube.com/embed/Xaqpvy-ZbMg?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&mute=1&playlist=Xaqpvy-ZbMg"; //.ShowYouTubeVideo("xRbPAVnqtcs");
             }
 
-            setRightCommentText("상훈아, 나는 웃는 너가 참 좋은데,\n요즘따라 왜이리 웃는모습을 보기가 힘드니\n\n힘내자 오늘도, 내일도");
+            // setRightCommentText("상훈아, 나는 웃는 너가 참 좋은데,\n요즘따라 왜이리 웃는모습을 보기가 힘드니\n\n힘내자 오늘도, 내일도");
 
             new Thread(new ThreadStart(CheckBackgroundChange));
         }

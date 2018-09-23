@@ -73,7 +73,14 @@ namespace HangulClock
         {
             if (e.ChangedButton == MouseButton.Left)
             {
-                this.DragMove();
+                try
+                {
+                    this.DragMove();
+                }
+                catch (InvalidOperationException error)
+                {
+
+                }
             }
         }
 

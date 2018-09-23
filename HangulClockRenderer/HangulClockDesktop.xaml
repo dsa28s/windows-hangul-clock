@@ -15,13 +15,17 @@
         Background="Transparent"
         BorderBrush="Transparent"
         ShowInTaskbar="False" Width="1920" Height="1080" RenderTransformOrigin="0.5,0.5">
-    <Grid Loaded="Grid_Loaded" Background="#50000000" x:Name="mainContent">
-        <Image x:Name="backgroundImage" Stretch="UniformToFill" />
-        <asf:AirspacePanel FixAirspace="{Binding FixAirspace}">
+    <Grid Loaded="Grid_Loaded" Background="#50000000" x:Name="mainContent" Margin="2,0,-2,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="193*"/>
+            <RowDefinition Height="888*"/>
+        </Grid.RowDefinitions>
+        <Image x:Name="backgroundImage" Stretch="UniformToFill" Grid.RowSpan="2" />
+        <asf:AirspacePanel FixAirspace="{Binding FixAirspace}" Grid.RowSpan="2">
             <cefSharp:ChromiumWebBrowser x:Name="youtubeView" />
         </asf:AirspacePanel>
-                             
-        <Grid Background="#70000000" >
+
+        <Grid Background="#70000000" Grid.RowSpan="2" >
             <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
