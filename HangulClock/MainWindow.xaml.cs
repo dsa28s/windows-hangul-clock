@@ -37,7 +37,7 @@ namespace HangulClock
         private ThemeSettingTab themeSettingTab = new ThemeSettingTab();
         private CommentSettingTab commentSettingTab = new CommentSettingTab();
         private InformationTab informationTab = new InformationTab();
-        private MonitorTab monitorTab = new MonitorTab();
+        private MultiMonitorSelectPage monitorTab = new MultiMonitorSelectPage();
 
         private static Label tabMonitor = null;
         private static string MonitorDeviceName;

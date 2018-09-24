@@ -116,10 +116,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MonitorTab.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="InformationTab.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -155,9 +151,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MonitorTab.xaml.cs">
-      <DependentUpon>MonitorTab.xaml</DependentUpon>
     </Compile>
     <Compile Include="InformationTab.xaml.cs">
       <DependentUpon>InformationTab.xaml</DependentUpon>

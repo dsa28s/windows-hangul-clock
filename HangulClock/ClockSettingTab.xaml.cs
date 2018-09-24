@@ -25,7 +25,7 @@ namespace HangulClock
     public partial class ClockSettingTab : UserControl
     {
         private static String CLOCK_SIZE = "시계 크기 ({0}%)";
-        private MultiMonitorSelectPage mmPage;
+        
         private ClockSettingsByMonitor monitorSetting;
 
         private bool isDataLoaded = false;
@@ -33,7 +33,6 @@ namespace HangulClock
         public ClockSettingTab()
         {
             InitializeComponent();
-            mmPage = new MultiMonitorSelectPage();
         }
 
         public void loadInitData()
@@ -66,11 +65,6 @@ namespace HangulClock
                     Debug.WriteLine("OK");
                 });
             }
-        }
-
-        private void externalDisplaySettingButton_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            MainWindow.pager.ShowPage(mmPage);
         }
 
         private void clockColorToggle_Checked(object sender, RoutedEventArgs e)
