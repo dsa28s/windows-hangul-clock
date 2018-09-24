@@ -27,11 +27,11 @@ namespace HangulClock
     /// </summary>
     public partial class MainWindow : Window
     {
-        private UIKit.HangulClockTab activeTab = UIKit.HangulClockTab.DASHBOARD;
+        public static UIKit.HangulClockTab activeTab = UIKit.HangulClockTab.DASHBOARD;
 
         public static PageTransition pager;
 
-        private DashboardTab dashboardTab = new DashboardTab();
+        public static DashboardTab dashboardTab = new DashboardTab();
         private ClockSettingTab clockSettingTab = new ClockSettingTab();
         private WallpaperSettingTab wallpaperSettingTab = new WallpaperSettingTab();
         private ThemeSettingTab themeSettingTab = new ThemeSettingTab();
@@ -39,7 +39,13 @@ namespace HangulClock
         private InformationTab informationTab = new InformationTab();
         private MultiMonitorSelectPage monitorTab = new MultiMonitorSelectPage();
 
-        private static Label tabMonitor = null;
+        private static Label dashboardLabel = null;
+        private static Label clockSettingLabel = null;
+        private static Label wallpaperSettingLabel = null;
+        private static Label commentSettingLabel = null;
+        private static Label informationLabel = null;
+        private static Label monitorLabel = null;
+
         private static string MonitorDeviceName;
 
         public MainWindow()
@@ -47,7 +53,13 @@ namespace HangulClock
             InitializeComponent();
 
             pager = pageController;
-            tabMonitor = tab_monitor;
+
+            dashboardLabel = tab_dashboard;
+            clockSettingLabel = tab_clocksetting;
+            wallpaperSettingLabel = tab_wallpaper;
+            commentSettingLabel = tab_comment;
+            informationLabel = tab_information;
+            monitorLabel = tab_monitor;
 
             Directory.CreateDirectory("C:\\Hangul Clock Configuration Files");
 
@@ -61,7 +73,7 @@ namespace HangulClock
         public static ClockSettingsByMonitor loadMonitorPreferences(string monitorDeviceName)
         {
             MonitorDeviceName = monitorDeviceName;
-            tabMonitor.Content = String.Format("현재 모니터 설정 : {0}", monitorDeviceName);
+            monitorLabel.Content = String.Format("현재 모니터 설정 : {0}", monitorDeviceName);
 
             var monitorSettingQuery = DataKit.getInstance().getSharedRealms().All<ClockSettingsByMonitor>().Where(c => c.MonitorDeviceName == monitorDeviceName);
 
@@ -218,72 +230,66 @@ namespace HangulClock
             }
         }
 
-        private void updateTabStatus()
+        public static void updateTabStatus()
         {
             switch(activeTab)
             {
                 case UIKit.HangulClockTab.DASHBOARD:
-                    tab_dashboard.Opacity = 1;
-                    tab_clocksetting.Opacity = 0.3;
-                    tab_wallpaper.Opacity = 0.3;
+                    dashboardLabel.Opacity = 1;
+                    clockSettingLabel.Opacity = 0.3;
+                    wallpaperSettingLabel.Opacity = 0.3;
                     // tab_theme.Opacity = 0.3;
-                    tab_comment.Opacity = 0.3;
-                    tab_information.Opacity = 0.3;
-                    tab_monitor.Opacity = 0.3;
+                    commentSettingLabel.Opacity = 0.3;
+                    informationLabel.Opacity = 0.3;
+                    monitorLabel.Opacity = 0.3;
                     break;
                 case UIKit.HangulClockTab.CLOCK_SETTINGS:
-                    tab_dashboard.Opacity = 0.3;
-                    tab_clocksetting.Opacity = 1;
-                    tab_wallpaper.Opacity = 0.3;
+                    dashboardLabel.Opacity = 0.3;
+                    clockSettingLabel.Opacity = 1;
+                    wallpaperSettingLabel.Opacity = 0.3;
                     // tab_theme.Opacity = 0.3;
-                    tab_comment.Opacity = 0.3;
-                    tab_information.Opacity = 0.3;
-                    tab_monitor.Opacity = 0.3;
+                    commentSettingLabel.Opacity = 0.3;
+                    informationLabel.Opacity = 0.3;
+                    monitorLabel.Opacity = 0.3;
                     break;
                 case UIKit.HangulClockTab.WALLPAPER_SETTINGS:
-                    tab_dashboard.Opacity = 0.3;
-                    tab_clocksetting.Opacity = 0.3;
-                    tab_wallpaper.Opacity = 1;
+                    dashboardLabel.Opacity = 0.3;
+                    clockSettingLabel.Opacity = 0.3;
+                    wallpaperSettingLabel.Opacity = 1;
                     // tab_theme.Opacity = 0.3;
-                    tab_comment.Opacity = 0.3;
-                    tab_information.Opacity = 0.3;
-                    tab_monitor.Opacity = 0.3;
+                    commentSettingLabel.Opacity = 0.3;
+                    informationLabel.Opacity = 0.3;
+                    monitorLabel.Opacity = 0.3;
                     break;
                 case UIKit.HangulClockTab.THEME_SETTINGS:
-                    tab_dashboard.Opacity = 0.3;
-                    tab_clocksetting.Opacity = 0.3;
-                    tab_wallpaper.Opacity = 0.3;
-                    // tab_theme.Opacity = 1;
-                    tab_comment.Opacity = 0.3;
-                    tab_information.Opacity = 0.3;
-                    tab_monitor.Opacity = 0.3;
+                    
                     break;
                 case UIKit.HangulClockTab.COMMENT_SETTINGS:
-                    tab_dashboard.Opacity = 0.3;
-                    tab_clocksetting.Opacity = 0.3;
-                    tab_wallpaper.Opacity = 0.3;
+                    dashboardLabel.Opacity = 0.3;
+                    clockSettingLabel.Opacity = 0.3;
+                    wallpaperSettingLabel.Opacity = 0.3;
                     // tab_theme.Opacity = 0.3;
-                    tab_comment.Opacity = 1;
-                    tab_information.Opacity = 0.3;
-                    tab_monitor.Opacity = 0.3;
+                    commentSettingLabel.Opacity = 1;
+                    informationLabel.Opacity = 0.3;
+                    monitorLabel.Opacity = 0.3;
                     break;
                 case UIKit.HangulClockTab.INFORMATION:
-                    tab_dashboard.Opacity = 0.3;
-                    tab_clocksetting.Opacity = 0.3;
-                    tab_wallpaper.Opacity = 0.3;
+                    dashboardLabel.Opacity = 0.3;
+                    clockSettingLabel.Opacity = 0.3;
+                    wallpaperSettingLabel.Opacity = 0.3;
                     // tab_theme.Opacity = 0.3;
-                    tab_comment.Opacity = 0.3;
-                    tab_information.Opacity = 1;
-                    tab_monitor.Opacity = 0.3;
+                    commentSettingLabel.Opacity = 0.3;
+                    informationLabel.Opacity = 1;
+                    monitorLabel.Opacity = 0.3;
                     break;
                 case UIKit.HangulClockTab.MONITOR:
-                    tab_dashboard.Opacity = 0.3;
-                    tab_clocksetting.Opacity = 0.3;
-                    tab_wallpaper.Opacity = 0.3;
+                    dashboardLabel.Opacity = 0.3;
+                    clockSettingLabel.Opacity = 0.3;
+                    wallpaperSettingLabel.Opacity = 0.3;
                     // tab_theme.Opacity = 0.3;
-                    tab_comment.Opacity = 0.3;
-                    tab_information.Opacity = 0.3;
-                    tab_monitor.Opacity = 1;
+                    commentSettingLabel.Opacity = 0.3;
+                    informationLabel.Opacity = 0.3;
+                    monitorLabel.Opacity = 1;
                     break;
             }
         }

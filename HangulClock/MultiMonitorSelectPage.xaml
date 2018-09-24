@@ -48,32 +48,32 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Border x:Name="display1_Border" BorderThickness="1" Margin="25, 25, 25, 75" BorderBrush="#979797" Grid.Row="0" Grid.Column="0">
-                <Image x:Name="display1" />
+                <Image x:Name="display1" MouseDown="display1_MouseDown" />
             </Border>
             <Label x:Name="display1_Text" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Content="\\DISPLAY_1" Foreground="White" VerticalAlignment="Bottom" Margin="0, 0, 0, 25" Grid.Row="0" Grid.Column="0" />
 
             <Border x:Name="display2_Border" BorderThickness="1" Margin="25, 25, 25, 75" BorderBrush="#979797" Grid.Row="0" Grid.Column="1">
-                <Image x:Name="display2" />
+                <Image x:Name="display2"  MouseDown="display2_MouseDown"/>
             </Border>
             <Label x:Name="display2_Text" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Content="\\DISPLAY_1" Foreground="White" VerticalAlignment="Bottom" Margin="0, 0, 0, 25" Grid.Row="0" Grid.Column="1" />
 
             <Border x:Name="display3_Border" BorderThickness="1" Margin="25, 25, 25, 75" BorderBrush="#979797" Grid.Row="0" Grid.Column="2">
-                <Image x:Name="display3" />
+                <Image x:Name="display3" MouseDown="display3_MouseDown" />
             </Border>
             <Label x:Name="display3_Text" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Content="\\DISPLAY_1" Foreground="White" VerticalAlignment="Bottom" Margin="0, 0, 0, 25" Grid.Row="0" Grid.Column="2" />
 
             <Border x:Name="display4_Border" BorderThickness="1" Margin="25, 25, 25, 75" BorderBrush="#979797" Grid.Row="1" Grid.Column="0">
-                <Image x:Name="display4" />
+                <Image x:Name="display4" MouseDown="display4_MouseDown"/>
             </Border>
             <Label x:Name="display4_Text" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Content="\\DISPLAY_1" Foreground="White" VerticalAlignment="Bottom" Margin="0, 0, 0, 25" Grid.Row="1" Grid.Column="0" />
 
             <Border x:Name="display5_Border"  BorderThickness="1" Margin="25, 25, 25, 75" BorderBrush="#979797" Grid.Row="1" Grid.Column="1">
-                <Image x:Name="display5" />
+                <Image x:Name="display5" MouseDown="display5_MouseDown"/>
             </Border>
             <Label x:Name="display5_Text" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Content="\\DISPLAY_1" Foreground="White" VerticalAlignment="Bottom" Margin="0, 0, 0, 25" Grid.Row="1" Grid.Column="1" />
 
             <Border x:Name="display6_Border" BorderThickness="1" Margin="25, 25, 25, 75" BorderBrush="#979797" Grid.Row="1" Grid.Column="2">
-                <Image x:Name="display6" />
+                <Image x:Name="display6" MouseDown="display6_MouseDown"/>
             </Border>
             <Label x:Name="display6_Text" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Content="\\DISPLAY_1" Foreground="White" VerticalAlignment="Bottom" Margin="0, 0, 0, 25" Grid.Row="1" Grid.Column="2" />
         </Grid>
