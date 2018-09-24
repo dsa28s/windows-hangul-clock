@@ -24,7 +24,8 @@ namespace HangulClockUIKit
             WALLPAPER_SETTINGS = 3,
             THEME_SETTINGS = 4,
             COMMENT_SETTINGS = 5,
-            INFORMATION = 6
+            INFORMATION = 6,
+            MONITOR = 7
         }
 
         public static DateTime Delay(int MS)

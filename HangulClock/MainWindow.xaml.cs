@@ -35,6 +35,7 @@ namespace HangulClock
         private ThemeSettingTab themeSettingTab = new ThemeSettingTab();
         private CommentSettingTab commentSettingTab = new CommentSettingTab();
         private InformationTab informationTab = new InformationTab();
+        private MonitorTab monitorTab = new MonitorTab();
 
         public MainWindow()
         {
@@ -152,6 +153,15 @@ namespace HangulClock
             pageController.ShowPage(informationTab);
         }
 
+        private void tab_monitor_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            blurBackground(true);
+            activeTab = UIKit.HangulClockTab.MONITOR;
+            updateTabStatus();
+
+            pageController.ShowPage(monitorTab);
+        }
+
         private void blurBackground(bool isBlury)
         {
             var blurStoryboard = (Storyboard)this.FindResource("blurBackgroundStoryboard");
@@ -184,6 +194,7 @@ namespace HangulClock
                     // tab_theme.Opacity = 0.3;
                     tab_comment.Opacity = 0.3;
                     tab_information.Opacity = 0.3;
+                    tab_monitor.Opacity = 0.3;
                     break;
                 case UIKit.HangulClockTab.CLOCK_SETTINGS:
                     tab_dashboard.Opacity = 0.3;
@@ -192,6 +203,7 @@ namespace HangulClock
                     // tab_theme.Opacity = 0.3;
                     tab_comment.Opacity = 0.3;
                     tab_information.Opacity = 0.3;
+                    tab_monitor.Opacity = 0.3;
                     break;
                 case UIKit.HangulClockTab.WALLPAPER_SETTINGS:
                     tab_dashboard.Opacity = 0.3;
@@ -200,6 +212,7 @@ namespace HangulClock
                     // tab_theme.Opacity = 0.3;
                     tab_comment.Opacity = 0.3;
                     tab_information.Opacity = 0.3;
+                    tab_monitor.Opacity = 0.3;
                     break;
                 case UIKit.HangulClockTab.THEME_SETTINGS:
                     tab_dashboard.Opacity = 0.3;
@@ -208,6 +221,7 @@ namespace HangulClock
                     // tab_theme.Opacity = 1;
                     tab_comment.Opacity = 0.3;
                     tab_information.Opacity = 0.3;
+                    tab_monitor.Opacity = 0.3;
                     break;
                 case UIKit.HangulClockTab.COMMENT_SETTINGS:
                     tab_dashboard.Opacity = 0.3;
@@ -216,6 +230,7 @@ namespace HangulClock
                     // tab_theme.Opacity = 0.3;
                     tab_comment.Opacity = 1;
                     tab_information.Opacity = 0.3;
+                    tab_monitor.Opacity = 0.3;
                     break;
                 case UIKit.HangulClockTab.INFORMATION:
                     tab_dashboard.Opacity = 0.3;
@@ -224,6 +239,16 @@ namespace HangulClock
                     // tab_theme.Opacity = 0.3;
                     tab_comment.Opacity = 0.3;
                     tab_information.Opacity = 1;
+                    tab_monitor.Opacity = 0.3;
+                    break;
+                case UIKit.HangulClockTab.MONITOR:
+                    tab_dashboard.Opacity = 0.3;
+                    tab_clocksetting.Opacity = 0.3;
+                    tab_wallpaper.Opacity = 0.3;
+                    // tab_theme.Opacity = 0.3;
+                    tab_comment.Opacity = 0.3;
+                    tab_information.Opacity = 0.3;
+                    tab_monitor.Opacity = 1;
                     break;
             }
         }
