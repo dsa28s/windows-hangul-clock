@@ -16,7 +16,7 @@
         <uiKit:HangulClock x:Name="hangulClock" Width="310" Height="310" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0, 0, 80, 100" ClockFontSize="30" ShowClockBold="True" />
         <Label Content="한글시계 v 3.0_dev1 (for Windows)" Foreground="White" HorizontalContentAlignment="Right" HorizontalAlignment="Left" FontSize="15" Margin="714,484,0,0" VerticalAlignment="Top" FontFamily="{StaticResource NanumSquareBold}"/>
         <Label x:Name="updateText" Content="업데이트 확인 결과, 없음." Foreground="White" HorizontalContentAlignment="Right" HorizontalAlignment="Left" FontSize="13" Margin="714,505,0,0" VerticalAlignment="Top" FontFamily="{StaticResource NanumSquareRegular}" Width="239"/>
-        <Label Content="너는 지금 한글시계를" HorizontalAlignment="Left" HorizontalContentAlignment="Left" VerticalAlignment="Bottom" Foreground="White" FontSize="20" FontFamily="{StaticResource NanumSquareRegular}" Margin="50, 0, 0, 300"/>
+        <Label Content="너는 지금 해당 모니터에서 한글시계를" HorizontalAlignment="Left" HorizontalContentAlignment="Left" VerticalAlignment="Bottom" Foreground="White" FontSize="20" FontFamily="{StaticResource NanumSquareRegular}" Margin="50, 0, 0, 300"/>
         <Label x:Name="useText" Content="사용중이야." HorizontalAlignment="Left" HorizontalContentAlignment="Left" VerticalAlignment="Bottom" Foreground="White" FontSize="50" FontFamily="{StaticResource NanumSquareBold}" Margin="50, 0, 0, 230"/>
         <uiKitControls:ToggleSwitch x:Name="hangulClockONOFFToggle" FontFamily="{StaticResource NanumSquareRegular}" FontSize="16" Foreground="White" CheckedText="한글시계 사용중" UncheckedText="한글시계 사용안함"
                           IsChecked="False" 

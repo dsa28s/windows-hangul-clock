@@ -36,32 +36,39 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-        <ListView x:Name="wallpaperList" ItemsSource="{Binding}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" Background="Transparent" BorderThickness="0" BorderBrush="Transparent"
-              SelectedItem="{Binding SelectedWallpaper, RelativeSource={RelativeSource AncestorType=Window}}"
-              ItemContainerStyle="{StaticResource FileItemStyle}" Margin="50,120,50,192">
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel/>
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
 
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Grid Background="Transparent">
-                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="0, 140, 0, 0" Foreground="White" Background="Transparent" FontFamily="{StaticResource NanumSquareRegular}" FontSize="13" HorizontalAlignment="Center"/>
-                        <Image Height="200" Width="210" HorizontalAlignment="Center" Source="{Binding WallpaperPath}" VerticalAlignment="Top"/>
-                    </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        <Rectangle x:Name="listviewTouchInterceptPanel" Fill="Transparent" Opacity="1" Margin="50,120,50,192"/>
-        <Line X1="0" X2="1024" Stroke="White" StrokeThickness="1" Height="5" Margin="50,542,80,152" HorizontalAlignment="Center"/>
-        <uiKitControls:ToggleSwitch x:Name="backgroundToggle" FontFamily="{StaticResource NanumSquareRegular}" FontSize="16" Foreground="White" CheckedText="켜짐" UncheckedText="꺼짐"
-                          IsChecked="False" 
-                          HorizontalAlignment="Left" UncheckedForeground="White" UncheckedBorderBrush="White" CheckedForeground="White" CheckedBorderBrush="White" CheckedBackground="#20FFFFFF"
-                          VerticalAlignment="Bottom" Margin="50,0,0,111" Checked="backgroundToggle_Checked" Unchecked="backgroundToggle_Unchecked"/>
-        <Label x:Name="backgroundStatusText" Content="배경화면 대신 단색 사용" Foreground="White" FontFamily="{StaticResource NanumSquareRegular}" FontSize="16 " Margin="184,561,293,107" />
-        <uiKit:MinimalButton x:Name="solidColorSettingButton" ButtonText="단색 설정하기" Width="150" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="792,545,0,95" />
-        <Rectangle x:Name="solidColorPanel" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="42" Margin="731,554,0,0" Stroke="Transparent" VerticalAlignment="Top" Width="41" />
+        <Label Content="해당 모니터에 대해 배경을 설정하지 않을 경우, 자동으로 '현재 시스템에서 사용중인 배경' 으로 자동 설정됩니다." Foreground="White" HorizontalContentAlignment="Center" Grid.ColumnSpan="3" Margin="0,579,0,87" FontFamily="{StaticResource NanumSquareBold}" />
+
+        <uiKitControls:ToggleSwitch x:Name="backgroundToggle" FontFamily="{StaticResource NanumSquareRegular}" FontSize="16" Foreground="White" CheckedText="고정 이미지 사용" UncheckedText="고정 이미지 사용 안함"
+                          IsChecked="False" HorizontalAlignment="Center" VerticalAlignment="Center"
+                          UncheckedForeground="White" Margin="0, -340, 0, 0" UncheckedBorderBrush="White" CheckedForeground="White" CheckedBorderBrush="White" CheckedBackground="#20FFFFFF"
+                          Grid.Column="0" Grid.Row="0" />
+        <Label Grid.Column="0" Grid.Row="0" Content="해당 모니터의 배경화면을 '고정 이미지' 로 설정합니다.&#10;&#10;일반적인 이미지 파일이며, 모니터 별로 고정 이미지를&#10;다르게 설정할 수 있습니다.&#10;&#10;(아래를 더블클릭하여 이미지를 불러오세요)" Foreground="White" Width="auto" HorizontalContentAlignment="Center" Margin="0,222,0.333,370" FontFamily="{StaticResource NanumSquareRegular}" />
+        <Border x:Name="stillImageBorder" BorderThickness="1" BorderBrush="#979797" Grid.Row="0" Grid.Column="0" Margin="25,335,25.333,183">
+            <Image x:Name="stillImage"  />
+        </Border>
+        
+        <!-- Solid -->
+        <uiKitControls:ToggleSwitch x:Name="solidToggle" FontFamily="{StaticResource NanumSquareRegular}" FontSize="16" Foreground="White" CheckedText="단색 사용" UncheckedText="단색 사용 안함"
+                          IsChecked="False" HorizontalAlignment="Center" VerticalAlignment="Center"
+                          UncheckedForeground="White" Margin="0, -340, 0, 0" UncheckedBorderBrush="White" CheckedForeground="White" CheckedBorderBrush="White" CheckedBackground="#20FFFFFF"
+                          Grid.Column="1" Grid.Row="0" />
+        <Label Grid.Column="1" Grid.Row="0" Content="해당 모니터의 배경화면을 '단색' 으로 설정합니다.&#10;&#10;일반적인 단색만 있는 배경이며, 모니터 별로 색깔을 &#10;다르게 설정할 수 있습니다.&#10;&#10;(아래를 더블클릭하여 단색을 설정하세요)" Foreground="White" Width="auto" HorizontalContentAlignment="Center" Margin="0,222,0.333,370" FontFamily="{StaticResource NanumSquareRegular}" />
+        <Border x:Name="solidImageBorder" BorderThickness="1" BorderBrush="#979797" Grid.Row="0" Grid.Column="1" Margin="25,335,25.333,183">
+            <Image x:Name="solidColor"  />
+        </Border>
+        
+        <!-- Youtube -->
+        <uiKitControls:ToggleSwitch x:Name="youtubeToggle" FontFamily="{StaticResource NanumSquareRegular}" FontSize="16" Foreground="White" CheckedText="Youtube 영상 사용" UncheckedText="Youtube 영상 사용 안함"
+                          IsChecked="False" HorizontalAlignment="Center" VerticalAlignment="Center"
+                          UncheckedForeground="White" Margin="0, -340, 0, 0" UncheckedBorderBrush="White" CheckedForeground="White" CheckedBorderBrush="White" CheckedBackground="#20FFFFFF"
+                          Grid.Column="2" Grid.Row="0" />
+        <Label Grid.Column="2" Grid.Row="0" Content="해당 모니터의 배경화면을 'Youtube 영상' 으로&#10;설정합니다.&#10;&#10;Youtube 영상이 소리없이 반복해서 나오며, 모니터 별로 &#10;영상을 다르게 설정할 수 있습니다.&#10;&#10;(Youtube 영상 코드를 아래에 넣으세요.)&#10;&#10;&#10;&#10;&#10;&#10;(https://www.youtube.com/watch?v=xxxxxxxxxx &#10;라는 주소에서 watch?v= 뒤에 있는 코드를 넣으세요.)" Foreground="White" Width="auto" HorizontalContentAlignment="Center" Margin="0.333,222,0,272" FontFamily="{StaticResource NanumSquareRegular}" />
+        <TextBox x:Name="youtubeVideoCodeTextBox" Grid.Column="2" Grid.Row="0" BorderThickness="0, 0, 0, 1" Margin="40.333,465,40,183" TextWrapping="Wrap" Foreground="White" Background="Transparent" MinWidth="100" MaxWidth="400" FontFamily="{StaticResource NanumSquareRegular}" FontSize="40" HorizontalContentAlignment="Center" MaxLength="16" />
     </Grid>
 </UserControl>

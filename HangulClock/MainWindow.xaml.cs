@@ -158,6 +158,7 @@ namespace HangulClock
             activeTab = UIKit.HangulClockTab.CLOCK_SETTINGS;
             updateTabStatus();
 
+            clockSettingTab.loadInitData();
             pageController.ShowPage(clockSettingTab);
             clockSettingTab.loadInitData();
         }

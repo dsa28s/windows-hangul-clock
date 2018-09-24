@@ -46,7 +46,7 @@ namespace HangulClock
             clockSizeSlider.Value = monitorSetting.ClockSize;
             clockSizeValueText.Content = String.Format(CLOCK_SIZE, clockSizeSlider.Value);
 
-            HangulClockUIKit.UIKit.Delay(1000);
+            // HangulClockUIKit.UIKit.Delay(1000);
 
             isDataLoaded = true;
 
