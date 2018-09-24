@@ -15,8 +15,7 @@
     <Grid>
         <uiKit:HangulClock x:Name="hangulClock" Width="310" Height="310" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="120,194,0,196" ClockFontSize="30" ShowClockBold="True" />
         <!-- <uiKit:MinimalButton x:Name="clockPositionSettingButton" ButtonText="시계 위치 설정" Width="150" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="200,530,0,110" /> -->
-        <uiKit:MinimalButton x:Name="externalDisplaySettingButton" ButtonText="외부모니터 설정" Width="150" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="756,106,0,534" MouseDown="externalDisplaySettingButton_MouseDown" />
-        <TextBlock x:Name="currentMonitorSettingText" Foreground="White" FontFamily="{StaticResource NanumSquareRegular}" FontSize="16" Margin="0,126,0,536" HorizontalAlignment="Center"><Run Text="현재 모니터 : %s"/></TextBlock>
+        
         <!--<uiKitControls:Slider ButtonInnerBackground="White" ButtonBackground="White" TrackBackground="#20FFFFFF" BarBackground="White" Value="50" Margin="295,500,487,170" ChangeValueWhileDragging="True" />-->
         <uiKitControls:ToggleSwitch x:Name="clockColorToggle" FontFamily="{StaticResource NanumSquareBold}" FontSize="16" Foreground="White" CheckedText="검은색" UncheckedText="하얀색"
                           IsChecked="False" 

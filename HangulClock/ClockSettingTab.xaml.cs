@@ -28,8 +28,6 @@ namespace HangulClock
         private MultiMonitorSelectPage mmPage;
         private ClockSettingsByMonitor monitorSetting;
 
-        private string MonitorDeviceName;
-
         private bool isDataLoaded = false;
 
         public ClockSettingTab()
@@ -43,39 +41,17 @@ namespace HangulClock
             // clockSizeSlider.Value = 50;
             // clockSizeValueText.Content = String.Format(CLOCK_SIZE, clockSizeSlider.Value);
 
-            MonitorDeviceName = System.Windows.Forms.Screen.AllScreens[0].DeviceName;
+            monitorSetting = MainWindow.loadMonitorPreferences(System.Windows.Forms.Screen.AllScreens[0].DeviceName);
 
-            currentMonitorSettingText.Text = String.Format("현재 모니터 설정 : {0}", MonitorDeviceName);
+            clockColorToggle.IsChecked = !monitorSetting.IsWhiteClock;
+            clockSizeSlider.Value = monitorSetting.ClockSize;
+            clockSizeValueText.Content = String.Format(CLOCK_SIZE, clockSizeSlider.Value);
 
-            var monitorSettingQuery = DataKit.getInstance().getSharedRealms().All<ClockSettingsByMonitor>().Where(c => c.MonitorDeviceName == MonitorDeviceName);
+            HangulClockUIKit.UIKit.Delay(1000);
 
-            if (monitorSettingQuery.Count() > 0)
-            {
-                monitorSetting = monitorSettingQuery.First();
+            isDataLoaded = true;
 
-                clockColorToggle.IsChecked = !monitorSetting.IsWhiteClock;
-                clockSizeSlider.Value = monitorSetting.ClockSize;
-                clockSizeValueText.Content = String.Format(CLOCK_SIZE, clockSizeSlider.Value);
-
-                HangulClockUIKit.UIKit.Delay(1000);
-
-                isDataLoaded = true;
-
-                Debug.WriteLine(monitorSetting.ClockSize);
-            }
-            else
-            {
-                DataKit.getInstance().getSharedRealms().Write(() =>
-                {
-                    var monitor1Config = new ClockSettingsByMonitor();
-                    monitor1Config.IsWhiteClock = true;
-                    monitor1Config.MonitorDeviceName = MonitorDeviceName;
-                    monitor1Config.ClockSize = 100;
-                    monitor1Config.YoutubeURL = "";
-
-                    DataKit.getInstance().getSharedRealms().Add(monitor1Config);
-                });
-            }
+            Debug.WriteLine(monitorSetting.ClockSize);
         }
 
         private void clockSizeSlider_ValueChanged(object sender, EventArgs e)

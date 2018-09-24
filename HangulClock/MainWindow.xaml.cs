@@ -17,6 +17,8 @@ using HangulClockUIKit;
 using HangulClockUIKit.PageTransitions;
 using System.Windows.Media.Animation;
 using System.IO;
+using HangulClockDataKit.Model;
+using HangulClockDataKit;
 
 namespace HangulClock
 {
@@ -37,11 +39,15 @@ namespace HangulClock
         private InformationTab informationTab = new InformationTab();
         private MonitorTab monitorTab = new MonitorTab();
 
+        private static Label tabMonitor = null;
+        private static string MonitorDeviceName;
+
         public MainWindow()
         {
             InitializeComponent();
 
             pager = pageController;
+            tabMonitor = tab_monitor;
 
             Directory.CreateDirectory("C:\\Hangul Clock Configuration Files");
 
@@ -49,6 +55,35 @@ namespace HangulClock
             if ((di.Attributes & FileAttributes.Hidden) != FileAttributes.Hidden)
             {
                 di.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
+            }
+        }
+
+        public static ClockSettingsByMonitor loadMonitorPreferences(string monitorDeviceName)
+        {
+            MonitorDeviceName = monitorDeviceName;
+            tabMonitor.Content = String.Format("현재 모니터 설정 : {0}", monitorDeviceName);
+
+            var monitorSettingQuery = DataKit.getInstance().getSharedRealms().All<ClockSettingsByMonitor>().Where(c => c.MonitorDeviceName == monitorDeviceName);
+
+            if (monitorSettingQuery.Count() > 0)
+            {
+                return monitorSettingQuery.First();
+            }
+            else
+            {
+                var monitor1Config = new ClockSettingsByMonitor();
+
+                DataKit.getInstance().getSharedRealms().Write(() =>
+                {
+                    monitor1Config.IsWhiteClock = true;
+                    monitor1Config.MonitorDeviceName = monitorDeviceName;
+                    monitor1Config.ClockSize = 100;
+                    monitor1Config.YoutubeURL = "";
+
+                    DataKit.getInstance().getSharedRealms().Add(monitor1Config);
+                });
+
+                return monitor1Config;
             }
         }
 
