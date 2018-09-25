@@ -144,7 +144,7 @@ namespace HangulClock
         {
             if (System.Windows.Forms.Screen.AllScreens.Length > 0)
             {
-                MainWindow.loadMonitorPreferences(System.Windows.Forms.Screen.AllScreens[0].DeviceName);
+                MainWindow.setCurrentMonitor(System.Windows.Forms.Screen.AllScreens[0].DeviceName);
                 MainWindow.activeTab = HangulClockUIKit.UIKit.HangulClockTab.DASHBOARD;
                 MainWindow.updateTabStatus();
                 MainWindow.pager.ShowPage(MainWindow.dashboardTab);
@@ -155,7 +155,7 @@ namespace HangulClock
         {
             if (System.Windows.Forms.Screen.AllScreens.Length > 1)
             {
-                MainWindow.loadMonitorPreferences(System.Windows.Forms.Screen.AllScreens[1].DeviceName);
+                MainWindow.setCurrentMonitor(System.Windows.Forms.Screen.AllScreens[1].DeviceName);
                 MainWindow.activeTab = HangulClockUIKit.UIKit.HangulClockTab.DASHBOARD;
                 MainWindow.updateTabStatus();
                 MainWindow.pager.ShowPage(MainWindow.dashboardTab);
@@ -166,7 +166,7 @@ namespace HangulClock
         {
             if (System.Windows.Forms.Screen.AllScreens.Length > 2)
             {
-                MainWindow.loadMonitorPreferences(System.Windows.Forms.Screen.AllScreens[2].DeviceName);
+                MainWindow.setCurrentMonitor(System.Windows.Forms.Screen.AllScreens[2].DeviceName);
                 MainWindow.activeTab = HangulClockUIKit.UIKit.HangulClockTab.DASHBOARD;
                 MainWindow.updateTabStatus();
                 MainWindow.pager.ShowPage(MainWindow.dashboardTab);
@@ -177,7 +177,7 @@ namespace HangulClock
         {
             if (System.Windows.Forms.Screen.AllScreens.Length > 3)
             {
-                MainWindow.loadMonitorPreferences(System.Windows.Forms.Screen.AllScreens[3].DeviceName);
+                MainWindow.setCurrentMonitor(System.Windows.Forms.Screen.AllScreens[3].DeviceName);
                 MainWindow.activeTab = HangulClockUIKit.UIKit.HangulClockTab.DASHBOARD;
                 MainWindow.updateTabStatus();
                 MainWindow.pager.ShowPage(MainWindow.dashboardTab);
@@ -188,7 +188,7 @@ namespace HangulClock
         {
             if (System.Windows.Forms.Screen.AllScreens.Length > 4)
             {
-                MainWindow.loadMonitorPreferences(System.Windows.Forms.Screen.AllScreens[4].DeviceName);
+                MainWindow.setCurrentMonitor(System.Windows.Forms.Screen.AllScreens[4].DeviceName);
                 MainWindow.activeTab = HangulClockUIKit.UIKit.HangulClockTab.DASHBOARD;
                 MainWindow.updateTabStatus();
                 MainWindow.pager.ShowPage(MainWindow.dashboardTab);
@@ -199,7 +199,7 @@ namespace HangulClock
         {
             if (System.Windows.Forms.Screen.AllScreens.Length > 5)
             {
-                MainWindow.loadMonitorPreferences(System.Windows.Forms.Screen.AllScreens[5].DeviceName);
+                MainWindow.setCurrentMonitor(System.Windows.Forms.Screen.AllScreens[5].DeviceName);
                 MainWindow.activeTab = HangulClockUIKit.UIKit.HangulClockTab.DASHBOARD;
                 MainWindow.updateTabStatus();
                 MainWindow.pager.ShowPage(MainWindow.dashboardTab);

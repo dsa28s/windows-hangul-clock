@@ -20,7 +20,7 @@
         <uiKitControls:ToggleSwitch x:Name="clockColorToggle" FontFamily="{StaticResource NanumSquareBold}" FontSize="16" Foreground="White" CheckedText="검은색" UncheckedText="하얀색"
                           IsChecked="False" 
                           HorizontalAlignment="Right" UncheckedForeground="White" UncheckedBorderBrush="White" CheckedForeground="White" CheckedBorderBrush="White" CheckedBackground="#20FFFFFF"
-                          Margin="0,276,404,377" Checked="clockColorToggle_Checked"/>
+                          Margin="0,276,404,377" Checked="clockColorToggle_Checked" Unchecked="clockColorToggle_Unchecked"/>
         <Label Content="한글시계 색깔" Foreground="White" FontFamily="{StaticResource NanumSquareRegular}" FontSize="16" Margin="643,285,173,383" />
         <uiKitControls:ToggleSwitch x:Name="clockColorToggle_Copy" FontFamily="{StaticResource NanumSquareBold}" FontSize="16" Foreground="White" CheckedText="켜짐" UncheckedText="꺼짐"
             IsChecked="False" 

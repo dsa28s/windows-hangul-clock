@@ -40,7 +40,7 @@ namespace HangulClock
             // clockSizeSlider.Value = 50;
             // clockSizeValueText.Content = String.Format(CLOCK_SIZE, clockSizeSlider.Value);
 
-            monitorSetting = MainWindow.loadMonitorPreferences(System.Windows.Forms.Screen.AllScreens[0].DeviceName);
+            monitorSetting = MainWindow.loadMonitorPreferences();
 
             clockColorToggle.IsChecked = !monitorSetting.IsWhiteClock;
             clockSizeSlider.Value = monitorSetting.ClockSize;
@@ -68,6 +68,17 @@ namespace HangulClock
         }
 
         private void clockColorToggle_Checked(object sender, RoutedEventArgs e)
+        {
+            if (isDataLoaded)
+            {
+                DataKit.getInstance().getSharedRealms().Write(() =>
+                {
+                    monitorSetting.IsWhiteClock = !clockColorToggle.IsChecked ?? false;
+                });
+            }
+        }
+
+        private void clockColorToggle_Unchecked(object sender, RoutedEventArgs e)
         {
             if (isDataLoaded)
             {

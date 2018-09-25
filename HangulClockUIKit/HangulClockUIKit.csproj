@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Animations\FadeInOutImageControl.cs" />
+    <Compile Include="Animations\VisibilityAnimation.cs" />
     <Compile Include="BackgroundWallpaper.cs" />
     <Compile Include="HangulClock.xaml.cs">
       <DependentUpon>HangulClock.xaml</DependentUpon>

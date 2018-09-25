@@ -46,6 +46,8 @@ namespace HangulClock
         private static Label informationLabel = null;
         private static Label monitorLabel = null;
 
+        private static Label toast = null;
+
         private static string MonitorDeviceName;
 
         public MainWindow()
@@ -61,6 +63,8 @@ namespace HangulClock
             informationLabel = tab_information;
             monitorLabel = tab_monitor;
 
+            toast = toastMessage;
+
             Directory.CreateDirectory("C:\\Hangul Clock Configuration Files");
 
             DirectoryInfo di = new DirectoryInfo("C:\\Hangul Clock Configuration Files");
@@ -68,14 +72,31 @@ namespace HangulClock
             {
                 di.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
             }
+
+            setCurrentMonitor(System.Windows.Forms.Screen.AllScreens[0].DeviceName);
         }
 
-        public static ClockSettingsByMonitor loadMonitorPreferences(string monitorDeviceName)
+        public async static void showToastMessage(string message)
         {
-            MonitorDeviceName = monitorDeviceName;
-            monitorLabel.Content = String.Format("현재 모니터 설정 : {0}", monitorDeviceName);
+            toast.Content = message;
 
-            var monitorSettingQuery = DataKit.getInstance().getSharedRealms().All<ClockSettingsByMonitor>().Where(c => c.MonitorDeviceName == monitorDeviceName);
+            toast.Visibility = Visibility.Visible;
+
+            await Task.Delay(3000);
+
+            toast.Visibility = Visibility.Hidden;
+        }
+
+        public static void setCurrentMonitor(string monitorName)
+        {
+            MonitorDeviceName = monitorName;
+        }
+
+        public static ClockSettingsByMonitor loadMonitorPreferences()
+        {
+            monitorLabel.Content = String.Format("현재 모니터 설정 : {0}", MonitorDeviceName);
+
+            var monitorSettingQuery = DataKit.getInstance().getSharedRealms().All<ClockSettingsByMonitor>().Where(c => c.MonitorDeviceName == MonitorDeviceName);
 
             if (monitorSettingQuery.Count() > 0)
             {
@@ -88,9 +109,35 @@ namespace HangulClock
                 DataKit.getInstance().getSharedRealms().Write(() =>
                 {
                     monitor1Config.IsWhiteClock = true;
-                    monitor1Config.MonitorDeviceName = monitorDeviceName;
+                    monitor1Config.MonitorDeviceName = MonitorDeviceName;
                     monitor1Config.ClockSize = 100;
                     monitor1Config.YoutubeURL = "";
+
+                    DataKit.getInstance().getSharedRealms().Add(monitor1Config);
+                });
+
+                return monitor1Config;
+            }
+        }
+
+        public static BackgroundSettingsByMonitor loadBackgroundPreferences()
+        {
+            monitorLabel.Content = String.Format("현재 모니터 설정 : {0}", MonitorDeviceName);
+
+            var monitorSettingQuery = DataKit.getInstance().getSharedRealms().All<BackgroundSettingsByMonitor>().Where(c => c.MonitorDeviceName == MonitorDeviceName);
+
+            if (monitorSettingQuery.Count() > 0)
+            {
+                return monitorSettingQuery.First();
+            }
+            else
+            {
+                var monitor1Config = new BackgroundSettingsByMonitor();
+
+                DataKit.getInstance().getSharedRealms().Write(() =>
+                {
+                    monitor1Config.MonitorDeviceName = MonitorDeviceName;
+                    monitor1Config.backgroundType = BackgroundSettingsByMonitor.BackgroundType.DEFAULT;
 
                     DataKit.getInstance().getSharedRealms().Add(monitor1Config);
                 });

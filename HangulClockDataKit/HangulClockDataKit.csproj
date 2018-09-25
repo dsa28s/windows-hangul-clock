@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataKit.cs" />
+    <Compile Include="Model\BackgroundSettingsByMonitor.cs" />
     <Compile Include="Model\ClockSettingsByMonitor.cs" />
     <Compile Include="Model\PreferencesModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
