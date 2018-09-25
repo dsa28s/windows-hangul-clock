@@ -146,6 +146,36 @@ namespace HangulClock
             }
         }
 
+        public static CommentSettingsByMonitor loadCommentPreferences()
+        {
+            monitorLabel.Content = String.Format("현재 모니터 설정 : {0}", MonitorDeviceName);
+
+            var monitorSettingQuery = DataKit.getInstance().getSharedRealms().All<CommentSettingsByMonitor>().Where(c => c.MonitorDeviceName == MonitorDeviceName);
+
+            if (monitorSettingQuery.Count() > 0)
+            {
+                return monitorSettingQuery.First();
+            }
+            else
+            {
+                var monitor1Config = new CommentSettingsByMonitor();
+
+                DataKit.getInstance().getSharedRealms().Write(() =>
+                {
+                    monitor1Config.MonitorDeviceName = MonitorDeviceName;
+                    monitor1Config.IsEnabled = false;
+                    monitor1Config.IsEnabledLoadFromServer = false;
+
+                    monitor1Config.Name = "";
+                    monitor1Config.Comment = "";
+
+                    DataKit.getInstance().getSharedRealms().Add(monitor1Config);
+                });
+
+                return monitor1Config;
+            }
+        }
+
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             WindowTitlebar.AttachTitlebar(this, mainContent, CloseButton_MouseDown, MinimizeButton_MouseDown);
