@@ -11,10 +11,10 @@ namespace HangulClockDataKit.Model
     {
         public class BackgroundType
         {
-            public static int STILL_IMAGE = 0;
-            public static int SOLID = 1;
-            public static int YOUTUBE_VIDEO = 2;
-            public static int DEFAULT = -1;
+            public static readonly int STILL_IMAGE = 0;
+            public static readonly int SOLID = 1;
+            public static readonly int YOUTUBE_VIDEO = 2;
+            public static readonly int DEFAULT = -1;
         }
 
         public int backgroundType { get; set; }

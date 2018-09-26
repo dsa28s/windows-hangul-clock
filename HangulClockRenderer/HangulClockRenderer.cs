@@ -254,8 +254,8 @@ namespace HangulClockRenderer
                 {
                     hangulClockDesktop.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
                     {
-                        hangulClockDesktop.ucScale.ScaleX = 1.5;
-                        hangulClockDesktop.ucScale.ScaleY = 1.5;
+                        hangulClockDesktop.ucScale.ScaleX = 1;
+                        hangulClockDesktop.ucScale.ScaleY = 1;
 
                         hangulClockDesktop.setRightCommentText("누군가는 너를 필요로하겠지.\n\n그 사람때문이라도\n힘내줬으면 해.");
                     }));

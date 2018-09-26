@@ -90,12 +90,11 @@ namespace HangulClock
         public static void setCurrentMonitor(string monitorName)
         {
             MonitorDeviceName = monitorName;
+            monitorLabel.Content = String.Format("현재 모니터 설정 : {0}", MonitorDeviceName);
         }
 
         public static ClockSettingsByMonitor loadMonitorPreferences()
         {
-            monitorLabel.Content = String.Format("현재 모니터 설정 : {0}", MonitorDeviceName);
-
             var monitorSettingQuery = DataKit.getInstance().getSharedRealms().All<ClockSettingsByMonitor>().Where(c => c.MonitorDeviceName == MonitorDeviceName);
 
             if (monitorSettingQuery.Count() > 0)
@@ -122,8 +121,6 @@ namespace HangulClock
 
         public static BackgroundSettingsByMonitor loadBackgroundPreferences()
         {
-            monitorLabel.Content = String.Format("현재 모니터 설정 : {0}", MonitorDeviceName);
-
             var monitorSettingQuery = DataKit.getInstance().getSharedRealms().All<BackgroundSettingsByMonitor>().Where(c => c.MonitorDeviceName == MonitorDeviceName);
 
             if (monitorSettingQuery.Count() > 0)
@@ -148,8 +145,6 @@ namespace HangulClock
 
         public static CommentSettingsByMonitor loadCommentPreferences()
         {
-            monitorLabel.Content = String.Format("현재 모니터 설정 : {0}", MonitorDeviceName);
-
             var monitorSettingQuery = DataKit.getInstance().getSharedRealms().All<CommentSettingsByMonitor>().Where(c => c.MonitorDeviceName == MonitorDeviceName);
 
             if (monitorSettingQuery.Count() > 0)

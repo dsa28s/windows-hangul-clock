@@ -15,7 +15,7 @@ namespace HangulClockDataKit
         public static DataKit getInstance()
         {
             var config = new RealmConfiguration("C:\\Hangul Clock Configuration Files\\") {
-                SchemaVersion = 2,
+                SchemaVersion = 3,
             };
 
             sharedRealms = Realm.GetInstance(config);

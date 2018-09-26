@@ -100,5 +100,85 @@ namespace HangulClock
                 monitorSetting.Comment = commentField.Text;
             });
         }
+
+        private void setButtonHoverEnterEvent(Grid container)
+        {
+            BrushConverter bc = new BrushConverter();
+            container.Background = (Brush)bc.ConvertFrom("#99FFFFFF");
+        }
+
+        private void setButtonHoverOutEvent(Grid container)
+        {
+            BrushConverter bc = new BrushConverter();
+            container.Background = (Brush)bc.ConvertFrom("#03FFFFFF");
+        }
+
+        #region Comment Up Container Event Handler
+        private void commentPositionTopContainer_MouseEnter(object sender, MouseEventArgs e)
+        {
+            setButtonHoverEnterEvent(commentPositionTopContainer);
+        }
+
+        private void commentPositionTopContainer_MouseLeave(object sender, MouseEventArgs e)
+        {
+            setButtonHoverOutEvent(commentPositionTopContainer);
+        }
+
+        private void commentPositionTopContainer_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+        #endregion
+
+        #region Comment Left Container Event Handler
+        private void commentPositionLeftContainer_MouseEnter(object sender, MouseEventArgs e)
+        {
+            setButtonHoverEnterEvent(commentPositionLeftContainer);
+        }
+
+        private void commentPositionLeftContainer_MouseLeave(object sender, MouseEventArgs e)
+        {
+            setButtonHoverOutEvent(commentPositionLeftContainer);
+        }
+
+        private void commentPositionLeftContainer_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+        #endregion
+
+        #region Comment Right Container Event Handler
+        private void commentPositionRightContainer_MouseEnter(object sender, MouseEventArgs e)
+        {
+            setButtonHoverEnterEvent(commentPositionRightContainer);
+        }
+
+        private void commentPositionRightContainer_MouseLeave(object sender, MouseEventArgs e)
+        {
+            setButtonHoverOutEvent(commentPositionRightContainer);
+        }
+
+        private void commentPositionRightContainer_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+        #endregion
+
+        #region Comment Bottom Container Event Handler
+        private void commentPositionBottomContainer_MouseEnter(object sender, MouseEventArgs e)
+        {
+            setButtonHoverEnterEvent(commentPositionBottomContainer);
+        }
+
+        private void commentPositionBottomContainer_MouseLeave(object sender, MouseEventArgs e)
+        {
+            setButtonHoverOutEvent(commentPositionBottomContainer);
+        }
+
+        private void commentPositionBottomContainer_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+        #endregion
     }
 }

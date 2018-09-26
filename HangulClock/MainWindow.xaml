@@ -48,7 +48,7 @@
                     </EventTrigger>
                 </uiKit:FadeInOutImageControl.Triggers>
             </uiKit:FadeInOutImageControl>
-            <Image x:Name="logo" HorizontalAlignment="Left" Height="48" VerticalAlignment="Top" Width="48" Margin="24,24,0,0" />
+            <Image x:Name="logo" HorizontalAlignment="Left" Height="54" VerticalAlignment="Top" Width="54" Margin="21,21,0,0" />
             <Label Content="너가 있어 아름다운 오늘" HorizontalAlignment="Left" Margin="80,26,0,0" VerticalAlignment="Top" Foreground="White" Width="167" FontSize="14" FontFamily="{StaticResource NanumSquareRegular}"/>
             <Label Content="한글시계" HorizontalAlignment="Left" Margin="80,46,0,0" VerticalAlignment="Top" Foreground="White" Width="167" FontSize="14" FontFamily="{StaticResource NanumSquareBold}" />
             <Label x:Name="tab_dashboard" Content="대시보드" HorizontalAlignment="Left" Margin="265,39,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Foreground="White" Width="75" FontSize="14" FontFamily="{StaticResource NanumSquareBold}" Height="26" MouseDown="tab_dashboard_MouseDown" />
