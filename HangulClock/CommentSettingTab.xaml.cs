@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using HangulClockKit;
 using HangulClockDataKit;
 using HangulClockDataKit.Model;
 
@@ -94,6 +95,27 @@ namespace HangulClock
             {
                 monitorSetting.Name = commentNameField.Text;
             });
+
+            try
+            {
+                HangulKit.HANGUL_INFO partOfName = HangulKit.HangulJaso.DevideJaso(commentNameField.Text[commentNameField.Text.Length - 1]);
+                if (partOfName.chars[2] == ' ')
+                {
+                    nameJongsungText.Content = "야, ";
+                }
+                else
+                {
+                    nameJongsungText.Content = "아, ";
+                }
+            }
+            catch (NullReferenceException ee)
+            {
+
+            }
+            catch (IndexOutOfRangeException ee)
+            {
+
+            }
         }
 
         private void commentField_TextChanged(object sender, TextChangedEventArgs e)

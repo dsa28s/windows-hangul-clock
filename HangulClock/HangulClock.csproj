@@ -214,6 +214,10 @@
       <Project>{78753ecd-e7bb-472a-a89a-444d4f6e02b2}</Project>
       <Name>HangulClockDataKit</Name>
     </ProjectReference>
+    <ProjectReference Include="..\HangulClockKit\HangulClockKit.csproj">
+      <Project>{46ce1ef5-62fe-4fae-a769-eade3f4d2f94}</Project>
+      <Name>HangulClockKit</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HangulClockLogKit\HangulClockLogKit.csproj">
       <Project>{18b790ec-818d-468d-ac8f-a140a98b33ff}</Project>
       <Name>HangulClockLogKit</Name>

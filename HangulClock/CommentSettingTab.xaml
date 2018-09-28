@@ -20,7 +20,7 @@
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="commentNameField" BorderThickness="0, 0, 0, 1" Margin="0, 6, 0, 0" TextWrapping="Wrap" Foreground="White" Background="Transparent" MinWidth="50" MaxWidth="100" Grid.Column="0" FontFamily="{StaticResource NanumSquareRegular}" FontSize="40" HorizontalContentAlignment="Center" MaxLength="5" TextChanged="commentNameField_TextChanged" />
+            <TextBox x:Name="commentNameField" BorderThickness="0, 0, 0, 1" Margin="0, 6, 0, 0" TextWrapping="Wrap" Foreground="White" Background="Transparent" MinWidth="50" MaxWidth="120" Grid.Column="0" FontFamily="{StaticResource NanumSquareRegular}" FontSize="40" HorizontalContentAlignment="Center" MaxLength="5" TextChanged="commentNameField_TextChanged" />
             <Label x:Name="nameJongsungText" Content="아, " FontSize="40" Foreground="White" FontFamily="{StaticResource NanumSquareRegular}" Grid.Column="1" />
             <TextBox x:Name="commentField" BorderThickness="0, 0, 0, 1" Margin="0, 6, 0, 0" TextWrapping="Wrap" Foreground="White" Background="Transparent" MinWidth="100" MaxWidth="700" Grid.Column="2" FontFamily="{StaticResource NanumSquareRegular}" FontSize="40" HorizontalContentAlignment="Center" MaxLength="25" TextChanged="commentField_TextChanged" />
         </Grid>
