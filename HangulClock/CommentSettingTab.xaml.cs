@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,6 +44,8 @@ namespace HangulClock
 
             commentNameField.Text = monitorSetting.Name;
             commentField.Text = monitorSetting.Comment;
+
+            saveCommentPosition(monitorSetting.DirectionOfComment);
         }
 
         private void commentSettingONToggle_Checked(object sender, RoutedEventArgs e)
@@ -113,71 +116,129 @@ namespace HangulClock
             container.Background = (Brush)bc.ConvertFrom("#03FFFFFF");
         }
 
+        private void saveCommentPosition(int direction)
+        {
+            DataKit.getInstance().getSharedRealms().Write(() =>
+            {
+                monitorSetting.DirectionOfComment = direction;
+            });
+
+            BrushConverter bc = new BrushConverter();
+
+            commentPositionTopContainer.Background = (Brush)bc.ConvertFrom("#03FFFFFF");
+            commentPositionLeftContainer.Background = (Brush)bc.ConvertFrom("#03FFFFFF");
+            commentPositionRightContainer.Background = (Brush)bc.ConvertFrom("#03FFFFFF");
+            commentPositionBottomContainer.Background = (Brush)bc.ConvertFrom("#03FFFFFF");
+
+            if (direction == CommentSettingsByMonitor.CommentDirection.TOP)
+            {
+                commentPositionTopContainer.Background= (Brush)bc.ConvertFrom("#FFFFFF");
+            }
+            else if (direction == CommentSettingsByMonitor.CommentDirection.LEFT)
+            {
+                commentPositionLeftContainer.Background = (Brush)bc.ConvertFrom("#FFFFFF");
+            }
+            else if (direction == CommentSettingsByMonitor.CommentDirection.RIGHT)
+            {
+                commentPositionRightContainer.Background = (Brush)bc.ConvertFrom("#FFFFFF");
+            }
+            else
+            {
+                commentPositionBottomContainer.Background = (Brush)bc.ConvertFrom("#FFFFFF");
+            }
+
+            Debug.WriteLine("OK");
+        }
+
         #region Comment Up Container Event Handler
         private void commentPositionTopContainer_MouseEnter(object sender, MouseEventArgs e)
         {
-            setButtonHoverEnterEvent(commentPositionTopContainer);
+            if (monitorSetting.DirectionOfComment != CommentSettingsByMonitor.CommentDirection.TOP)
+            {
+                setButtonHoverEnterEvent(commentPositionTopContainer);
+            }
         }
 
         private void commentPositionTopContainer_MouseLeave(object sender, MouseEventArgs e)
         {
-            setButtonHoverOutEvent(commentPositionTopContainer);
+            if (monitorSetting.DirectionOfComment != CommentSettingsByMonitor.CommentDirection.TOP)
+            {
+                setButtonHoverOutEvent(commentPositionTopContainer);
+            }
         }
 
         private void commentPositionTopContainer_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
+            saveCommentPosition(CommentSettingsByMonitor.CommentDirection.TOP);
         }
         #endregion
 
         #region Comment Left Container Event Handler
         private void commentPositionLeftContainer_MouseEnter(object sender, MouseEventArgs e)
         {
-            setButtonHoverEnterEvent(commentPositionLeftContainer);
+            if (monitorSetting.DirectionOfComment != CommentSettingsByMonitor.CommentDirection.LEFT)
+            {
+                setButtonHoverEnterEvent(commentPositionLeftContainer);
+            }
         }
 
         private void commentPositionLeftContainer_MouseLeave(object sender, MouseEventArgs e)
         {
-            setButtonHoverOutEvent(commentPositionLeftContainer);
+            if (monitorSetting.DirectionOfComment != CommentSettingsByMonitor.CommentDirection.LEFT)
+            {
+                setButtonHoverOutEvent(commentPositionLeftContainer);
+            }
         }
 
         private void commentPositionLeftContainer_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
+            saveCommentPosition(CommentSettingsByMonitor.CommentDirection.LEFT);
         }
         #endregion
 
         #region Comment Right Container Event Handler
         private void commentPositionRightContainer_MouseEnter(object sender, MouseEventArgs e)
         {
-            setButtonHoverEnterEvent(commentPositionRightContainer);
+            if (monitorSetting.DirectionOfComment != CommentSettingsByMonitor.CommentDirection.RIGHT)
+            {
+                setButtonHoverEnterEvent(commentPositionRightContainer);
+            }
         }
 
         private void commentPositionRightContainer_MouseLeave(object sender, MouseEventArgs e)
         {
-            setButtonHoverOutEvent(commentPositionRightContainer);
+            if (monitorSetting.DirectionOfComment != CommentSettingsByMonitor.CommentDirection.RIGHT)
+            {
+                setButtonHoverOutEvent(commentPositionRightContainer);
+            }
         }
 
         private void commentPositionRightContainer_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
+            saveCommentPosition(CommentSettingsByMonitor.CommentDirection.RIGHT);
         }
         #endregion
 
         #region Comment Bottom Container Event Handler
         private void commentPositionBottomContainer_MouseEnter(object sender, MouseEventArgs e)
         {
-            setButtonHoverEnterEvent(commentPositionBottomContainer);
+            if (monitorSetting.DirectionOfComment != CommentSettingsByMonitor.CommentDirection.BOTTOM)
+            {
+                setButtonHoverEnterEvent(commentPositionBottomContainer);
+            }
         }
 
         private void commentPositionBottomContainer_MouseLeave(object sender, MouseEventArgs e)
         {
-            setButtonHoverOutEvent(commentPositionBottomContainer);
+            if (monitorSetting.DirectionOfComment != CommentSettingsByMonitor.CommentDirection.BOTTOM)
+            {
+                setButtonHoverOutEvent(commentPositionBottomContainer);
+            }
         }
 
         private void commentPositionBottomContainer_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
+            saveCommentPosition(CommentSettingsByMonitor.CommentDirection.BOTTOM);
         }
         #endregion
     }
