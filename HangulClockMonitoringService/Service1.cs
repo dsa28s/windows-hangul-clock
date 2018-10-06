@@ -175,7 +175,7 @@ namespace HangulClockMonitoringService
             {
                 var clockSetting = DataKit.Realm.All<ClockSettingsByMonitor>().Where(c => c.MonitorDeviceName == item.value.DeviceName).First();
 
-                if (clockSetting.isUseHangulClock)
+                if (clockSetting.isUseHangulClock) 
                 {
                     Process hangulClockRendererProcess = new Process();
                     hangulClockRendererProcess.StartInfo = new ProcessStartInfo("HangulClockRenderer.exe");
