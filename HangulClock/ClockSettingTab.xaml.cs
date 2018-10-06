@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,10 +26,6 @@ namespace HangulClock
     public partial class ClockSettingTab : UserControl
     {
         private static String CLOCK_SIZE = "시계 크기 ({0}%)";
-        
-        private ClockSettingsByMonitor monitorSetting;
-
-        private bool isDataLoaded = false;
 
         public ClockSettingTab()
         {
@@ -40,53 +37,72 @@ namespace HangulClock
             // clockSizeSlider.Value = 50;
             // clockSizeValueText.Content = String.Format(CLOCK_SIZE, clockSizeSlider.Value);
 
-            monitorSetting = MainWindow.loadMonitorPreferences();
+            new Thread(() =>
+            {
+                var DataKit = new DataKit();
+                var monitorSettingQuery = from c in DataKit.Realm.All<ClockSettingsByMonitor>() where c.MonitorDeviceName == MainWindow.MonitorDeviceName select c;
+                ClockSettingsByMonitor monitorSetting = monitorSettingQuery.First();
 
-            clockColorToggle.IsChecked = !monitorSetting.IsWhiteClock;
-            clockSizeSlider.Value = monitorSetting.ClockSize;
-            clockSizeValueText.Content = String.Format(CLOCK_SIZE, clockSizeSlider.Value);
+                bool isWhiteClock = !monitorSetting.IsWhiteClock;
+                int clockSize = monitorSetting.ClockSize;
 
-            // HangulClockUIKit.UIKit.Delay(1000);
-
-            isDataLoaded = true;
-
-            Debug.WriteLine(monitorSetting.ClockSize);
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    clockColorToggle.IsChecked = isWhiteClock;
+                    clockSizeSlider.Value = clockSize;
+                    clockSizeValueText.Content = String.Format(CLOCK_SIZE, clockSizeSlider.Value);
+                }));
+            }).Start();
         }
 
         private void clockSizeSlider_ValueChanged(object sender, EventArgs e)
         {
-            clockSizeValueText.Content = String.Format(CLOCK_SIZE, Convert.ToInt32(clockSizeSlider.Value));
+            int clockSize = Convert.ToInt32(clockSizeSlider.Value);
 
-            if (isDataLoaded)
+            clockSizeValueText.Content = String.Format(CLOCK_SIZE, clockSize);
+
+            new Thread(() =>
             {
-                DataKit.getInstance().getSharedRealms().Write(() =>
+                var DataKit = new DataKit();
+                var monitorSetting = (from c in DataKit.Realm.All<ClockSettingsByMonitor>() where c.MonitorDeviceName == MainWindow.MonitorDeviceName select c).First();
+
+                DataKit.Realm.Write(() =>
                 {
-                    monitorSetting.ClockSize = Convert.ToInt32(clockSizeSlider.Value);
-                    Debug.WriteLine("OK");
+                    monitorSetting.ClockSize = clockSize;
                 });
-            }
+            }).Start();
         }
 
         private void clockColorToggle_Checked(object sender, RoutedEventArgs e)
         {
-            if (isDataLoaded)
+            bool isToggleChecked = !clockColorToggle.IsChecked ?? false;
+
+            new Thread(() =>
             {
-                DataKit.getInstance().getSharedRealms().Write(() =>
+                var DataKit = new DataKit();
+                var monitorSetting = (from c in DataKit.Realm.All<ClockSettingsByMonitor>() where c.MonitorDeviceName == MainWindow.MonitorDeviceName select c).First();
+
+                DataKit.Realm.Write(() =>
                 {
-                    monitorSetting.IsWhiteClock = !clockColorToggle.IsChecked ?? false;
+                    monitorSetting.IsWhiteClock = isToggleChecked;
                 });
-            }
+            }).Start();
         }
 
         private void clockColorToggle_Unchecked(object sender, RoutedEventArgs e)
         {
-            if (isDataLoaded)
+            bool isToggleChecked = !clockColorToggle.IsChecked ?? false;
+
+            new Thread(() =>
             {
-                DataKit.getInstance().getSharedRealms().Write(() =>
+                var DataKit = new DataKit();
+                var monitorSetting = (from c in DataKit.Realm.All<ClockSettingsByMonitor>() where c.MonitorDeviceName == MainWindow.MonitorDeviceName select c).First();
+
+                DataKit.Realm.Write(() =>
                 {
-                    monitorSetting.IsWhiteClock = !clockColorToggle.IsChecked ?? false;
+                    monitorSetting.IsWhiteClock = isToggleChecked;
                 });
-            }
+            }).Start();
         }
     }
 }

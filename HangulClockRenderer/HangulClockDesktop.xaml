@@ -22,10 +22,10 @@
         </Grid.RowDefinitions>
         <Image x:Name="backgroundImage" Stretch="UniformToFill" Grid.RowSpan="2" />
         <asf:AirspacePanel FixAirspace="{Binding FixAirspace}" Grid.RowSpan="2">
-            <cefSharp:ChromiumWebBrowser x:Name="youtubeView" />
+            <cefSharp:ChromiumWebBrowser x:Name="youtubeView" Visibility="Hidden" />
         </asf:AirspacePanel>
 
-        <Grid Background="#70000000" Grid.RowSpan="2" >
+        <Grid x:Name="overlayView" Background="#10000000" Grid.RowSpan="2" >
             <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -41,10 +41,12 @@
                     </Grid.RowDefinitions>
                     <uiKit:NotoSansLabel x:Name="hangulClockTopComment" Grid.Row="0" Margin="0, 0, 0, 50"/>
                     <uiKit:HangulClock x:Name="hangulClock" Width="350" Height="350" VerticalAlignment="Center" HorizontalAlignment="Center" ClockFontSize="35" ShowClockBold="True" Grid.Row="1">
+
                         <!--<uiKit:HangulClock.Effect>
                     <DropShadowEffect ShadowDepth="0.5" Opacity="0" BlurRadius="5" />
                 </uiKit:HangulClock.Effect>-->
                     </uiKit:HangulClock>
+                    <uiKit:HangulClockBlack x:Name="hangulClockBlack" Width="350" Height="350" VerticalAlignment="Center" HorizontalAlignment="Center" ClockFontSize="35" ShowClockBold="True" Grid.Row="1" Visibility="Hidden" />
                     <uiKit:NotoSansLabel x:Name="hangulClockBottomComment" HorizontalContentAlignment="Center" Grid.Row="2" Margin="0, 50, 0, 50"/>
                 </Grid>
                 <uiKit:NotoSansLabel x:Name="hangulClockRightComment" Grid.Column="2" Margin="50, 0, 0, 50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>

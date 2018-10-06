@@ -69,6 +69,9 @@
     <Compile Include="Animations\FadeInOutImageControl.cs" />
     <Compile Include="Animations\VisibilityAnimation.cs" />
     <Compile Include="BackgroundWallpaper.cs" />
+    <Compile Include="HangulClockBlack.xaml.cs">
+      <DependentUpon>HangulClockBlack.xaml</DependentUpon>
+    </Compile>
     <Compile Include="HangulClock.xaml.cs">
       <DependentUpon>HangulClock.xaml</DependentUpon>
     </Compile>
@@ -115,6 +118,10 @@
     <Resource Include="Resources\icon.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="HangulClockBlack.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="HangulClock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

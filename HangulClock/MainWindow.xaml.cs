@@ -19,6 +19,7 @@ using System.Windows.Media.Animation;
 using System.IO;
 using HangulClockDataKit.Model;
 using HangulClockDataKit;
+using System.Threading;
 
 namespace HangulClock
 {
@@ -27,6 +28,7 @@ namespace HangulClock
     /// </summary>
     public partial class MainWindow : Window
     {
+        // private DataKit DataKit;
         public static UIKit.HangulClockTab activeTab = UIKit.HangulClockTab.DASHBOARD;
 
         public static PageTransition pager;
@@ -48,7 +50,7 @@ namespace HangulClock
 
         private static Label toast = null;
 
-        private static string MonitorDeviceName;
+        public static string MonitorDeviceName;
 
         public MainWindow()
         {
@@ -74,6 +76,8 @@ namespace HangulClock
             }
 
             setCurrentMonitor(System.Windows.Forms.Screen.AllScreens[0].DeviceName);
+
+            initFirstData();
         }
 
         public async static void showToastMessage(string message)
@@ -91,84 +95,6 @@ namespace HangulClock
         {
             MonitorDeviceName = monitorName;
             monitorLabel.Content = String.Format("현재 모니터 설정 : {0}", MonitorDeviceName);
-        }
-
-        public static ClockSettingsByMonitor loadMonitorPreferences()
-        {
-            var monitorSettingQuery = DataKit.getInstance().getSharedRealms().All<ClockSettingsByMonitor>().Where(c => c.MonitorDeviceName == MonitorDeviceName);
-
-            if (monitorSettingQuery.Count() > 0)
-            {
-                return monitorSettingQuery.First();
-            }
-            else
-            {
-                var monitor1Config = new ClockSettingsByMonitor();
-
-                DataKit.getInstance().getSharedRealms().Write(() =>
-                {
-                    monitor1Config.IsWhiteClock = true;
-                    monitor1Config.MonitorDeviceName = MonitorDeviceName;
-                    monitor1Config.ClockSize = 100;
-                    monitor1Config.YoutubeURL = "";
-
-                    DataKit.getInstance().getSharedRealms().Add(monitor1Config);
-                });
-
-                return monitor1Config;
-            }
-        }
-
-        public static BackgroundSettingsByMonitor loadBackgroundPreferences()
-        {
-            var monitorSettingQuery = DataKit.getInstance().getSharedRealms().All<BackgroundSettingsByMonitor>().Where(c => c.MonitorDeviceName == MonitorDeviceName);
-
-            if (monitorSettingQuery.Count() > 0)
-            {
-                return monitorSettingQuery.First();
-            }
-            else
-            {
-                var monitor1Config = new BackgroundSettingsByMonitor();
-
-                DataKit.getInstance().getSharedRealms().Write(() =>
-                {
-                    monitor1Config.MonitorDeviceName = MonitorDeviceName;
-                    monitor1Config.backgroundType = BackgroundSettingsByMonitor.BackgroundType.DEFAULT;
-
-                    DataKit.getInstance().getSharedRealms().Add(monitor1Config);
-                });
-
-                return monitor1Config;
-            }
-        }
-
-        public static CommentSettingsByMonitor loadCommentPreferences()
-        {
-            var monitorSettingQuery = DataKit.getInstance().getSharedRealms().All<CommentSettingsByMonitor>().Where(c => c.MonitorDeviceName == MonitorDeviceName);
-
-            if (monitorSettingQuery.Count() > 0)
-            {
-                return monitorSettingQuery.First();
-            }
-            else
-            {
-                var monitor1Config = new CommentSettingsByMonitor();
-
-                DataKit.getInstance().getSharedRealms().Write(() =>
-                {
-                    monitor1Config.MonitorDeviceName = MonitorDeviceName;
-                    monitor1Config.IsEnabled = false;
-                    monitor1Config.IsEnabledLoadFromServer = false;
-
-                    monitor1Config.Name = "";
-                    monitor1Config.Comment = "";
-
-                    DataKit.getInstance().getSharedRealms().Add(monitor1Config);
-                });
-
-                return monitor1Config;
-            }
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
@@ -206,7 +132,8 @@ namespace HangulClock
 
         private void CloseButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Application.Current.Shutdown();
+            // Application.Current.Shutdown();
+            Environment.Exit(0);
         }
 
         private void MinimizeButton_MouseDown(object sender, MouseButtonEventArgs e)
@@ -370,6 +297,87 @@ namespace HangulClock
         private void mainContent_MouseMove(object sender, MouseEventArgs e)
         {
             pageController.Margin = new Thickness(e.GetPosition(pageController).X / 200, e.GetPosition(pageController).Y / 200, 0, 0);
+        }
+
+        private static Random random = new Random();
+        public static string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+        public static void initFirstData()
+        {
+            new Thread(() =>
+            {
+                var DataKit = new DataKit();
+
+                var hangulClockCommonSetting = DataKit.Realm.All<HangulClockCommonSetting>();
+                if (hangulClockCommonSetting.Count() <= 0)
+                {
+                    var setting = new HangulClockCommonSetting();
+                    setting.hu = RandomString(16);
+
+                    DataKit.Realm.Write(() =>
+                    {
+                        DataKit.Realm.Add(setting);
+                    });
+                }
+
+                var screens = System.Windows.Forms.Screen.AllScreens;
+
+                foreach (var screen in screens)
+                {
+                    var clockSetting = from c in DataKit.Realm.All<ClockSettingsByMonitor>() where c.MonitorDeviceName == screen.DeviceName select c;
+                    if (clockSetting.Count() <= 0)
+                    {
+                        var setting = new ClockSettingsByMonitor();
+
+                        DataKit.Realm.Write(() =>
+                        {
+                            setting.IsWhiteClock = true;
+                            setting.MonitorDeviceName = screen.DeviceName;
+                            setting.ClockSize = 100;
+                            setting.YoutubeURL = "";
+
+                            DataKit.Realm.Add(setting);
+                        });
+                    }
+
+                    var commentSetting = from c in DataKit.Realm.All<CommentSettingsByMonitor>() where c.MonitorDeviceName == screen.DeviceName select c;
+                    if (commentSetting.Count() <= 0)
+                    {
+                        var setting = new CommentSettingsByMonitor();
+
+                        DataKit.Realm.Write(() =>
+                        {
+                            setting.MonitorDeviceName = screen.DeviceName;
+                            setting.IsEnabled = false;
+                            setting.IsEnabledLoadFromServer = false;
+
+                            setting.Name = "";
+                            setting.Comment = "";
+
+                            DataKit.Realm.Add(setting);
+                        });
+                    }
+
+                    var backgroundSetting = from c in DataKit.Realm.All<BackgroundSettingsByMonitor>() where c.MonitorDeviceName == screen.DeviceName select c;
+                    if (backgroundSetting.Count() <= 0)
+                    {
+                        var setting = new BackgroundSettingsByMonitor();
+
+                        DataKit.Realm.Write(() =>
+                        {
+                            setting.MonitorDeviceName = screen.DeviceName;
+                            setting.backgroundType = BackgroundSettingsByMonitor.BackgroundType.DEFAULT;
+
+                            DataKit.Realm.Add(setting);
+                        });
+                    }
+                }
+            }).Start();
         }
     }
 }

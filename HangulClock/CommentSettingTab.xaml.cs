@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using HangulClockKit;
 using HangulClockDataKit;
 using HangulClockDataKit.Model;
+using System.Threading;
 
 namespace HangulClock
 {
@@ -25,8 +26,6 @@ namespace HangulClock
     /// </summary>
     public partial class CommentSettingTab : UserControl
     {
-        private CommentSettingsByMonitor monitorSetting;
-
         public CommentSettingTab()
         {
             InitializeComponent();
@@ -34,27 +33,49 @@ namespace HangulClock
 
         public void loadInitData()
         {
-            monitorSetting = MainWindow.loadCommentPreferences();
+            new Thread(() =>
+            {
+                var DataKit = new DataKit();
+                var monitorSettingQuery = from c in DataKit.Realm.All<CommentSettingsByMonitor>() where c.MonitorDeviceName == MainWindow.MonitorDeviceName select c;
 
-            commentSettingONToggle.IsChecked = monitorSetting.IsEnabled;
-            commentFromServerToggle.IsChecked = monitorSetting.IsEnabledLoadFromServer;
+                CommentSettingsByMonitor monitorSetting = monitorSettingQuery.First();
 
-            commentField.IsEnabled = commentSettingONToggle.IsChecked ?? false;
-            nameJongsungText.Opacity = commentSettingONToggle.IsChecked ?? false ? 1 : 0.3;
-            commentNameField.IsEnabled = commentSettingONToggle.IsChecked ?? false;
+                bool isEnabled = monitorSetting.IsEnabled;
+                bool isEnabledLoadFromServer = monitorSetting.IsEnabledLoadFromServer;
+                string name = monitorSetting.Name;
+                string comment = monitorSetting.Comment;
 
-            commentNameField.Text = monitorSetting.Name;
-            commentField.Text = monitorSetting.Comment;
+                int commentPosition = monitorSetting.DirectionOfComment;
 
-            saveCommentPosition(monitorSetting.DirectionOfComment);
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    commentSettingONToggle.IsChecked = isEnabled;
+                    commentFromServerToggle.IsChecked = isEnabledLoadFromServer;
+
+                    commentField.IsEnabled = commentSettingONToggle.IsChecked ?? false;
+                    nameJongsungText.Opacity = commentSettingONToggle.IsChecked ?? false ? 1 : 0.3;
+                    commentNameField.IsEnabled = commentSettingONToggle.IsChecked ?? false;
+
+                    commentNameField.Text = name;
+                    commentField.Text = comment;
+
+                    saveCommentPosition(commentPosition);
+                }));
+            }).Start();
         }
 
         private void commentSettingONToggle_Checked(object sender, RoutedEventArgs e)
         {
-            DataKit.getInstance().getSharedRealms().Write(() =>
+            new Thread(() =>
             {
-                monitorSetting.IsEnabled = true;
-            });
+                var DataKit = new DataKit();
+                var monitorSetting = (from c in DataKit.Realm.All<CommentSettingsByMonitor>() where c.MonitorDeviceName == MainWindow.MonitorDeviceName select c).First();
+
+                DataKit.Realm.Write(() =>
+                {
+                    monitorSetting.IsEnabled = true;
+                });
+            }).Start();
 
             commentField.IsEnabled = true;
             nameJongsungText.Opacity = 1;
@@ -63,10 +84,16 @@ namespace HangulClock
 
         private void commentSettingONToggle_Unchecked(object sender, RoutedEventArgs e)
         {
-            DataKit.getInstance().getSharedRealms().Write(() =>
+            new Thread(() =>
             {
-                monitorSetting.IsEnabled = false;
-            });
+                var DataKit = new DataKit();
+                var monitorSetting = (from c in DataKit.Realm.All<CommentSettingsByMonitor>() where c.MonitorDeviceName == MainWindow.MonitorDeviceName select c).First();
+
+                DataKit.Realm.Write(() =>
+                {
+                    monitorSetting.IsEnabled = false;
+                });
+            }).Start();
 
             commentField.IsEnabled = false;
             nameJongsungText.Opacity = 0.3;
@@ -75,27 +102,47 @@ namespace HangulClock
 
         private void commentFromServerToggle_Checked(object sender, RoutedEventArgs e)
         {
-            DataKit.getInstance().getSharedRealms().Write(() =>
+            new Thread(() =>
             {
-                monitorSetting.IsEnabledLoadFromServer = true;
-            });
+                var DataKit = new DataKit();
+                var monitorSetting = (from c in DataKit.Realm.All<CommentSettingsByMonitor>() where c.MonitorDeviceName == MainWindow.MonitorDeviceName select c).First();
+
+                DataKit.Realm.Write(() =>
+                {
+                    monitorSetting.IsEnabledLoadFromServer = true;
+                });
+            }).Start();
         }
 
         private void commentFromServerToggle_Unchecked(object sender, RoutedEventArgs e)
         {
-            DataKit.getInstance().getSharedRealms().Write(() =>
+            new Thread(() =>
             {
-                monitorSetting.IsEnabledLoadFromServer = false;
-            });
+                var DataKit = new DataKit();
+                var monitorSetting = (from c in DataKit.Realm.All<CommentSettingsByMonitor>() where c.MonitorDeviceName == MainWindow.MonitorDeviceName select c).First();
+
+                DataKit.Realm.Write(() =>
+                {
+                    monitorSetting.IsEnabledLoadFromServer = false;
+                });
+            }).Start();
         }
 
         private void commentNameField_TextChanged(object sender, TextChangedEventArgs e)
         {
-            DataKit.getInstance().getSharedRealms().Write(() =>
-            {
-                monitorSetting.Name = commentNameField.Text;
-            });
+            string name = commentNameField.Text;
 
+            new Thread(() =>
+            {
+                var DataKit = new DataKit();
+                var monitorSetting = (from c in DataKit.Realm.All<CommentSettingsByMonitor>() where c.MonitorDeviceName == MainWindow.MonitorDeviceName select c).First();
+
+                DataKit.Realm.Write(() =>
+                {
+                    monitorSetting.Name = name;
+                });
+            }).Start();
+            
             try
             {
                 HangulKit.HANGUL_INFO partOfName = HangulKit.HangulJaso.DevideJaso(commentNameField.Text[commentNameField.Text.Length - 1]);
@@ -120,10 +167,18 @@ namespace HangulClock
 
         private void commentField_TextChanged(object sender, TextChangedEventArgs e)
         {
-            DataKit.getInstance().getSharedRealms().Write(() =>
+            string comment = commentField.Text;
+
+            new Thread(() =>
             {
-                monitorSetting.Comment = commentField.Text;
-            });
+                var DataKit = new DataKit();
+                var monitorSetting = (from c in DataKit.Realm.All<CommentSettingsByMonitor>() where c.MonitorDeviceName == MainWindow.MonitorDeviceName select c).First();
+
+                DataKit.Realm.Write(() =>
+                {
+                    monitorSetting.Comment = comment;
+                });
+            }).Start();
         }
 
         private void setButtonHoverEnterEvent(Grid container)
@@ -140,10 +195,16 @@ namespace HangulClock
 
         private void saveCommentPosition(int direction)
         {
-            DataKit.getInstance().getSharedRealms().Write(() =>
+            new Thread(() =>
             {
-                monitorSetting.DirectionOfComment = direction;
-            });
+                var DataKit = new DataKit();
+                var monitorSetting = (from c in DataKit.Realm.All<CommentSettingsByMonitor>() where c.MonitorDeviceName == MainWindow.MonitorDeviceName select c).First();
+
+                DataKit.Realm.Write(() =>
+                {
+                    monitorSetting.DirectionOfComment = direction;
+                });
+            }).Start();
 
             BrushConverter bc = new BrushConverter();
 
@@ -168,25 +229,45 @@ namespace HangulClock
             {
                 commentPositionBottomContainer.Background = (Brush)bc.ConvertFrom("#FFFFFF");
             }
-
-            Debug.WriteLine("OK");
         }
 
         #region Comment Up Container Event Handler
         private void commentPositionTopContainer_MouseEnter(object sender, MouseEventArgs e)
         {
-            if (monitorSetting.DirectionOfComment != CommentSettingsByMonitor.CommentDirection.TOP)
+            new Thread(() =>
             {
-                setButtonHoverEnterEvent(commentPositionTopContainer);
-            }
+                var DataKit = new DataKit();
+                var monitorSetting = (from c in DataKit.Realm.All<CommentSettingsByMonitor>() where c.MonitorDeviceName == MainWindow.MonitorDeviceName select c).First();
+
+                int commentDirection = monitorSetting.DirectionOfComment;
+
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    if (commentDirection != CommentSettingsByMonitor.CommentDirection.TOP)
+                    {
+                        setButtonHoverEnterEvent(commentPositionTopContainer);
+                    }
+                }));
+            }).Start();
         }
 
         private void commentPositionTopContainer_MouseLeave(object sender, MouseEventArgs e)
         {
-            if (monitorSetting.DirectionOfComment != CommentSettingsByMonitor.CommentDirection.TOP)
+            new Thread(() =>
             {
-                setButtonHoverOutEvent(commentPositionTopContainer);
-            }
+                var DataKit = new DataKit();
+                var monitorSetting = (from c in DataKit.Realm.All<CommentSettingsByMonitor>() where c.MonitorDeviceName == MainWindow.MonitorDeviceName select c).First();
+
+                int commentDirection = monitorSetting.DirectionOfComment;
+
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    if (commentDirection != CommentSettingsByMonitor.CommentDirection.TOP)
+                    {
+                        setButtonHoverOutEvent(commentPositionTopContainer);
+                    }
+                }));
+            }).Start();
         }
 
         private void commentPositionTopContainer_MouseDown(object sender, MouseButtonEventArgs e)
@@ -198,18 +279,40 @@ namespace HangulClock
         #region Comment Left Container Event Handler
         private void commentPositionLeftContainer_MouseEnter(object sender, MouseEventArgs e)
         {
-            if (monitorSetting.DirectionOfComment != CommentSettingsByMonitor.CommentDirection.LEFT)
+            new Thread(() =>
             {
-                setButtonHoverEnterEvent(commentPositionLeftContainer);
-            }
+                var DataKit = new DataKit();
+                var monitorSetting = (from c in DataKit.Realm.All<CommentSettingsByMonitor>() where c.MonitorDeviceName == MainWindow.MonitorDeviceName select c).First();
+
+                int commentDirection = monitorSetting.DirectionOfComment;
+
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    if (commentDirection != CommentSettingsByMonitor.CommentDirection.LEFT)
+                    {
+                        setButtonHoverEnterEvent(commentPositionLeftContainer);
+                    }
+                }));
+            }).Start();
         }
 
         private void commentPositionLeftContainer_MouseLeave(object sender, MouseEventArgs e)
         {
-            if (monitorSetting.DirectionOfComment != CommentSettingsByMonitor.CommentDirection.LEFT)
+            new Thread(() =>
             {
-                setButtonHoverOutEvent(commentPositionLeftContainer);
-            }
+                var DataKit = new DataKit();
+                var monitorSetting = (from c in DataKit.Realm.All<CommentSettingsByMonitor>() where c.MonitorDeviceName == MainWindow.MonitorDeviceName select c).First();
+
+                int commentDirection = monitorSetting.DirectionOfComment;
+
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    if (commentDirection != CommentSettingsByMonitor.CommentDirection.LEFT)
+                    {
+                        setButtonHoverOutEvent(commentPositionLeftContainer);
+                    }
+                }));
+            }).Start();
         }
 
         private void commentPositionLeftContainer_MouseDown(object sender, MouseButtonEventArgs e)
@@ -221,18 +324,40 @@ namespace HangulClock
         #region Comment Right Container Event Handler
         private void commentPositionRightContainer_MouseEnter(object sender, MouseEventArgs e)
         {
-            if (monitorSetting.DirectionOfComment != CommentSettingsByMonitor.CommentDirection.RIGHT)
+            new Thread(() =>
             {
-                setButtonHoverEnterEvent(commentPositionRightContainer);
-            }
+                var DataKit = new DataKit();
+                var monitorSetting = (from c in DataKit.Realm.All<CommentSettingsByMonitor>() where c.MonitorDeviceName == MainWindow.MonitorDeviceName select c).First();
+
+                int commentDirection = monitorSetting.DirectionOfComment;
+
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    if (commentDirection != CommentSettingsByMonitor.CommentDirection.RIGHT)
+                    {
+                        setButtonHoverEnterEvent(commentPositionRightContainer);
+                    }
+                }));
+            }).Start();
         }
 
         private void commentPositionRightContainer_MouseLeave(object sender, MouseEventArgs e)
         {
-            if (monitorSetting.DirectionOfComment != CommentSettingsByMonitor.CommentDirection.RIGHT)
+            new Thread(() =>
             {
-                setButtonHoverOutEvent(commentPositionRightContainer);
-            }
+                var DataKit = new DataKit();
+                var monitorSetting = (from c in DataKit.Realm.All<CommentSettingsByMonitor>() where c.MonitorDeviceName == MainWindow.MonitorDeviceName select c).First();
+
+                int commentDirection = monitorSetting.DirectionOfComment;
+
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    if (commentDirection != CommentSettingsByMonitor.CommentDirection.RIGHT)
+                    {
+                        setButtonHoverOutEvent(commentPositionRightContainer);
+                    }
+                }));
+            }).Start();
         }
 
         private void commentPositionRightContainer_MouseDown(object sender, MouseButtonEventArgs e)
@@ -244,18 +369,40 @@ namespace HangulClock
         #region Comment Bottom Container Event Handler
         private void commentPositionBottomContainer_MouseEnter(object sender, MouseEventArgs e)
         {
-            if (monitorSetting.DirectionOfComment != CommentSettingsByMonitor.CommentDirection.BOTTOM)
+            new Thread(() =>
             {
-                setButtonHoverEnterEvent(commentPositionBottomContainer);
-            }
+                var DataKit = new DataKit();
+                var monitorSetting = (from c in DataKit.Realm.All<CommentSettingsByMonitor>() where c.MonitorDeviceName == MainWindow.MonitorDeviceName select c).First();
+
+                int commentDirection = monitorSetting.DirectionOfComment;
+
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    if (commentDirection != CommentSettingsByMonitor.CommentDirection.BOTTOM)
+                    {
+                        setButtonHoverEnterEvent(commentPositionBottomContainer);
+                    }
+                }));
+            }).Start();
         }
 
         private void commentPositionBottomContainer_MouseLeave(object sender, MouseEventArgs e)
         {
-            if (monitorSetting.DirectionOfComment != CommentSettingsByMonitor.CommentDirection.BOTTOM)
+            new Thread(() =>
             {
-                setButtonHoverOutEvent(commentPositionBottomContainer);
-            }
+                var DataKit = new DataKit();
+                var monitorSetting = (from c in DataKit.Realm.All<CommentSettingsByMonitor>() where c.MonitorDeviceName == MainWindow.MonitorDeviceName select c).First();
+
+                int commentDirection = monitorSetting.DirectionOfComment;
+
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    if (commentDirection != CommentSettingsByMonitor.CommentDirection.BOTTOM)
+                    {
+                        setButtonHoverOutEvent(commentPositionBottomContainer);
+                    }
+                }));
+            }).Start();
         }
 
         private void commentPositionBottomContainer_MouseDown(object sender, MouseButtonEventArgs e)
@@ -263,5 +410,38 @@ namespace HangulClock
             saveCommentPosition(CommentSettingsByMonitor.CommentDirection.BOTTOM);
         }
         #endregion
+
+        private void registerCommentOnServerToggle_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void commentUseNameToggle_Checked(object sender, RoutedEventArgs e)
+        {
+            new Thread(() =>
+            {
+                var DataKit = new DataKit();
+                var monitorSetting = (from c in DataKit.Realm.All<CommentSettingsByMonitor>() where c.MonitorDeviceName == MainWindow.MonitorDeviceName select c).First();
+
+                DataKit.Realm.Write(() =>
+                {
+                    monitorSetting.IsEnabledNameInComment = true;
+                });
+            }).Start();
+        }
+
+        private void commentUseNameToggle_Unchecked(object sender, RoutedEventArgs e)
+        {
+            new Thread(() =>
+            {
+                var DataKit = new DataKit();
+                var monitorSetting = (from c in DataKit.Realm.All<CommentSettingsByMonitor>() where c.MonitorDeviceName == MainWindow.MonitorDeviceName select c).First();
+
+                DataKit.Realm.Write(() =>
+                {
+                    monitorSetting.IsEnabledNameInComment = false;
+                });
+            }).Start();
+        }
     }
 }

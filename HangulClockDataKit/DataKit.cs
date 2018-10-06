@@ -10,26 +10,16 @@ namespace HangulClockDataKit
 {
     public class DataKit
     {
-        public static Realm sharedRealms;
+        public Realm Realm;
 
-        public static DataKit getInstance()
+        public DataKit()
         {
-            var config = new RealmConfiguration("C:\\Hangul Clock Configuration Files\\") {
-                SchemaVersion = 3,
+            var config = new RealmConfiguration("C:\\Hangul Clock Configuration Files\\")
+            {
+                SchemaVersion = 5,
             };
 
-            sharedRealms = Realm.GetInstance(config);
-            return new DataKit();
-        }
-
-        public Realm getSharedRealms()
-        {
-            if (sharedRealms == null)
-            {
-                sharedRealms = Realm.GetInstance();
-            }
-
-            return sharedRealms;
+            Realm = Realm.GetInstance(config);
         }
     }
 }

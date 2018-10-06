@@ -21,6 +21,7 @@ namespace HangulClockDataKit.Model
 
         public bool IsEnabled { get; set; }
         public bool IsEnabledLoadFromServer { get; set; }
+        public bool IsEnabledNameInComment { get; set; }
 
         public string Name { get; set; }
         public string Comment { get; set; }

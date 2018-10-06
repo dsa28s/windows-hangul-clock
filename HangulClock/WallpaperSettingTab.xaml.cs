@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,8 +27,6 @@ namespace HangulClock
     /// </summary>
     public partial class WallpaperSettingTab : UserControl
     {
-        private BackgroundSettingsByMonitor monitorSetting;
-
         public WallpaperSettingTab()
         {
             InitializeComponent();
@@ -35,71 +34,93 @@ namespace HangulClock
 
         public void loadInitData()
         {
-            monitorSetting = MainWindow.loadBackgroundPreferences();
-
-            backgroundToggle.IsChecked = monitorSetting.backgroundType == BackgroundSettingsByMonitor.BackgroundType.STILL_IMAGE;
-            solidToggle.IsChecked = monitorSetting.backgroundType == BackgroundSettingsByMonitor.BackgroundType.SOLID;
-            youtubeToggle.IsChecked = monitorSetting.backgroundType == BackgroundSettingsByMonitor.BackgroundType.YOUTUBE_VIDEO;
-
-            if (monitorSetting.imgPath != "" && monitorSetting.imgPath != null)
+            new Thread(() =>
             {
-                if (File.Exists(monitorSetting.imgPath))
+                var DataKit = new DataKit();
+                var monitorSettingQuery = from c in DataKit.Realm.All<BackgroundSettingsByMonitor>() where c.MonitorDeviceName == MainWindow.MonitorDeviceName select c;
+                BackgroundSettingsByMonitor monitorSetting = monitorSettingQuery.First();
+
+                int backgroundType = monitorSetting.backgroundType;
+                string imgPath = monitorSetting.imgPath;
+                string solidColor = monitorSetting.SolidColor;
+                string youtubeVideoCode = monitorSetting.YoutubeURL;
+
+                this.Dispatcher.Invoke(new Action(() =>
                 {
-                    stillImage.Source = new BitmapImage(new Uri(monitorSetting.imgPath));
-                    stillImage.Stretch = Stretch.UniformToFill;
-                }
-            }
-            else
-            {
-                stillImage.Source = null;
-            }
+                    backgroundToggle.IsChecked = backgroundType == BackgroundSettingsByMonitor.BackgroundType.STILL_IMAGE;
+                    solidToggle.IsChecked = backgroundType == BackgroundSettingsByMonitor.BackgroundType.SOLID;
+                    youtubeToggle.IsChecked = backgroundType == BackgroundSettingsByMonitor.BackgroundType.YOUTUBE_VIDEO;
 
-            if (monitorSetting.SolidColor != null && monitorSetting.SolidColor != "")
-            {
-                BrushConverter bc = new BrushConverter();
-                solidColorContainer.Background = (Brush)bc.ConvertFrom("#" + monitorSetting.SolidColor);
-            }
+                    if (imgPath != "" && imgPath != null)
+                    {
+                        if (File.Exists(imgPath))
+                        {
+                            stillImage.Source = new BitmapImage(new Uri(imgPath));
+                            stillImage.Stretch = Stretch.UniformToFill;
+                        }
+                    }
+                    else
+                    {
+                        stillImage.Source = null;
+                    }
 
-            youtubeVideoCodeTextBox.Text = monitorSetting.YoutubeURL;
+                    BrushConverter bc = new BrushConverter();
+                    if (solidColor != null && solidColor != "")
+                    {
+                        solidColorContainer.Background = (Brush)bc.ConvertFrom("#" + solidColor);
+                    }
+                    else
+                    {
+                        solidColorContainer.Background = (Brush)bc.ConvertFrom("#10FFFFFF");
+                    }
 
-            if (!backgroundToggle.IsChecked ?? false)
-            {
-                stillImageBorder.Opacity = 0.3;
-            }
-            else
-            {
-                stillImageBorder.Opacity = 1;
-            }
+                    youtubeVideoCodeTextBox.Text = youtubeVideoCode;
 
-            if (!solidToggle.IsChecked ?? false)
-            {
-                solidImageBorder.Opacity = 0.3;
-            }
-            else
-            {
-                solidImageBorder.Opacity = 1;
-            }
+                    if (!backgroundToggle.IsChecked ?? false)
+                    {
+                        stillImageBorder.Opacity = 0.3;
+                    }
+                    else
+                    {
+                        stillImageBorder.Opacity = 1;
+                    }
 
-            if (!youtubeToggle.IsChecked ?? false)
-            {
-                youtubeVideoCodeTextBox.Opacity = 0.3;
-                youtubeVideoCodeTextBox.IsEnabled = false;
-            }
-            else
-            {
-                youtubeVideoCodeTextBox.Opacity = 1;
-                youtubeVideoCodeTextBox.IsEnabled = true;
-            }
+                    if (!solidToggle.IsChecked ?? false)
+                    {
+                        solidImageBorder.Opacity = 0.3;
+                    }
+                    else
+                    {
+                        solidImageBorder.Opacity = 1;
+                    }
+
+                    if (!youtubeToggle.IsChecked ?? false)
+                    {
+                        youtubeVideoCodeTextBox.Opacity = 0.3;
+                        youtubeVideoCodeTextBox.IsEnabled = false;
+                    }
+                    else
+                    {
+                        youtubeVideoCodeTextBox.Opacity = 1;
+                        youtubeVideoCodeTextBox.IsEnabled = true;
+                    }
+                }));
+            }).Start();
         }
 
         private void backgroundToggle_Checked(object sender, RoutedEventArgs e)
         {
             stillImageBorder.Opacity = 1;
 
-            DataKit.getInstance().getSharedRealms().Write(() =>
+            new Thread(() =>
             {
-                monitorSetting.backgroundType = BackgroundSettingsByMonitor.BackgroundType.STILL_IMAGE;
-            });
+                var DataKit = new DataKit();
+                var monitorSetting = (from c in DataKit.Realm.All<BackgroundSettingsByMonitor>() where c.MonitorDeviceName == MainWindow.MonitorDeviceName select c).First();
+                DataKit.Realm.Write(() =>
+                {
+                    monitorSetting.backgroundType = BackgroundSettingsByMonitor.BackgroundType.STILL_IMAGE;
+                });
+            }).Start();
 
             solidToggle.IsChecked = false;
             youtubeToggle.IsChecked = false;
@@ -116,10 +137,15 @@ namespace HangulClock
         {
             solidImageBorder.Opacity = 1;
 
-            DataKit.getInstance().getSharedRealms().Write(() =>
+            new Thread(() =>
             {
-                monitorSetting.backgroundType = BackgroundSettingsByMonitor.BackgroundType.SOLID;
-            });
+                var DataKit = new DataKit();
+                var monitorSetting = (from c in DataKit.Realm.All<BackgroundSettingsByMonitor>() where c.MonitorDeviceName == MainWindow.MonitorDeviceName select c).First();
+                DataKit.Realm.Write(() =>
+                {
+                    monitorSetting.backgroundType = BackgroundSettingsByMonitor.BackgroundType.SOLID;
+                });
+            }).Start();
 
             backgroundToggle.IsChecked = false;
             youtubeToggle.IsChecked = false;
@@ -137,10 +163,16 @@ namespace HangulClock
             youtubeVideoCodeTextBox.Opacity = 1;
             youtubeVideoCodeTextBox.IsEnabled = true;
 
-            DataKit.getInstance().getSharedRealms().Write(() =>
+            new Thread(() =>
             {
-                monitorSetting.backgroundType = BackgroundSettingsByMonitor.BackgroundType.YOUTUBE_VIDEO;
-            });
+                var DataKit = new DataKit();
+                var monitorSetting = (from c in DataKit.Realm.All<BackgroundSettingsByMonitor>() where c.MonitorDeviceName == MainWindow.MonitorDeviceName select c).First();
+
+                DataKit.Realm.Write(() =>
+                {
+                    monitorSetting.backgroundType = BackgroundSettingsByMonitor.BackgroundType.YOUTUBE_VIDEO;
+                });
+            }).Start();
 
             backgroundToggle.IsChecked = false;
             solidToggle.IsChecked = false;
@@ -165,13 +197,21 @@ namespace HangulClock
 
                     if (dialog.ShowDialog() ?? false)
                     {
-                        stillImage.Source = new BitmapImage(new Uri(dialog.FileName));
+                        string fileName = dialog.FileName;
+
+                        stillImage.Source = new BitmapImage(new Uri(fileName));
                         stillImage.Stretch = Stretch.UniformToFill;
 
-                        DataKit.getInstance().getSharedRealms().Write(() =>
+                        new Thread(() =>
                         {
-                            monitorSetting.imgPath = dialog.FileName;
-                        });
+                            var DataKit = new DataKit();
+                            var monitorSetting = (from c in DataKit.Realm.All<BackgroundSettingsByMonitor>() where c.MonitorDeviceName == MainWindow.MonitorDeviceName select c).First();
+
+                            DataKit.Realm.Write(() =>
+                            {
+                                monitorSetting.imgPath = fileName;
+                            });
+                        }).Start();
                     }
                 }
             }
@@ -186,10 +226,16 @@ namespace HangulClock
         {
             if (!(backgroundToggle.IsChecked ?? false) && !(solidToggle.IsChecked ?? false) && !(youtubeToggle.IsChecked ?? false))
             {
-                DataKit.getInstance().getSharedRealms().Write(() =>
+                new Thread(() =>
                 {
-                    monitorSetting.backgroundType = BackgroundSettingsByMonitor.BackgroundType.DEFAULT;
-                });
+                    var DataKit = new DataKit();
+                    var monitorSetting = (from c in DataKit.Realm.All<BackgroundSettingsByMonitor>() where c.MonitorDeviceName == MainWindow.MonitorDeviceName select c).First();
+
+                    DataKit.Realm.Write(() =>
+                    {
+                        monitorSetting.backgroundType = BackgroundSettingsByMonitor.BackgroundType.DEFAULT;
+                    });
+                }).Start();
 
                 MainWindow.showToastMessage("배경화면 설정이 모두 해제되었습니다. '시스템에 설정된 배경화면' 으로 자동 설정됩니다.");
             }
@@ -205,13 +251,22 @@ namespace HangulClock
 
                     if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
-                        DataKit.getInstance().getSharedRealms().Write(() =>
-                        {
-                            monitorSetting.SolidColor = (dialog.Color.ToArgb() & 0x00FFFFFF).ToString("X6");
+                        int argb = dialog.Color.ToArgb();
 
-                            BrushConverter bc = new BrushConverter();
-                            solidColorContainer.Background = (Brush)bc.ConvertFrom("#" + monitorSetting.SolidColor);
-                        });
+                        new Thread(() =>
+                        {
+                            var DataKit = new DataKit();
+                            var monitorSetting = (from c in DataKit.Realm.All<BackgroundSettingsByMonitor>() where c.MonitorDeviceName == MainWindow.MonitorDeviceName select c).First();
+
+                            DataKit.Realm.Write(() =>
+                            {
+                                monitorSetting.SolidColor = (argb & 0x00FFFFFF).ToString("X6");
+                            });
+                        }).Start();
+
+                        BrushConverter bc = new BrushConverter();
+                        solidColorContainer.Background = (Brush)bc.ConvertFrom("#" + (argb & 0x00FFFFFF).ToString("X6"));
+                        Debug.WriteLine("OKOKOKOKOK");
                     }
                 }
             }
@@ -219,10 +274,17 @@ namespace HangulClock
 
         private void youtubeVideoCodeTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            DataKit.getInstance().getSharedRealms().Write(() =>
+            string youtubeVideoCode = youtubeVideoCodeTextBox.Text;
+            new Thread(() =>
             {
-                monitorSetting.YoutubeURL = youtubeVideoCodeTextBox.Text;
-            });
+                var DataKit = new DataKit();
+                var monitorSetting = (from c in DataKit.Realm.All<BackgroundSettingsByMonitor>() where c.MonitorDeviceName == MainWindow.MonitorDeviceName select c).First();
+
+                DataKit.Realm.Write(() =>
+                {
+                    monitorSetting.YoutubeURL = youtubeVideoCode;
+                });
+            }).Start();
         }
     }
 }

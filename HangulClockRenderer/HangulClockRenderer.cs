@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -10,19 +12,32 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Threading;
+
+using HangulClockDataKit;
+using HangulClockDataKit.Model;
 using HangulClockHookKit;
+using HangulClockKit;
 using HangulClockLogKit;
 using HangulClockRenderer.Model;
+using Newtonsoft.Json.Linq;
 
 namespace HangulClockRenderer
 {
     class HangulClockRenderer
     {
+        private const string COMMENT_STRING_URL = "https://us-central1-hangul-clock.cloudfunctions.net/comment/";
+
         private static HangulClockDesktop hangulClockDesktop;
         private static List<ScreenModel> screenModels = new List<ScreenModel>();
+        internal static string MonitorDeviceName = "";
         internal static int monitorIndeX = 0;
 
+        private static DateTime lastCommentRequestTime = DateTime.MinValue;
+
         private static IntPtr hangulClockDesktopHwnd = IntPtr.Zero;
+
+        private static string hu = "";
+        private static string message = "";
 
         // HANGULCLOCK RENDERER IF WHEN EXIT EVENT RECEIVED
         enum ConsoleCtrlHandlerCode : uint
@@ -76,7 +91,10 @@ namespace HangulClockRenderer
 
         private static void start()
         {
-            hangulClockDesktop = new HangulClockDesktop();
+            new Thread(() =>
+            {
+                hu = new DataKit().Realm.All<HangulClockCommonSetting>().First().hu;
+            }).Start();
 
             LogKit.Info("Hangul Clock Renderer process started!");
             Console.Write("Hangul Clock Renderer process started!\n\n");
@@ -94,22 +112,32 @@ namespace HangulClockRenderer
             // System.Windows.Forms.Screen currentScreen = System.Windows.Forms.Screen.AllScreens[monitorIndex];
             // Console.WriteLine(currentScreen.Bounds);
 
-            foreach (var item in System.Windows.Forms.Screen.AllScreens.Select((value, index) => new { Value = value, Index = index }))
+            try
             {
-                ScreenModel model = new ScreenModel();
+                MonitorDeviceName = System.Windows.Forms.Screen.AllScreens[monitorIndeX].DeviceName;
+                foreach (var item in System.Windows.Forms.Screen.AllScreens.Select((value, index) => new { Value = value, Index = index }))
+                {
+                    ScreenModel model = new ScreenModel();
 
-                model.width = item.Value.Bounds.Width;
-                model.height = item.Value.Bounds.Height;
-                model.x = item.Value.Bounds.X;
-                model.y = item.Value.Bounds.Y;
+                    model.width = item.Value.Bounds.Width;
+                    model.height = item.Value.Bounds.Height;
+                    model.x = item.Value.Bounds.X;
+                    model.y = item.Value.Bounds.Y;
 
-                model.monitorIndex = item.Index;
-                model.deviceName = item.Value.DeviceName;
+                    model.monitorIndex = item.Index;
+                    model.deviceName = item.Value.DeviceName;
 
-                model.isPrimary = item.Value.Primary;
+                    model.isPrimary = item.Value.Primary;
 
-                screenModels.Add(model);
+                    screenModels.Add(model);
+                }
             }
+            catch (Exception e)
+            {
+                Application.Current.Shutdown();
+            }
+
+            hangulClockDesktop = new HangulClockDesktop();
 
             HookKit.NativeDisplay.DISPLAY_DEVICE d = new HookKit.NativeDisplay.DISPLAY_DEVICE();
             d.cb = Marshal.SizeOf(d);
@@ -242,25 +270,95 @@ namespace HangulClockRenderer
 
             // hangulClockDesktop.Show();
 
+            
+
             new Thread(new ThreadStart(MainThread)).Start();
             app.Run(hangulClockDesktop);
         }
 
         private static void MainThread()
         {
-            while(true)
+            var DataKit = new DataKit();
+            
+            while (true)
             {
+                DataKit.Realm.Refresh();
+
                 try
                 {
+                    var clockSetting = DataKit.Realm.All<ClockSettingsByMonitor>().Where(c => c.MonitorDeviceName == MonitorDeviceName).First();
+                    var commentSetting = DataKit.Realm.All<CommentSettingsByMonitor>().Where(c => c.MonitorDeviceName == MonitorDeviceName).First();
+
+                    int clockSize = clockSetting.ClockSize;
+                    bool isWhiteClick = clockSetting.IsWhiteClock;
+                    int clockDirection = commentSetting.DirectionOfComment;
+
+                    string name = commentSetting.Name;
+                    string comment = commentSetting.Comment;
+
+                    bool isEnabledCommentLoadFromServer = commentSetting.IsEnabledLoadFromServer;
+                    bool isUseCommentInName = commentSetting.IsEnabledNameInComment;
+
+                    if (isEnabledCommentLoadFromServer)
+                    {
+                        message = loadCommentFromServer();
+                    }
+                    else
+                    {
+                        message = comment;
+                        lastCommentRequestTime = DateTime.MinValue;
+                    }
+
+                    try
+                    {
+                        if (isUseCommentInName)
+                        {
+                            HangulKit.HANGUL_INFO partOfName = HangulKit.HangulJaso.DevideJaso(name[name.Length - 1]);
+                            if (partOfName.chars[2] == ' ')
+                            {
+                                comment = String.Format("{0}야, {1}", name, message);
+                            }
+                            else
+                            {
+                                comment = String.Format("{0}아, {1}", name, message);
+                            }
+                        }
+                        else
+                        {
+                            comment = message;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
+
                     hangulClockDesktop.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
                     {
-                        hangulClockDesktop.ucScale.ScaleX = 1;
-                        hangulClockDesktop.ucScale.ScaleY = 1;
+                        hangulClockDesktop.ucScale.ScaleX = (double)clockSize / 100;
+                        hangulClockDesktop.ucScale.ScaleY = (double)clockSize / 100;
 
-                        hangulClockDesktop.setRightCommentText("누군가는 너를 필요로하겠지.\n\n그 사람때문이라도\n힘내줬으면 해.");
+                        hangulClockDesktop.SetClockColor(isWhiteClick);
+
+                        if (clockDirection == CommentSettingsByMonitor.CommentDirection.TOP)
+                        {
+                            hangulClockDesktop.setTopCommentText(comment);
+                        }
+                        else if (clockDirection == CommentSettingsByMonitor.CommentDirection.LEFT)
+                        {
+                            hangulClockDesktop.setLeftCommentText(comment);
+                        }
+                        else if (clockDirection == CommentSettingsByMonitor.CommentDirection.RIGHT)
+                        {
+                            hangulClockDesktop.setRightCommentText(comment);
+                        }
+                        else
+                        {
+                            hangulClockDesktop.setBottomCommentText(comment);
+                        }
                     }));
 
-                    Thread.Sleep(1000);
+                    Thread.Sleep(5000);
                 }
                 catch(ThreadInterruptedException e)
                 {
@@ -293,16 +391,51 @@ namespace HangulClockRenderer
             return (false);
         }
 
-        private static float getScalingFactor(IntPtr hwnd)
+        private static string loadCommentFromServer()
         {
-            Graphics g = Graphics.FromHwnd(hwnd);
-            IntPtr desktop = g.GetHdc();
-            int LogicalScreenHeight = GetDeviceCaps(desktop, (int)DeviceCap.VERTRES);
-            int PhysicalScreenHeight = GetDeviceCaps(desktop, (int)DeviceCap.DESKTOPVERTRES);
+            try
+            {
+                if (lastCommentRequestTime == DateTime.MinValue || (lastCommentRequestTime != DateTime.MinValue && (DateTime.Now - lastCommentRequestTime).TotalSeconds > 3600)) // 1시간에 한번씩 문구 체크하기
+                {
+                    Console.WriteLine("Updating comment from server...");
 
-            float ScreenScalingFactor = (float)PhysicalScreenHeight / (float)LogicalScreenHeight;
+                    lastCommentRequestTime = DateTime.Now;
 
-            return ScreenScalingFactor; // 1.25 = 125%
+                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(COMMENT_STRING_URL);
+                    request.Headers["hu"] = hu;
+                    request.Headers["platform"] = "windows";
+                    request.Headers["version"] = VersionKit.HANGULCLOCK_VERSION;
+
+                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+                    Stream stream = response.GetResponseStream();
+                    StreamReader reader = new StreamReader(stream);
+
+                    string result = reader.ReadToEnd();
+
+                    stream.Close();
+                    response.Close();
+
+                    // JSON Parsing
+
+                    JObject obj = JObject.Parse(result);
+                    return obj["message"].ToString();
+                }
+                else
+                {
+                    if (message == "")
+                    {
+                        message = "오늘도 너가 있어 아름다워.";
+                    }
+
+                    return message;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Failed to load comment.");
+                return "오늘도 너가 있어 아름다워.";
+            }
         }
     }
 }
