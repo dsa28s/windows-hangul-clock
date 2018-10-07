@@ -56,7 +56,7 @@ namespace HangulClock
 
             MainWindow.showToastMessage("해당 모니터에 해당하는 한글시계 설정값을 구성하고 있습니다...");
 
-            await Task.Delay(3000);
+            await Task.Delay(1000);
 
             new Thread(() =>
             {

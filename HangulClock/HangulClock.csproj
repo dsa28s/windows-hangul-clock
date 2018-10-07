@@ -73,8 +73,8 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Realm, Version=3.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Realm.Database.3.2.0\lib\netstandard1.4\Realm.dll</HintPath>
@@ -210,9 +210,17 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AirspaceFixer\AirspaceFixer.csproj">
+      <Project>{9b83bcf9-6835-490d-91be-2334bc1a548c}</Project>
+      <Name>AirspaceFixer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HangulClockDataKit\HangulClockDataKit.csproj">
       <Project>{78753ecd-e7bb-472a-a89a-444d4f6e02b2}</Project>
       <Name>HangulClockDataKit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HangulClockHookKit\HangulClockHookKit.csproj">
+      <Project>{c3b00d89-826e-4902-b33e-8817fbb509b8}</Project>
+      <Name>HangulClockHookKit</Name>
     </ProjectReference>
     <ProjectReference Include="..\HangulClockKit\HangulClockKit.csproj">
       <Project>{46ce1ef5-62fe-4fae-a769-eade3f4d2f94}</Project>
@@ -221,6 +229,10 @@
     <ProjectReference Include="..\HangulClockLogKit\HangulClockLogKit.csproj">
       <Project>{18b790ec-818d-468d-ac8f-a140a98b33ff}</Project>
       <Name>HangulClockLogKit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HangulClockMonitoringProcess\HangulClockMonitoringProcess.csproj">
+      <Project>{f5f59091-f2ed-4800-a9d3-5f9f1351d268}</Project>
+      <Name>HangulClockMonitoringProcess</Name>
     </ProjectReference>
     <ProjectReference Include="..\HangulClockRenderer\HangulClockRenderer.csproj">
       <Project>{7c0d77b9-1837-4df8-aeb9-0c429ea56754}</Project>

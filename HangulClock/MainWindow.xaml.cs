@@ -20,6 +20,7 @@ using System.IO;
 using HangulClockDataKit.Model;
 using HangulClockDataKit;
 using System.Threading;
+using System.Diagnostics;
 
 namespace HangulClock
 {
@@ -55,6 +56,29 @@ namespace HangulClock
         public MainWindow()
         {
             InitializeComponent();
+
+            Process[] hangulClockMonitoringProcesses = Process.GetProcessesByName("HangulClockMonitoringProcess");
+
+            try
+            {
+                foreach (var hangulClockMonitoringProcess in hangulClockMonitoringProcesses)
+                {
+                    hangulClockMonitoringProcess.Kill();
+
+                    Application.Current.RequestedTheme 
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+
+            Process p = new Process();
+            p.StartInfo = new ProcessStartInfo("HangulClockMonitoringProcess");
+            // p.StartInfo.UseShellExecute = true;
+            p.StartInfo.CreateNoWindow = true;
+
+            p.Start();
 
             pager = pageController;
 
@@ -147,8 +171,8 @@ namespace HangulClock
             activeTab = UIKit.HangulClockTab.DASHBOARD;
             updateTabStatus();
 
-            dashboardTab.loadInitData();
             pageController.ShowPage(dashboardTab);
+            dashboardTab.loadInitData();
         }
 
         private void tab_clocksetting_MouseDown(object sender, MouseButtonEventArgs e)

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Management;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -77,12 +79,32 @@ namespace HangulClockRenderer
                             Console.WriteLine("Monitor index : " + args[1]);
                             LogKit.Info("Monitor index : " + args[1]);
 
+                            var isRunningInstance = 0;
                             monitorIndeX = Convert.ToInt32(args[1]);
 
-                            _consoleHandler = new ConsoleCtrlHandlerDelegate(ConsoleEventHandler);
-                            SetConsoleCtrlHandler(_consoleHandler, true);
+                            Process[] hangulClockRendererProcesses = Process.GetProcessesByName("HangulClockRenderer");
 
-                            start();
+                            foreach (var hangulClockRendererProcess in hangulClockRendererProcesses)
+                            {
+                                if (GetCommandLine(hangulClockRendererProcess).Contains($"/mindex {monitorIndeX}"))
+                                {
+                                    isRunningInstance++;
+                                }
+                            }
+
+                            if (isRunningInstance <= 1)
+                            {
+                                _consoleHandler = new ConsoleCtrlHandlerDelegate(ConsoleEventHandler);
+                                SetConsoleCtrlHandler(_consoleHandler, true);
+
+                                AppDomain.CurrentDomain.ProcessExit += new EventHandler(CurrentDomain_ProcessExit);
+
+                                start();
+                            }
+                            else
+                            {
+                                Console.WriteLine("Already HangulClockRenderer Process running. Exit.");
+                            }
                         }
                     }
                 }
@@ -119,6 +141,8 @@ namespace HangulClockRenderer
                 {
                     ScreenModel model = new ScreenModel();
 
+                    Console.WriteLine(item.Value.Bounds);
+
                     model.width = item.Value.Bounds.Width;
                     model.height = item.Value.Bounds.Height;
                     model.x = item.Value.Bounds.X;
@@ -141,6 +165,8 @@ namespace HangulClockRenderer
 
             HookKit.NativeDisplay.DISPLAY_DEVICE d = new HookKit.NativeDisplay.DISPLAY_DEVICE();
             d.cb = Marshal.SizeOf(d);
+
+            var isRequiredZoomFactorFractal = true;
 
             for (uint id = 0; HookKit.EnumDisplayDevices(null, id, ref d, 0); id++)
             {
@@ -169,8 +195,23 @@ namespace HangulClockRenderer
 
                                 Console.WriteLine(item.zoomFactor);
 
-                                item.x = (int)(item.x * item.zoomFactor);
-                                item.y = (int)(item.y * item.zoomFactor);
+                                if (item.zoomFactor <= 1.0)
+                                {
+                                    isRequiredZoomFactorFractal = false;
+                                }
+                            }
+                        }
+
+                        foreach (var item in screenModels)
+                        {
+                            if (String.Equals(item.deviceName, d.DeviceName))
+                            {
+                                if (isRequiredZoomFactorFractal)
+                                {
+                                    Console.WriteLine("asdfsadfsadfsafdsdfa");
+                                    item.x = (int)(item.x * item.zoomFactor);
+                                    item.y = (int)(item.y * item.zoomFactor);
+                                }
                             }
                         }
                     }
@@ -270,9 +311,7 @@ namespace HangulClockRenderer
 
             // hangulClockDesktop.Show();
 
-            
-
-            new Thread(new ThreadStart(MainThread)).Start();
+            new Thread(MainThread).Start();
             app.Run(hangulClockDesktop);
         }
 
@@ -282,10 +321,10 @@ namespace HangulClockRenderer
             
             while (true)
             {
-                DataKit.Realm.Refresh();
-
                 try
                 {
+                    DataKit.Realm.Refresh();
+
                     var clockSetting = DataKit.Realm.All<ClockSettingsByMonitor>().Where(c => c.MonitorDeviceName == MonitorDeviceName).First();
                     var commentSetting = DataKit.Realm.All<CommentSettingsByMonitor>().Where(c => c.MonitorDeviceName == MonitorDeviceName).First();
 
@@ -367,8 +406,16 @@ namespace HangulClockRenderer
             }
         }
 
+        static void CurrentDomain_ProcessExit(object sender, EventArgs e)
+        {
+            HookKit.SetParent(hangulClockDesktopHwnd, IntPtr.Zero);
+            Console.WriteLine("HangulClockRenderer : Kill!");
+            // Environment.Exit(0);
+        }
+
         static bool ConsoleEventHandler(ConsoleCtrlHandlerCode eventCode)
         {
+            HookKit.SetParent(hangulClockDesktopHwnd, IntPtr.Zero); 
             /* if (hangulClockDesktop != null)
             {
                 hangulClockDesktop.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
@@ -385,7 +432,7 @@ namespace HangulClockRenderer
             // HookKit.SendMessage(hangulClockDesktopHwnd, HookKit.WM_SYSCOMMAND, HookKit.SC_CLOSE, IntPtr.Zero);
             //HookKit.MoveWindow(hangulClockDesktopHwnd, 0, 0, 0, 0, true);
 
-            Console.Write("HangulClockRenderer : Stop!");
+            Console.WriteLine("HangulClockRenderer : Stop!");
             Environment.Exit(0);
 
             return (false);
@@ -435,6 +482,33 @@ namespace HangulClockRenderer
             {
                 Console.WriteLine("Failed to load comment.");
                 return "오늘도 너가 있어 아름다워.";
+            }
+        }
+
+        private static string GetCommandLine(Process process)
+        {
+            using (ManagementObjectSearcher searcher = new ManagementObjectSearcher($"SELECT CommandLine FROM Win32_Process WHERE ProcessId = {process.Id}"))
+            using (ManagementObjectCollection objects = searcher.Get())
+            {
+                var singleOrDefault = objects.Cast<ManagementBaseObject>().SingleOrDefault();
+
+                if (singleOrDefault != null)
+                {
+                    var commandLine = singleOrDefault["CommandLine"];
+
+                    if (commandLine != null)
+                    {
+                        return commandLine.ToString();
+                    }
+                    else
+                    {
+                        return "";
+                    }
+                }
+                else
+                {
+                    return "";
+                }
             }
         }
     }

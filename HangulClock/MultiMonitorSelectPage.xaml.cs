@@ -148,6 +148,7 @@ namespace HangulClock
                 MainWindow.activeTab = HangulClockUIKit.UIKit.HangulClockTab.DASHBOARD;
                 MainWindow.updateTabStatus();
                 MainWindow.pager.ShowPage(MainWindow.dashboardTab);
+                MainWindow.dashboardTab.loadInitData();
             }
         }
 
@@ -159,6 +160,7 @@ namespace HangulClock
                 MainWindow.activeTab = HangulClockUIKit.UIKit.HangulClockTab.DASHBOARD;
                 MainWindow.updateTabStatus();
                 MainWindow.pager.ShowPage(MainWindow.dashboardTab);
+                MainWindow.dashboardTab.loadInitData();
             }
         }
 
@@ -170,6 +172,7 @@ namespace HangulClock
                 MainWindow.activeTab = HangulClockUIKit.UIKit.HangulClockTab.DASHBOARD;
                 MainWindow.updateTabStatus();
                 MainWindow.pager.ShowPage(MainWindow.dashboardTab);
+                MainWindow.dashboardTab.loadInitData();
             }
         }
 
@@ -181,6 +184,7 @@ namespace HangulClock
                 MainWindow.activeTab = HangulClockUIKit.UIKit.HangulClockTab.DASHBOARD;
                 MainWindow.updateTabStatus();
                 MainWindow.pager.ShowPage(MainWindow.dashboardTab);
+                MainWindow.dashboardTab.loadInitData();
             }
         }
 
@@ -192,6 +196,7 @@ namespace HangulClock
                 MainWindow.activeTab = HangulClockUIKit.UIKit.HangulClockTab.DASHBOARD;
                 MainWindow.updateTabStatus();
                 MainWindow.pager.ShowPage(MainWindow.dashboardTab);
+                MainWindow.dashboardTab.loadInitData();
             }
         }
 
@@ -203,6 +208,7 @@ namespace HangulClock
                 MainWindow.activeTab = HangulClockUIKit.UIKit.HangulClockTab.DASHBOARD;
                 MainWindow.updateTabStatus();
                 MainWindow.pager.ShowPage(MainWindow.dashboardTab);
+                MainWindow.dashboardTab.loadInitData();
             }
         }
     }
