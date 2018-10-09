@@ -8,6 +8,6 @@ namespace HangulClockKit
 {
     public class VersionKit
     {
-        public const string HANGULCLOCK_VERSION = "3.0_dev1";
+        public const string HANGULCLOCK_VERSION = "3.0 beta 1";
     }
 }

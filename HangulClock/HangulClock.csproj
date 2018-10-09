@@ -72,6 +72,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -246,6 +249,10 @@
       <Project>{6112369b-e44a-4680-aafa-01bd0cc29f85}</Project>
       <Name>HangulClockUIKit</Name>
     </ProjectReference>
+    <ProjectReference Include="..\HangulClockUninstaller\HangulClockUninstaller.csproj">
+      <Project>{1b10aef6-7ce4-49cb-9492-8af8a5bd71f4}</Project>
+      <Name>HangulClockUninstaller</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HangulClockUpdateManager\HangulClockUpdateManager.csproj">
       <Project>{468e40ef-6886-451b-ae0a-1a6cd478dc4a}</Project>
       <Name>HangulClockUpdateManager</Name>
@@ -265,6 +272,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="FodyWeavers.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

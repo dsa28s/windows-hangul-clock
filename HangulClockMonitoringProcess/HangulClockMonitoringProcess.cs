@@ -108,74 +108,79 @@ namespace HangulClockMonitoringProcess
                             {
                                 foreach (var item in System.Windows.Forms.Screen.AllScreens.Select((value, i) => new { i, value }))
                                 {
-                                    var clockSetting = DataKit.Realm.All<ClockSettingsByMonitor>().Where(c => c.MonitorDeviceName == item.value.DeviceName).First();
+                                    var clockSettingQ = DataKit.Realm.All<ClockSettingsByMonitor>().Where(c => c.MonitorDeviceName == item.value.DeviceName);
 
-                                    if (clockSetting.isUseHangulClock) // 해당 모니터에서 한글시계를 사용한다네...?
+                                    if (clockSettingQ.Count() > 0)
                                     {
-                                        var isRunning = false;
+                                        var clockSetting = clockSettingQ.First();
 
-                                        foreach (var hangulClockRendererProcess in hangulClockRendererProcesses)
+                                        if (clockSetting.isUseHangulClock) // 해당 모니터에서 한글시계를 사용한다네...?
                                         {
-                                            if (GetCommandLine(hangulClockRendererProcess).Contains($"/mindex {item.i}"))
+                                            var isRunning = false;
+
+                                            foreach (var hangulClockRendererProcess in hangulClockRendererProcesses)
                                             {
-                                                isRunning = true;
-                                            }
-                                        }
-
-                                        if (!isRunning)
-                                        {
-                                            Console.WriteLine($"[EXECUTE] : Starting HangulClockRenderer for monitor index {item.i}");
-
-                                            Process hangulClockRendererProcess = new Process();
-                                            hangulClockRendererProcess.StartInfo = new ProcessStartInfo("HangulClockRenderer.exe");
-                                            hangulClockRendererProcess.StartInfo.WorkingDirectory = @"C:\Program Files\Hangul Clock";
-                                            hangulClockRendererProcess.StartInfo.Arguments = $"/mindex {item.i}";
-                                            hangulClockRendererProcess.StartInfo.CreateNoWindow = true;
-                                            hangulClockRendererProcess.StartInfo.UseShellExecute = false;
-
-                                            hangulClockRendererProcess.Start();
-                                        }
-                                    }
-                                    else // 해당 모니터에서는 한글시계를 사용 안한데
-                                    {
-                                        var isKilled = false;
-                                        foreach (var hangulClockRendererProcess in hangulClockRendererProcesses)
-                                        {
-                                            if (GetCommandLine(hangulClockRendererProcess).Contains($"/mindex {item.i}"))
-                                            {
-                                                Console.WriteLine($"[KILL] : Not use HangulClock (monitor index {item.i}). Killing...");
-                                                hangulClockRendererProcess.Kill();
-                                                isKilled = true;
-                                            }
-                                        }
-
-                                        if (isKilled)
-                                        {
-                                            Process[] explorerProcesses = Process.GetProcessesByName("explorer");
-                                            foreach (var explorerProcess in explorerProcesses)
-                                            {
-                                                explorerProcess.Kill();
+                                                if (GetCommandLine(hangulClockRendererProcess).Contains($"/mindex {item.i}"))
+                                                {
+                                                    isRunning = true;
+                                                }
                                             }
 
-                                            await Task.Delay(2000);
+                                            if (!isRunning)
+                                            {
+                                                Console.WriteLine($"[EXECUTE] : Starting HangulClockRenderer for monitor index {item.i}");
 
-                                            string explorer = string.Format("{0}\\{1}", Environment.GetEnvironmentVariable("WINDIR"), "explorer.exe");
-                                            Process process = new Process();
-                                            process.StartInfo.FileName = explorer;
-                                            process.StartInfo.CreateNoWindow = true;
-                                            // process.StartInfo.UseShellExecute = true;
-                                            process.Start();
+                                                Process hangulClockRendererProcess = new Process();
+                                                hangulClockRendererProcess.StartInfo = new ProcessStartInfo("HangulClockRenderer.exe");
+                                                hangulClockRendererProcess.StartInfo.WorkingDirectory = @"C:\Program Files\Hangul Clock";
+                                                hangulClockRendererProcess.StartInfo.Arguments = $"/mindex {item.i}";
+                                                hangulClockRendererProcess.StartInfo.CreateNoWindow = true;
+                                                hangulClockRendererProcess.StartInfo.UseShellExecute = false;
 
-                                            var fileName = Assembly.GetExecutingAssembly().Location;
-                                            ProcessStartInfo info = new ProcessStartInfo();
-                                            info.FileName = fileName;
-                                            info.CreateNoWindow = true;
+                                                hangulClockRendererProcess.Start();
+                                            }
+                                        }
+                                        else // 해당 모니터에서는 한글시계를 사용 안한데
+                                        {
+                                            var isKilled = false;
+                                            foreach (var hangulClockRendererProcess in hangulClockRendererProcesses)
+                                            {
+                                                if (GetCommandLine(hangulClockRendererProcess).Contains($"/mindex {item.i}"))
+                                                {
+                                                    Console.WriteLine($"[KILL] : Not use HangulClock (monitor index {item.i}). Killing...");
+                                                    hangulClockRendererProcess.Kill();
+                                                    isKilled = true;
+                                                }
+                                            }
 
-                                            Process p = new Process();
-                                            p.StartInfo = info;
-                                            p.Start();
+                                            if (isKilled)
+                                            {
+                                                Process[] explorerProcesses = Process.GetProcessesByName("explorer");
+                                                foreach (var explorerProcess in explorerProcesses)
+                                                {
+                                                    explorerProcess.Kill();
+                                                }
 
-                                            Environment.Exit(0);
+                                                await Task.Delay(2000);
+
+                                                string explorer = string.Format("{0}\\{1}", Environment.GetEnvironmentVariable("WINDIR"), "explorer.exe");
+                                                Process process = new Process();
+                                                process.StartInfo.FileName = explorer;
+                                                process.StartInfo.CreateNoWindow = true;
+                                                // process.StartInfo.UseShellExecute = true;
+                                                process.Start();
+
+                                                var fileName = Assembly.GetExecutingAssembly().Location;
+                                                ProcessStartInfo info = new ProcessStartInfo();
+                                                info.FileName = fileName;
+                                                info.CreateNoWindow = true;
+
+                                                Process p = new Process();
+                                                p.StartInfo = info;
+                                                p.Start();
+
+                                                Environment.Exit(0);
+                                            }
                                         }
                                     }
                                 }
@@ -245,18 +250,23 @@ namespace HangulClockMonitoringProcess
 
                 foreach (var item in screens.Select((value, i) => new { i, value }))
                 {
-                    var clockSetting = DataKit.Realm.All<ClockSettingsByMonitor>().Where(c => c.MonitorDeviceName == item.value.DeviceName).First();
+                    var clockSettingQ = DataKit.Realm.All<ClockSettingsByMonitor>().Where(c => c.MonitorDeviceName == item.value.DeviceName);
 
-                    if (clockSetting.isUseHangulClock)
+                    if (clockSettingQ.Count() > 0)
                     {
-                        Process hangulClockRendererProcess = new Process();
-                        hangulClockRendererProcess.StartInfo = new ProcessStartInfo("HangulClockRenderer.exe");
-                        hangulClockRendererProcess.StartInfo.WorkingDirectory = @"C:\Program Files\Hangul Clock";
-                        hangulClockRendererProcess.StartInfo.Arguments = $"/mindex {item.i}";
-                        hangulClockRendererProcess.StartInfo.CreateNoWindow = true;
-                        hangulClockRendererProcess.StartInfo.UseShellExecute = false;
+                        var clockSetting = clockSettingQ.First();
 
-                        hangulClockRendererProcess.Start();
+                        if (clockSetting.isUseHangulClock)
+                        {
+                            Process hangulClockRendererProcess = new Process();
+                            hangulClockRendererProcess.StartInfo = new ProcessStartInfo("HangulClockRenderer.exe");
+                            hangulClockRendererProcess.StartInfo.WorkingDirectory = @"C:\Program Files\Hangul Clock";
+                            hangulClockRendererProcess.StartInfo.Arguments = $"/mindex {item.i}";
+                            hangulClockRendererProcess.StartInfo.CreateNoWindow = true;
+                            hangulClockRendererProcess.StartInfo.UseShellExecute = false;
+
+                            hangulClockRendererProcess.Start();
+                        }
                     }
                 }
             }).Start();

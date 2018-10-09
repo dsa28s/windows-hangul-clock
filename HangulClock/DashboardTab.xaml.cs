@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,6 +19,8 @@ using System.Windows.Shapes;
 
 using HangulClockDataKit;
 using HangulClockDataKit.Model;
+using HangulClockKit;
+using Newtonsoft.Json.Linq;
 
 namespace HangulClock
 {
@@ -25,9 +29,74 @@ namespace HangulClock
     /// </summary>
     public partial class DashboardTab : UserControl
     {
+        private const String UPDATE_CHECK_URL = "https://us-central1-hangul-clock.cloudfunctions.net/version/";
+        private System.Timers.Timer updateDelayTimer;
+
         public DashboardTab()
         {
             InitializeComponent();
+
+            updateText.Content = "업데이트를 확인하는 중...";
+
+            updateDelayTimer = new System.Timers.Timer(3000);
+            updateDelayTimer.Elapsed += UpdateDelayTimer_Elapsed;
+            updateDelayTimer.Start();
+
+            versionText.Content = $"한글시계 v {VersionKit.HANGULCLOCK_VERSION} (for Windows)";
+        }
+
+        private void UpdateDelayTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            updateDelayTimer.Stop();
+
+            new Thread(() =>
+            {
+                var hangulClockCommonSetting = new DataKit().Realm.All<HangulClockCommonSetting>();
+
+                if (hangulClockCommonSetting.Count() <= 0)
+                {
+                    updateText.Content = "업데이트 확인 실패.";
+                }
+                else
+                {
+                    var hu = hangulClockCommonSetting.First().hu;
+
+                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(UPDATE_CHECK_URL);
+                    request.Headers["hu"] = hu;
+                    request.Headers["platform"] = "windows";
+                    request.Headers["version"] = VersionKit.HANGULCLOCK_VERSION;
+
+                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+                    Stream stream = response.GetResponseStream();
+                    StreamReader reader = new StreamReader(stream);
+
+                    string result = reader.ReadToEnd();
+
+                    stream.Close();
+                    response.Close();
+
+                    JObject obj = JObject.Parse(result);
+
+                    bool isUpdateAvailable = (bool)obj["isUpdateAvailable"];
+
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        if (isUpdateAvailable)
+                        {
+                            updateText.Content = "업데이트 있음.";
+
+                            Process updateProcess = new Process();
+                            updateProcess.StartInfo.FileName = "HangulClockUpdateManager.exe";
+                            updateProcess.Start();
+                        }
+                        else
+                        {
+                            updateText.Content = "업데이트 없음. 최신버전.";
+                        }
+                    });
+                }
+            }).Start();
         }
 
         public async void loadInitData()
