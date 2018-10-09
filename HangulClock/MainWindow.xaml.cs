@@ -64,8 +64,6 @@ namespace HangulClock
                 foreach (var hangulClockMonitoringProcess in hangulClockMonitoringProcesses)
                 {
                     hangulClockMonitoringProcess.Kill();
-
-                    Application.Current.RequestedTheme 
                 }
             }
             catch (Exception e)

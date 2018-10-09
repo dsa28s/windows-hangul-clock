@@ -208,7 +208,7 @@ namespace HangulClockRenderer
                             {
                                 if (isRequiredZoomFactorFractal)
                                 {
-                                    Console.WriteLine("asdfsadfsadfsafdsdfa");
+                                    // Console.WriteLine("asdfsadfsadfsafdsdfa");
                                     item.x = (int)(item.x * item.zoomFactor);
                                     item.y = (int)(item.y * item.zoomFactor);
                                 }

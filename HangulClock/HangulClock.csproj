@@ -246,6 +246,10 @@
       <Project>{6112369b-e44a-4680-aafa-01bd0cc29f85}</Project>
       <Name>HangulClockUIKit</Name>
     </ProjectReference>
+    <ProjectReference Include="..\HangulClockUpdateManager\HangulClockUpdateManager.csproj">
+      <Project>{468e40ef-6886-451b-ae0a-1a6cd478dc4a}</Project>
+      <Name>HangulClockUpdateManager</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.2">
