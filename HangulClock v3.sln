@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HangulClockMonitoringProces
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HangulClockUpdateManager", "HangulClockUpdateManager\HangulClockUpdateManager.csproj", "{468E40EF-6886-451B-AE0A-1A6CD478DC4A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HangulClockUninstaller", "HangulClockUninstaller\HangulClockUninstaller.csproj", "{1B10AEF6-7CE4-49CB-9492-8AF8A5BD71F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -167,6 +169,18 @@ Global
 		{468E40EF-6886-451B-AE0A-1A6CD478DC4A}.Release|x64.Build.0 = Release|Any CPU
 		{468E40EF-6886-451B-AE0A-1A6CD478DC4A}.Release|x86.ActiveCfg = Release|Any CPU
 		{468E40EF-6886-451B-AE0A-1A6CD478DC4A}.Release|x86.Build.0 = Release|Any CPU
+		{1B10AEF6-7CE4-49CB-9492-8AF8A5BD71F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B10AEF6-7CE4-49CB-9492-8AF8A5BD71F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B10AEF6-7CE4-49CB-9492-8AF8A5BD71F4}.Debug|x64.ActiveCfg = Debug|x64
+		{1B10AEF6-7CE4-49CB-9492-8AF8A5BD71F4}.Debug|x64.Build.0 = Debug|x64
+		{1B10AEF6-7CE4-49CB-9492-8AF8A5BD71F4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1B10AEF6-7CE4-49CB-9492-8AF8A5BD71F4}.Debug|x86.Build.0 = Debug|Any CPU
+		{1B10AEF6-7CE4-49CB-9492-8AF8A5BD71F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B10AEF6-7CE4-49CB-9492-8AF8A5BD71F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B10AEF6-7CE4-49CB-9492-8AF8A5BD71F4}.Release|x64.ActiveCfg = Release|Any CPU
+		{1B10AEF6-7CE4-49CB-9492-8AF8A5BD71F4}.Release|x64.Build.0 = Release|Any CPU
+		{1B10AEF6-7CE4-49CB-9492-8AF8A5BD71F4}.Release|x86.ActiveCfg = Release|Any CPU
+		{1B10AEF6-7CE4-49CB-9492-8AF8A5BD71F4}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
