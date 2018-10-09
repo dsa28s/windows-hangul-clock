@@ -1,0 +1,70 @@
+﻿<Window x:Class="HangulClock.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:uiKit="clr-namespace:HangulClockUIKit.Animations;assembly=HangulClockUIKit"
+        xmlns:local="clr-namespace:HangulClock"
+        xmlns:pageTransitions="clr-namespace:HangulClockUIKit.PageTransitions;assembly=HangulClockUIKit"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        AllowsTransparency="True"
+        Background="Transparent"
+        BorderBrush="Transparent"
+        Title="한글시계 - 너가 있어 아름다운 오늘" Height="700" Width="1024" Loaded="Window_Loaded"
+        UseLayoutRounding="True">
+    <Window.Resources>
+        <FontFamily x:Key="NanumSquareBold">/Resources/#NanumSquare Bold</FontFamily>
+        <FontFamily x:Key="NanumSquareRegular">/Resources/#NanumSquare</FontFamily>
+        <Storyboard x:Key="blurBackgroundStoryboard">
+            <DoubleAnimation Storyboard.TargetName="backgroundBlur" Storyboard.TargetProperty="(BlurEffect.Radius)" From="0" To="20" Duration="0:0:0.5" />
+        </Storyboard>
+        <Storyboard x:Key="unblurBackgroundStoryboard">
+            <DoubleAnimation Storyboard.TargetName="backgroundBlur" Storyboard.TargetProperty="(BlurEffect.Radius)" From="20" To="0" Duration="0:0:0.5" />
+        </Storyboard>
+    </Window.Resources>
+    <Border Margin="10">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="10" Color="Black" Opacity="0.5" ShadowDepth="3" Direction="270" />
+        </Border.Effect>
+        <Grid x:Name="mainContent" Background="Black" Width="1004" Height="680" ClipToBounds="True" MouseMove="mainContent_MouseMove">
+            <uiKit:FadeInOutImageControl x:Name="background" Stretch="UniformToFill" Width="1200" Margin="-98, -20">
+                <uiKit:FadeInOutImageControl.Effect>
+                    <BlurEffect x:Name="backgroundBlur" Radius="0" KernelType="Gaussian" />
+                </uiKit:FadeInOutImageControl.Effect>
+                <uiKit:FadeInOutImageControl.Triggers>
+                    <EventTrigger RoutedEvent="uiKit:FadeInOutImageControl.SourceChanged">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.Opacity)" From="0" To="0.65" Duration="0:0:3">
+                                    <DoubleAnimation.EasingFunction>
+                                        <ElasticEase Oscillations="0" EasingMode="EaseIn"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </uiKit:FadeInOutImageControl.Triggers>
+            </uiKit:FadeInOutImageControl>
+            <Image x:Name="logo" HorizontalAlignment="Left" Height="54" VerticalAlignment="Top" Width="54" Margin="21,21,0,0" />
+            <Label Content="너가 있어 아름다운 오늘" HorizontalAlignment="Left" Margin="80,26,0,0" VerticalAlignment="Top" Foreground="White" Width="167" FontSize="14" FontFamily="{StaticResource NanumSquareRegular}"/>
+            <Label Content="한글시계" HorizontalAlignment="Left" Margin="80,46,0,0" VerticalAlignment="Top" Foreground="White" Width="167" FontSize="14" FontFamily="{StaticResource NanumSquareBold}" />
+            <Label x:Name="tab_dashboard" Content="대시보드" HorizontalAlignment="Left" Margin="265,39,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Foreground="White" Width="75" FontSize="14" FontFamily="{StaticResource NanumSquareBold}" Height="26" MouseDown="tab_dashboard_MouseDown" />
+            <Label x:Name="tab_clocksetting" Content="시계" HorizontalAlignment="Left" Margin="345,39,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Foreground="White" Width="75" FontSize="14" FontFamily="{StaticResource NanumSquareBold}" Height="26" Opacity="0.3" MouseDown="tab_clocksetting_MouseDown"/>
+            <Label x:Name="tab_wallpaper" Content="배경화면" HorizontalAlignment="Left" Margin="425,39,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Foreground="White" Width="75" FontSize="14" FontFamily="{StaticResource NanumSquareBold}" Height="26" Opacity="0.3" MouseDown="tab_wallpaper_MouseDown"/>
+            <Label x:Name="tab_comment" Content="문구" HorizontalAlignment="Left" Margin="500,39,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Foreground="White" Width="75" FontSize="14" FontFamily="{StaticResource NanumSquareBold}" Height="26" Opacity="0.3" MouseDown="tab_comment_MouseDown"/>
+            <Label x:Name="tab_information" Content="정보" HorizontalAlignment="Left" Margin="560,39,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Foreground="White" Width="75" FontSize="14" FontFamily="{StaticResource NanumSquareBold}" Height="26" Opacity="0.3" MouseDown="tab_information_MouseDown"/>
+            <Label x:Name="tab_monitor" Content="현재 모니터 설정 : " HorizontalAlignment="Left" Margin="646,39,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Left" Foreground="White" Width="236" FontSize="14" FontFamily="{StaticResource NanumSquareBold}" Height="26" Opacity="0.3" MouseDown="tab_monitor_MouseDown"/>
+            <!--<Label x:Name="tab_wallpaper" Content="배경화면" HorizontalAlignment="Left" Margin="425,39,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Foreground="White" Width="75" FontSize="14" FontFamily="{StaticResource NanumSquareBold}" Height="26" Opacity="0.3" MouseDown="tab_wallpaper_MouseDown"/>
+            <Label x:Name="tab_theme" Content="테마" HorizontalAlignment="Left" Margin="500,39,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Foreground="White" Width="75" FontSize="14" FontFamily="{StaticResource NanumSquareBold}" Height="26" Opacity="0.3" MouseDown="tab_theme_MouseDown"/> -->
+            <!--<Label x:Name="tab_comment" Content="문구" HorizontalAlignment="Left" Margin="560,39,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Foreground="White" Width="75" FontSize="14" FontFamily="{StaticResource NanumSquareBold}" Height="26" Opacity="0.3" MouseDown="tab_comment_MouseDown"/>
+            <Label x:Name="tab_information" Content="정보" HorizontalAlignment="Left" Margin="613,39,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Foreground="White" Width="75" FontSize="14" FontFamily="{StaticResource NanumSquareBold}" Height="26" Opacity="0.3" MouseDown="tab_information_MouseDown"/> -->
+            <TextBlock TextAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="White" FontSize="11" FontFamily="{StaticResource NanumSquareRegular}" Height="26" MouseDown="tab_dashboard_MouseDown" Margin="0,0,21,15"><Run Text="한글시계의 원작자는 이호민님이며, 해당 프로그램은 CC-BY-NC-SA 라이센스를 따르고 GPLv3으로 보호됩니다."/><LineBreak /><Run Text="해당 프로그램은 영리적 목적이 하나도 없으며, 원작자와의 동의 하에 개발되었습니다."/></TextBlock>
+            <pageTransitions:PageTransition x:Name="pageController" TransitionType="Fade" />
+
+            <Label x:Name="toastMessage" Foreground="White" Content="가나다라마바사" HorizontalAlignment="Center" FontSize="13" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="10, 5, 10, 5" Background="#E6000000" Margin="0,572,0,78" FontFamily="{StaticResource NanumSquareRegular}" uiKit:VisibilityAnimation.IsActive="True" Visibility="Hidden"/>
+        </Grid>
+    </Border>
+</Window>

@@ -1,0 +1,244 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using HangulClockLogKit;
+using System.Threading;
+using System.Windows;
+using System.Windows.Threading;
+using System.Runtime.InteropServices;
+
+using HangulClockHookKit;
+using HangulClockRenderer.Model;
+using System.Windows.Interop;
+using System.Drawing;
+using System.Text.RegularExpressions;
+
+namespace HangulClockRenderer
+{
+    class HangulClockRenderer_Backuup
+    {
+        private static HangulClockDesktop hangulClockDesktop;
+        private static double screenDpi;
+        private static int monitorIndex = 0;
+
+        private static List<DisplayDeviceModel> supportDisplayDevices = new List<DisplayDeviceModel>();
+        private static List<HookKit.MONITORINFOEX> hMonitorDevices = new List<HookKit.MONITORINFOEX>();
+
+        private static HookKit.RECT displayCombinedRect = new HookKit.RECT(0, 0, 0, 0);
+
+        [STAThread]
+        static void Main(string[] args)
+        {
+            if (args != null)
+            {
+                if (args.Length > 1)
+                {
+                    if (String.Equals(args[0], "/mindex"))
+                    {
+                        if (Regex.IsMatch(args[1], @"^\d+$"))
+                        {
+                            Console.WriteLine("Monitor index : " + args[1]);
+                            LogKit.Info("Monitor index : " + args[1]);
+
+                            monitorIndex = Convert.ToInt32(args[1]);
+
+                            start();
+                        }
+                    }
+                }
+            }
+
+            start();
+        }
+
+        private static void start()
+        {
+            LogKit.Info("Hangul Clock Renderer process started!");
+            Console.Write("Hangul Clock Renderer process started!\n\n");
+            
+            // MONITOR
+
+            // HookKit.EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero, MonitorEnumProc, IntPtr.Zero);
+
+            hangulClockDesktop = new HangulClockDesktop();
+            Application app = new Application();
+
+            hangulClockDesktop.Loaded += new RoutedEventHandler(async (s, e) =>
+            {
+                IntPtr hangulClockDesktopHandle = new WindowInteropHelper(hangulClockDesktop).Handle;
+                
+                HookKit.ShowWindow(hangulClockDesktopHandle, 5);
+
+                PinToDesktop(hangulClockDesktopHandle, monitorIndex);
+            });
+
+            /* HookKit.NativeDisplay.DISPLAY_DEVICE d = new HookKit.NativeDisplay.DISPLAY_DEVICE();
+            d.cb = Marshal.SizeOf(d);
+
+            try
+            {
+                for (uint id = 0; HookKit.EnumDisplayDevices(null, id, ref d, 0); id++)
+                {
+                    if (d.StateFlags == HookKit.NativeDisplay.DisplayDeviceStateFlags.PrimaryDevice
+                        || d.StateFlags == HookKit.NativeDisplay.DisplayDeviceStateFlags.AttachedToDesktop
+                        || d.StateFlags == (HookKit.NativeDisplay.DisplayDeviceStateFlags.PrimaryDevice | HookKit.NativeDisplay.DisplayDeviceStateFlags.AttachedToDesktop))
+                    {
+                        //Console.WriteLine("ID: {0}\nDeviceName: {1} \nDeviceString: {2}\nDeviceID: {3}\nDeviceKey {4}\nStateFlags {5}\n", id, d.DeviceName, d.DeviceString, d.DeviceID, d.DeviceKey, d.StateFlags);
+                        //Console.WriteLine("--------------------------------------------------------------------------------");
+                        d.cb = Marshal.SizeOf(d);
+
+                        HookKit.NativeDisplay.DEVMODE dm = HookKit.GetDevMode();
+
+                        if (HookKit.EnumDisplaySettingsEx(d.DeviceName, HookKit.ENUM_CURRENT_SETTINGS, ref dm, 0) != 0)
+                        {
+                            //Console.WriteLine(String.Format("{0} x {1}", dm.dmPelsWidth, dm.dmPelsHeight));
+                            foreach (var screen in System.Windows.Forms.Screen.AllScreens)
+                            {
+                                if (String.Equals(screen.DeviceName, d.DeviceName))
+                                {
+                                    DisplayDeviceModel model = new DisplayDeviceModel();
+                                    //Console.WriteLine(screen.Bounds.ToString());
+                                    model.displayDevice = d;
+                                    model.
+ = dm;
+                                    model.displayScreenInformation = screen;
+
+                                    supportDisplayDevices.Add(model);
+                                }
+                                //Console.WriteLine(screen.DeviceName);
+
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //Console.WriteLine(String.Format("{0}", ex.ToString()));
+            }
+
+            // supportDisplayDevices.Sort((e1, e2) => e1.displayScreenInformation.Bounds.Left.CompareTo(e2.displayScreenInformation.Bounds.Left));
+
+            IntPtr progman = HookKit.FindWindow("Progman", null);
+            IntPtr result = IntPtr.Zero;
+
+            HookKit.SendMessageTimeout(progman, 0x052C, new IntPtr(0), IntPtr.Zero, HookKit.SendMessageTimeoutFlags.SMTO_NORMAL, 1000, out result);
+
+            IntPtr workerw = IntPtr.Zero;
+
+            HookKit.EnumChildWindows(progman, new HookKit.EnumWindowsProc((tophandle, topparamhandle) =>
+            {
+                HookKit.SetParent(tophandle, IntPtr.Zero);
+                HookKit.SendMessage(tophandle, HookKit.WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
+                return true;
+            }), IntPtr.Zero);
+
+            HookKit.EnumWindows(new HookKit.EnumWindowsProc((tophandle, topparamhandle) =>
+            {
+                IntPtr p = HookKit.FindWindowEx(tophandle, IntPtr.Zero, "SHELLDLL_DefView", IntPtr.Zero);
+
+                if (p != IntPtr.Zero)
+                {
+                    workerw = HookKit.FindWindowEx(IntPtr.Zero, tophandle, "WorkerW", IntPtr.Zero);
+                }
+
+                return true;
+            }), IntPtr.Zero);
+
+            hangulClockDesktop.Loaded += new RoutedEventHandler((s, e) =>
+            {
+                var handle = new WindowInteropHelper(hangulClockDesktop).Handle;
+
+                const UInt32 WS_POPUP = 0x80000000;
+                const UInt32 WS_CHILD = 0x40000000;
+                UInt32 style = (UInt32)HookKit.GetWindowLong(handle, -16);
+                style = (style & ~(WS_POPUP)) | WS_CHILD;
+
+
+                HookKit.ShowWindow(workerw, 0);
+                HookKit.SetParent(handle, workerw);
+                //HookKit.MoveWindow(handle, 1920, 713, (int)hangulClockDesktop.Width, (int)hangulClockDesktop.Height, true);
+
+                screenDpi = (double)supportDisplayDevices[monitorIndex].displayDevInformation.dmPelsWidth / (double)supportDisplayDevices[monitorIndex].displayScreenInformation.Bounds.Width;
+
+                if (String.Equals(supportDisplayDevices[monitorIndex].displayDevice.DeviceName, hMonitorDevices[monitorIndex].DeviceName))
+                {
+                    //Console.WriteLine("OK");
+                    var x = hMonitorDevices[monitorIndex].Monitor.Left - displayCombinedRect.Left;
+                    var y = hMonitorDevices[monitorIndex].Monitor.Top - displayCombinedRect.Top;
+
+                    var width = supportDisplayDevices[monitorIndex].displayDevInformation.dmPelsWidth; //hMonitorDevices[monitorIndex].Monitor.Width; //supportDisplayDevices[monitorIndex].displayDevInformation.dmPelsWidth;
+                    var height = supportDisplayDevices[monitorIndex].displayDevInformation.dmPelsHeight;//hMonitorDevices[monitorIndex].Monitor.Height; //supportDisplayDevices[monitorIndex].displayDevInformation.dmPelsHeight;
+
+                    Console.WriteLine(String.Format("This display Resolution is {0} x {1}", width, height));
+                    Console.WriteLine(String.Format("Display Position : {0}, {1}", x, y));
+
+                    if (hMonitorDevices.Count > 1)
+                    {
+                        HookKit.SetWindowLong(handle, HookKit.WindowLongFlags.GWL_STYLE, (int)style);
+                    }
+
+                    //HookKit.SetWindowPos(handle, IntPtr.Zero, x, y, width, height, HookKit.SetWindowPosFlags.NoActivate);
+
+                    //HookKit.SetWindowPos(handle, IntPtr.Zero, 0, 0, 1920, 1080, HookKit.SetWindowPosFlags.NoActivate);
+
+                    HookKit.MoveWindow(handle, x, y, 1920, 1200, true);
+
+                   // HookKit.SetWindowLong(handle, HookKit.WindowLongFlags.GWL_STYLE, (int)style);
+                }
+
+
+
+                //HookKit.MoveWindow(handle, 0, 0, (int)hangulClockDesktop.Width, (int)hangulClockDesktop.Height, true);
+
+                //HookKit.SetWindowPos(handle, IntPtr.Zero, 0, 0, 2880, 1800, HookKit.SetWindowPosFlags.NoActivate);
+                //Console.WriteLine(hookResult);
+            }); */
+
+            new Thread(new ThreadStart(MainThread)).Start();
+
+            app.Run(hangulClockDesktop);
+        }
+
+        private static void MainThread()
+        {
+            while(true)
+            {
+                //Console.Write("BACKGROUND WORKER\n");
+
+                hangulClockDesktop.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+                {
+                    //hangulClockDesktop.ucScale.ScaleX = 0.7;
+                    //hangulClockDesktop.ucScale.ScaleY = 0.7;
+                    //hangulClockDesktop.ucScale.ScaleX = Math.Round(screenDpi, 2);
+                    //hangulClockDesktop.ucScale.ScaleY = Math.Round(screenDpi, 2);
+
+                    //Console.WriteLine(hangulClockDesktop.ActualHeight);
+
+                    hangulClockDesktop.setRightCommentText("누군가는 너를 필요로하겠지.\n\n그 사람때문이라도\n힘내줬으면 해.");
+                }));
+
+                try
+                {
+                    Thread.Sleep(2000);
+                }
+                catch(Exception e)
+                {
+
+                }
+            }
+        }
+
+        private static void PinToDesktop(IntPtr handle, int screenNumber)
+        {
+            if (handle != IntPtr.Zero)
+            {
+                ScreenManager.FixBehindDesktopIcon(handle);
+                ScreenManager.FillScreen(handle, ScreenManager.Screens[screenNumber]);
+            }
+        }
+    }
+}

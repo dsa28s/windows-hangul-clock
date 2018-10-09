@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6112369B-E44A-4680-AAFA-01BD0CC29F85}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HangulClockUIKit</RootNamespace>
+    <AssemblyName>HangulClockUIKit</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Animations\FadeInOutImageControl.cs" />
+    <Compile Include="Animations\VisibilityAnimation.cs" />
+    <Compile Include="BackgroundWallpaper.cs" />
+    <Compile Include="HangulClockBlack.xaml.cs">
+      <DependentUpon>HangulClockBlack.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="HangulClock.xaml.cs">
+      <DependentUpon>HangulClock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NotoSansLabel.xaml.cs">
+      <DependentUpon>NotoSansLabel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MinimalButton.xaml.cs">
+      <DependentUpon>MinimalButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PageTransitions\CenterConverter.cs" />
+    <Compile Include="PageTransitions\HeightConverter.cs" />
+    <Compile Include="PageTransitions\InvertConverter.cs" />
+    <Compile Include="PageTransitions\PageTransition.xaml.cs">
+      <DependentUpon>PageTransition.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PageTransitions\PageTransitionType.cs" />
+    <Compile Include="PageTransitions\WidthConverter.cs" />
+    <Compile Include="UIKit.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Weather\SnowEngine.cs" />
+    <Compile Include="Weather\SnowInfo.cs" />
+    <Compile Include="WindowTitlebar.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HangulClockHookKit\HangulClockHookKit.csproj">
+      <Project>{c3b00d89-826e-4902-b33e-8817fbb509b8}</Project>
+      <Name>HangulClockHookKit</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\close_hover.png" />
+    <Resource Include="Resources\close_normal.png" />
+    <Resource Include="Resources\minimize_hover.png" />
+    <Resource Include="Resources\minimize_normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\andrew-ridley-451447.jpg" />
+    <Resource Include="Resources\michel-catalisano-451800.jpg" />
+    <Resource Include="Resources\nathan-dumlao-451093.jpg" />
+    <Resource Include="Resources\nico-kramer-450511.jpg" />
+    <Resource Include="Resources\robert-zurfluh-449481.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="HangulClockBlack.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="HangulClock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NotoSansLabel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MinimalButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PageTransitions\PageTransition.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\NotoSansKR-Regular-Hestia.otf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\NotoSansKR-Medium-Hestia.otf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\NotoSansKR-Thin-Hestia.otf" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

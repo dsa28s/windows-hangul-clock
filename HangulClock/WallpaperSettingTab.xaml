@@ -1,0 +1,78 @@
+﻿<UserControl x:Class="HangulClock.WallpaperSettingTab"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:uiKit="clr-namespace:HangulClockUIKit;assembly=HangulClockUIKit"
+      xmlns:uiKitControls="clr-namespace:HangulClockUIKit.Controls;assembly=HangulClockUIKit.Controls"
+      xmlns:local="clr-namespace:HangulClock"
+      mc:Ignorable="d" 
+      Width="1024" Height="700">
+    <UserControl.Resources>
+        <FontFamily x:Key="NanumSquareBold">/Resources/#NanumSquare Bold</FontFamily>
+        <FontFamily x:Key="NanumSquareRegular">/Resources/#NanumSquare</FontFamily>
+
+        <Style x:Key="FileItemStyle" TargetType="{x:Type ListViewItem}">
+            <Setter Property="Padding" Value="0,0,0,0"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListViewItem}">
+                        <Grid x:Name="BG" HorizontalAlignment="Center" VerticalAlignment="Center" Height="210" Width="220" Background="Transparent">
+                            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <ContentPresenter/>
+                            </StackPanel>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="BG"
+                                    Value="Transparent"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Label Content="해당 모니터에 대해 배경을 설정하지 않을 경우, '현재 시스템에서 사용중인 배경' 으로 자동 설정됩니다." Foreground="White" HorizontalContentAlignment="Center" Grid.ColumnSpan="3" Margin="0,579,0,87" FontFamily="{StaticResource NanumSquareBold}" />
+
+        <uiKitControls:ToggleSwitch x:Name="backgroundToggle" FontFamily="{StaticResource NanumSquareRegular}" FontSize="16" Foreground="White" CheckedText="고정 이미지 사용" UncheckedText="고정 이미지 사용 안함"
+                          IsChecked="False" HorizontalAlignment="Center" VerticalAlignment="Center"
+                          UncheckedForeground="White" Margin="0, -340, 0, 0" UncheckedBorderBrush="White" CheckedForeground="White" CheckedBorderBrush="White" CheckedBackground="#20FFFFFF"
+                          Grid.Column="0" Grid.Row="0" Checked="backgroundToggle_Checked" Unchecked="backgroundToggle_Unchecked" />
+        <Label Grid.Column="0" Grid.Row="0" Content="해당 모니터의 배경화면을 '고정 이미지' 로 설정합니다.&#10;&#10;일반적인 이미지 파일이며, 모니터 별로 고정 이미지를&#10;다르게 설정할 수 있습니다.&#10;&#10;(아래를 더블클릭하여 이미지를 불러오세요)" Foreground="White" Width="auto" HorizontalContentAlignment="Center" Margin="0,222,0.333,370" FontFamily="{StaticResource NanumSquareRegular}" />
+        <Border x:Name="stillImageBorder" BorderThickness="1" BorderBrush="#979797" Grid.Row="0" Grid.Column="0" Margin="25,335,25.333,183">
+            <Grid x:Name="stillImageContainer" Background="#10FFFFFF" MouseLeftButtonDown="stillImage_MouseLeftButtonDown">
+                <Image x:Name="stillImage" />
+            </Grid>
+        </Border>
+        
+        <!-- Solid -->
+        <uiKitControls:ToggleSwitch x:Name="solidToggle" FontFamily="{StaticResource NanumSquareRegular}" FontSize="16" Foreground="White" CheckedText="단색 사용" UncheckedText="단색 사용 안함"
+                          IsChecked="False" HorizontalAlignment="Center" VerticalAlignment="Center"
+                          UncheckedForeground="White" Margin="0, -340, 0, 0" UncheckedBorderBrush="White" CheckedForeground="White" CheckedBorderBrush="White" CheckedBackground="#20FFFFFF"
+                          Grid.Column="1" Grid.Row="0" Checked="solidToggle_Checked" Unchecked="solidToggle_Unchecked" />
+        <Label Grid.Column="1" Grid.Row="0" Content="해당 모니터의 배경화면을 '단색' 으로 설정합니다.&#10;&#10;일반적인 단색만 있는 배경이며, 모니터 별로 색깔을 &#10;다르게 설정할 수 있습니다.&#10;&#10;(아래를 더블클릭하여 단색을 설정하세요)" Foreground="White" Width="auto" HorizontalContentAlignment="Center" Margin="0,222,0.333,370" FontFamily="{StaticResource NanumSquareRegular}" />
+        <Border x:Name="solidImageBorder" BorderThickness="1" BorderBrush="#979797" Grid.Row="0" Grid.Column="1" Margin="25,335,25.333,183">
+            <Grid x:Name="solidColorContainer" Background="#10FFFFFF" MouseLeftButtonDown="solidColorContainer_MouseLeftButtonDown">
+                
+            </Grid>
+        </Border>
+        
+        <!-- Youtube -->
+        <uiKitControls:ToggleSwitch x:Name="youtubeToggle" FontFamily="{StaticResource NanumSquareRegular}" FontSize="16" Foreground="White" CheckedText="Youtube 영상 사용" UncheckedText="Youtube 영상 사용 안함"
+                          IsChecked="False" HorizontalAlignment="Center" VerticalAlignment="Center"
+                          UncheckedForeground="White" Margin="0, -340, 0, 0" UncheckedBorderBrush="White" CheckedForeground="White" CheckedBorderBrush="White" CheckedBackground="#20FFFFFF"
+                          Grid.Column="2" Grid.Row="0" Checked="youtubeToggle_Checked" Unchecked="youtubeToggle_Unchecked"/>
+        <Label Grid.Column="2" Grid.Row="0" Content="해당 모니터의 배경화면을 'Youtube 영상' 으로&#10;설정합니다.&#10;&#10;Youtube 영상이 소리없이 반복해서 나오며, 모니터 별로 &#10;영상을 다르게 설정할 수 있습니다.&#10;&#10;(Youtube 영상 코드를 아래에 넣으세요.)&#10;&#10;&#10;&#10;&#10;&#10;(https://www.youtube.com/watch?v=xxxxxxxxxx &#10;라는 주소에서 watch?v= 뒤에 있는 코드를 넣으세요.)" Foreground="White" Width="auto" HorizontalContentAlignment="Center" Margin="0.333,222,0,272" FontFamily="{StaticResource NanumSquareRegular}" />
+        <TextBox x:Name="youtubeVideoCodeTextBox" Grid.Column="2" Grid.Row="0" BorderThickness="0, 0, 0, 1" Margin="40.333,465,40,183" TextWrapping="Wrap" Foreground="White" Background="Transparent" MinWidth="100" MaxWidth="400" FontFamily="{StaticResource NanumSquareRegular}" FontSize="40" HorizontalContentAlignment="Center" MaxLength="18" TextChanged="youtubeVideoCodeTextBox_TextChanged" />
+    </Grid>
+</UserControl>
