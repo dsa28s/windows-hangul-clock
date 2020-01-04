@@ -397,7 +397,7 @@ namespace HangulClockRenderer
                         }
                     }));
 
-                    Thread.Sleep(5000);
+                    Thread.Sleep(300);
                 }
                 catch(ThreadInterruptedException e)
                 {
