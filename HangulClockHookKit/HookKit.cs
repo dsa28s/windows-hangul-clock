@@ -636,6 +636,9 @@ namespace HangulClockHookKit
         [DllImport("user32.dll", SetLastError = true)]
         public static extern int GetWindowLong(IntPtr window, int index);
 
+        [DllImport("user32.dll")]
+        public static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+
         [DllImport("User32.dll")]
         public static extern IntPtr MonitorFromPoint([In]System.Drawing.Point pt, [In]uint dwFlags);
 

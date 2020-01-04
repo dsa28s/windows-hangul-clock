@@ -306,10 +306,14 @@ namespace HangulClockRenderer
                 hangulClockDesktop.Left = workerWRect.Left;
                 hangulClockDesktop.Top = workerWRect.Top;*/
 
+                HookKit.RECT workerwRect = new HookKit.RECT();
+                HookKit.GetWindowRect(workerw, out workerwRect);
+                
                 HookKit.SetParent(hangulClockDesktopHwnd, workerw);
 
                 Console.WriteLine(String.Format("x : {0}, y : {1} / {2} x {3}", currentScreen.x, currentScreen.y, currentScreen.width, currentScreen.height));
-                HookKit.MoveWindow(hangulClockDesktopHwnd, currentScreen.x, currentScreen.y, (int)(currentScreen.width), (int)(currentScreen.height), true);
+                HookKit.MoveWindow(hangulClockDesktopHwnd, currentScreen.x - ((MonitorDeviceName == "\\\\.\\DISPLAY1") ? workerwRect.Left : 0), currentScreen.y - ((MonitorDeviceName == "\\\\.\\DISPLAY1") ? workerwRect.Top : 0), (int)(currentScreen.width), (int)(currentScreen.height), true);
+                //HookKit.SetWindowPos(hangulClockDesktopHwnd, IntPtr.Zero - 10, currentScreen.x, currentScreen.y, (int)(currentScreen.width), (int)(currentScreen.height), HookKit.SetWindowPosFlags.ShowWindow);
             });
 
             // hangulClockDesktop.Show();
