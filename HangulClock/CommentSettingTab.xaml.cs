@@ -1,23 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using HangulClockDataKit;
+using HangulClockDataKit.Model;
+using HangulClockKit;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
-using HangulClockKit;
-using HangulClockDataKit;
-using HangulClockDataKit.Model;
-using System.Threading;
 
 namespace HangulClock
 {
@@ -142,7 +132,7 @@ namespace HangulClock
                     monitorSetting.Name = name;
                 });
             }).Start();
-            
+
             try
             {
                 HangulKit.HANGUL_INFO partOfName = HangulKit.HangulJaso.DevideJaso(commentNameField.Text[commentNameField.Text.Length - 1]);
@@ -215,7 +205,7 @@ namespace HangulClock
 
             if (direction == CommentSettingsByMonitor.CommentDirection.TOP)
             {
-                commentPositionTopContainer.Background= (Brush)bc.ConvertFrom("#FFFFFF");
+                commentPositionTopContainer.Background = (Brush)bc.ConvertFrom("#FFFFFF");
             }
             else if (direction == CommentSettingsByMonitor.CommentDirection.LEFT)
             {
