@@ -21,6 +21,10 @@ using HangulClockDataKit.Model;
 using HangulClockDataKit;
 using System.Threading;
 using System.Diagnostics;
+using System.CodeDom;
+using System.Windows.Forms.VisualStyles;
+using System.Windows.Threading;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace HangulClock
 {
@@ -29,7 +33,6 @@ namespace HangulClock
     /// </summary>
     public partial class MainWindow : Window
     {
-        // private DataKit DataKit;
         public static UIKit.HangulClockTab activeTab = UIKit.HangulClockTab.DASHBOARD;
 
         public static PageTransition pager;
@@ -57,26 +60,7 @@ namespace HangulClock
         {
             InitializeComponent();
 
-            Process[] hangulClockMonitoringProcesses = Process.GetProcessesByName("HangulClockMonitoringProcess");
-
-            try
-            {
-                foreach (var hangulClockMonitoringProcess in hangulClockMonitoringProcesses)
-                {
-                    hangulClockMonitoringProcess.Kill();
-                }
-            }
-            catch (Exception e)
-            {
-
-            }
-
-            Process p = new Process();
-            p.StartInfo = new ProcessStartInfo("HangulClockMonitoringProcess");
-            // p.StartInfo.UseShellExecute = true;
-            p.StartInfo.CreateNoWindow = true;
-
-            p.Start();
+            KillMonitoringProcess();
 
             pager = pageController;
 
@@ -90,7 +74,6 @@ namespace HangulClock
             toast = toastMessage;
 
             Directory.CreateDirectory("C:\\Hangul Clock Configuration Files");
-
             DirectoryInfo di = new DirectoryInfo("C:\\Hangul Clock Configuration Files");
             if ((di.Attributes & FileAttributes.Hidden) != FileAttributes.Hidden)
             {
@@ -98,8 +81,6 @@ namespace HangulClock
             }
 
             setCurrentMonitor(System.Windows.Forms.Screen.AllScreens[0].DeviceName);
-
-            initFirstData();
         }
 
         public async static void showToastMessage(string message)
@@ -125,6 +106,10 @@ namespace HangulClock
             this.MouseDown += MainWindow_MouseDown;
 
             logo.Source = UIKit.GetLogoImage();
+
+            await InitalizeData();
+
+            StartMonitoringProcess();
 
             dashboardTab.loadInitData();
             clockSettingTab.loadInitData();
@@ -329,9 +314,9 @@ namespace HangulClock
               .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
-        public static void initFirstData()
+        private Task InitalizeData()
         {
-            new Thread(() =>
+            var task = new Task(() =>
             {
                 var DataKit = new DataKit();
 
@@ -399,7 +384,34 @@ namespace HangulClock
                         });
                     }
                 }
-            }).Start();
+            });
+
+            task.Start();
+            return task;
+        }
+
+        private void StartMonitoringProcess()
+        {
+            Process p = new Process();
+            p.StartInfo = new ProcessStartInfo("HangulClockMonitoringProcess");
+            // p.StartInfo.UseShellExecute = true;
+            p.StartInfo.CreateNoWindow = true;
+
+            p.Start();
+        }
+
+        private void KillMonitoringProcess()
+        {
+            Process[] hangulClockMonitoringProcesses = Process.GetProcessesByName("HangulClockMonitoringProcess");
+
+            try
+            {
+                foreach (var hangulClockMonitoringProcess in hangulClockMonitoringProcesses)
+                {
+                    hangulClockMonitoringProcess.Kill();
+                }
+            }
+            catch (Exception e) { }
         }
     }
 }
