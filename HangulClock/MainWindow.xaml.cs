@@ -1,30 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using HangulClockDataKit;
+using HangulClockDataKit.Model;
+using HangulClockUIKit;
+using HangulClockUIKit.PageTransitions;
+using System;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
-using HangulClockUIKit;
-using HangulClockUIKit.PageTransitions;
 using System.Windows.Media.Animation;
-using System.IO;
-using HangulClockDataKit.Model;
-using HangulClockDataKit;
-using System.Threading;
-using System.Diagnostics;
-using System.CodeDom;
-using System.Windows.Forms.VisualStyles;
-using System.Windows.Threading;
-using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace HangulClock
 {
@@ -239,7 +225,7 @@ namespace HangulClock
 
         public static void updateTabStatus()
         {
-            switch(activeTab)
+            switch (activeTab)
             {
                 case UIKit.HangulClockTab.DASHBOARD:
                     dashboardLabel.Opacity = 1;
@@ -269,7 +255,7 @@ namespace HangulClock
                     monitorLabel.Opacity = 0.3;
                     break;
                 case UIKit.HangulClockTab.THEME_SETTINGS:
-                    
+
                     break;
                 case UIKit.HangulClockTab.COMMENT_SETTINGS:
                     dashboardLabel.Opacity = 0.3;
