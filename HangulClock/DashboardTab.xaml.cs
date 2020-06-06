@@ -55,7 +55,10 @@ namespace HangulClock
 
                 if (hangulClockCommonSetting.Count() <= 0)
                 {
-                    updateText.Content = "업데이트 확인 실패.";
+                    this.Dispatcher.Invoke(new Action(() =>
+                    {
+                        updateText.Content = "업데이트 확인 실패.";
+                    }));
                 }
                 else
                 {
