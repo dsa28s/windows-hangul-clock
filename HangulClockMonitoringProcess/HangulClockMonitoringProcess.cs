@@ -260,7 +260,10 @@ namespace HangulClockMonitoringProcess
                         {
                             Process hangulClockRendererProcess = new Process();
                             hangulClockRendererProcess.StartInfo = new ProcessStartInfo("HangulClockRenderer.exe");
+
+#if !DEBUG
                             hangulClockRendererProcess.StartInfo.WorkingDirectory = @"C:\Program Files\Hangul Clock";
+#endif
                             hangulClockRendererProcess.StartInfo.Arguments = $"/mindex {item.i}";
                             hangulClockRendererProcess.StartInfo.CreateNoWindow = true;
                             hangulClockRendererProcess.StartInfo.UseShellExecute = false;
