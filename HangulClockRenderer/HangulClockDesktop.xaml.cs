@@ -1,32 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using HangulClockDataKit;
+using HangulClockDataKit.Model;
+using HangulClockHookKit;
+using HangulClockUIKit.Weather;
+using Microsoft.Win32;
+using System;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Forms;
-using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
-using System.Windows.Interop;
-using System.Threading;
-using System.Windows.Threading;
-using Microsoft.Win32;
-
-using System.IO;
-
-using HangulClockDataKit;
-using HangulClockDataKit.Model;
-using HangulClockUIKit.Weather;
-using HangulClockLogKit;
-using System.Diagnostics;
-using CefSharp;
 
 namespace HangulClockRenderer
 {
@@ -48,7 +32,7 @@ namespace HangulClockRenderer
             new Thread(() =>
             {
                 var DataKit = new DataKit();
-                var backgroundSetting = DataKit.Realm.All<BackgroundSettingsByMonitor>().Where(c => c.MonitorDeviceName == HangulClockRenderer.MonitorDeviceName).First();
+                var backgroundSetting = DataKit.Realm.All<BackgroundSettingsByMonitor>().Where(c => c.MonitorDeviceName == Renderer.MonitorDeviceName).First();
 
                 if (backgroundSetting.backgroundType == BackgroundSettingsByMonitor.BackgroundType.DEFAULT)
                 {
@@ -97,7 +81,7 @@ namespace HangulClockRenderer
                         {
                             overlayView.Background = (Brush)bc.ConvertFrom("#000000");
                         }
-                        
+
                         youtubeView.Address = "";
                         youtubeView.Visibility = Visibility.Hidden;
                     }));
@@ -124,13 +108,23 @@ namespace HangulClockRenderer
             }).Start();
         }
 
+        private void HideWindowFromAltTab()
+        {
+            WindowInteropHelper wndHelper = new WindowInteropHelper(this);
+
+            int exStyle = (int)HookKit.GetWindowLong(wndHelper.Handle, (int)HookKit.GetWindowLongFields.GWL_EXSTYLE);
+
+            exStyle |= (int)HookKit.ExtendedWindowStyles.WS_EX_TOOLWINDOW;
+            HookKit.SetWindowLong(wndHelper.Handle, HookKit.WindowLongFlags.GWL_EXSTYLE, exStyle);
+        }
+
         private void CheckBackgroundChange()
         {
             var DataKit = new DataKit();
             while (true)
             {
                 DataKit.Realm.Refresh();
-                var backgroundSetting = DataKit.Realm.All<BackgroundSettingsByMonitor>().Where(c => c.MonitorDeviceName == HangulClockRenderer.MonitorDeviceName).First();
+                var backgroundSetting = DataKit.Realm.All<BackgroundSettingsByMonitor>().Where(c => c.MonitorDeviceName == Renderer.MonitorDeviceName).First();
 
                 bool isSolid = backgroundSetting.backgroundType == BackgroundSettingsByMonitor.BackgroundType.SOLID;
                 bool isYoutube = backgroundSetting.backgroundType == BackgroundSettingsByMonitor.BackgroundType.YOUTUBE_VIDEO;
@@ -292,7 +286,7 @@ namespace HangulClockRenderer
 
                 }
             }
-            
+
         }
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)
@@ -371,8 +365,12 @@ namespace HangulClockRenderer
 
         private void SystemEvents_DisplaySettingsChanged(object sender, EventArgs e)
         {
-            
+
         }
 
+        private void Desktop_Loaded(object sender, RoutedEventArgs e)
+        {
+            HideWindowFromAltTab();
+        }
     }
 }
