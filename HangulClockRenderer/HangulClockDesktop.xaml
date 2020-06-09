@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-        xmlns:local="clr-namespace:HangulClockRenderer"
         xmlns:uiKit="clr-namespace:HangulClockUIKit;assembly=HangulClockUIKit"
         xmlns:asf="clr-namespace:AirspaceFixer;assembly=AirspaceFixer"
         xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
@@ -14,7 +13,7 @@
         AllowsTransparency="False"
         Background="Transparent"
         BorderBrush="Transparent"
-        ShowInTaskbar="False" Width="1920" Height="1080" RenderTransformOrigin="0.5,0.5">
+        ShowInTaskbar="False" Width="1920" Height="1080" RenderTransformOrigin="0.5,0.5" Loaded="Desktop_Loaded">
     <Grid Loaded="Grid_Loaded" Background="#50000000" x:Name="mainContent" Margin="2,0,-2,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="193*"/>

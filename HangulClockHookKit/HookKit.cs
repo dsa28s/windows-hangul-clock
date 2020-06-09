@@ -37,6 +37,17 @@ namespace HangulClockHookKit
         public delegate bool EnumWindowsProc(IntPtr hwnd, IntPtr lParam);
 
         [Flags]
+        public enum ExtendedWindowStyles
+        {
+            WS_EX_TOOLWINDOW = 0x00000080,
+        }
+
+        public enum GetWindowLongFields
+        {
+            GWL_EXSTYLE = (-20),
+        }
+
+        [Flags]
         public enum BbFlags : byte //Blur Behind Flags
         {
             DwmBbEnable = 1,

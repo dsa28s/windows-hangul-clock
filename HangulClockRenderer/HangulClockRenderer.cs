@@ -1,31 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Management;
-using System.Net;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Interop;
-using System.Windows.Threading;
-
-using HangulClockDataKit;
+﻿using HangulClockDataKit;
 using HangulClockDataKit.Model;
 using HangulClockHookKit;
 using HangulClockKit;
 using HangulClockLogKit;
 using HangulClockRenderer.Model;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Management;
+using System.Net;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Windows;
+using System.Windows.Interop;
+using System.Windows.Threading;
 
 namespace HangulClockRenderer
 {
-    class HangulClockRenderer
+    class Renderer
     {
         private const string COMMENT_STRING_URL = "https://us-central1-hangul-clock.cloudfunctions.net/comment/";
 
@@ -243,7 +239,7 @@ namespace HangulClockRenderer
                         beforeX = Math.Abs(item.x);
                         isNotChange = true;
                     }
-                    
+
                     item.x = item.x + beforeX; // 0
                 }
             }
@@ -265,7 +261,7 @@ namespace HangulClockRenderer
                         beforeY = Math.Abs(item.y);
                         isNotChange = true;
                     }
-                        
+
                     item.y = item.y + beforeY;
                 }
             }
@@ -318,7 +314,7 @@ namespace HangulClockRenderer
         private static void MainThread()
         {
             var DataKit = new DataKit();
-            
+
             while (true)
             {
                 try
@@ -399,7 +395,7 @@ namespace HangulClockRenderer
 
                     Thread.Sleep(5000);
                 }
-                catch(ThreadInterruptedException e)
+                catch (ThreadInterruptedException e)
                 {
 
                 }
@@ -415,7 +411,7 @@ namespace HangulClockRenderer
 
         static bool ConsoleEventHandler(ConsoleCtrlHandlerCode eventCode)
         {
-            HookKit.SetParent(hangulClockDesktopHwnd, IntPtr.Zero); 
+            HookKit.SetParent(hangulClockDesktopHwnd, IntPtr.Zero);
             /* if (hangulClockDesktop != null)
             {
                 hangulClockDesktop.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
