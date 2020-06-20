@@ -9,26 +9,26 @@ namespace HangulClockRenderer
 {
     public class DesktopWallpaperGenerator
     {
-        private static string BASE_HANGULCLOCK_URL = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\HangulClock\";
+        private static readonly string BASE_HANGULCLOCK_URL = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\HangulClock\";
 
         [DllImport("user32.dll", EntryPoint = "SystemParametersInfo")]
         private static extern int SystemParametersInfo(uint uAction, int uParam, StringBuilder lpvParam, int fuWinIni);
 
-        private static uint SPI_GETDESKWALLPAPER = 0x0073;
+        private static readonly uint SPI_GETDESKWALLPAPER = 0x0073;
 
         public static void saveWallpaperBySize(int index, Screen screen)
         {
-            var wallpaperImage = ScaleImage(Image.FromFile(GetBackgroud()), screen.Bounds.Width, screen.Bounds.Height);
+            Bitmap wallpaperImage = ScaleImage(Image.FromFile(GetBackgroud()), screen.Bounds.Width, screen.Bounds.Height);
             wallpaperImage.Save(BASE_HANGULCLOCK_URL + @"\wallpaper.png", ImageFormat.Png);
 
-            var wallpaperImageWidth = wallpaperImage.Width;
-            var wallpaperImageHeight = wallpaperImage.Height;
+            int wallpaperImageWidth = wallpaperImage.Width;
+            int wallpaperImageHeight = wallpaperImage.Height;
 
             wallpaperImage.Dispose();
             wallpaperImage = null;
 
-            var wallpaperModified = Image.FromFile(BASE_HANGULCLOCK_URL + @"\wallpaper.png");
-            var cropedWallpaper = CropImage(wallpaperModified, new Rectangle((wallpaperImageWidth - screen.Bounds.Width) / 2, 0, screen.Bounds.Width, screen.Bounds.Height));
+            Image wallpaperModified = Image.FromFile(BASE_HANGULCLOCK_URL + @"\wallpaper.png");
+            Image cropedWallpaper = CropImage(wallpaperModified, new Rectangle((wallpaperImageWidth - screen.Bounds.Width) / 2, 0, screen.Bounds.Width, screen.Bounds.Height));
 
             cropedWallpaper.Save(BASE_HANGULCLOCK_URL + @"\" + "orig_wall_" + index + "_final.png", ImageFormat.Png);
             cropedWallpaper.Dispose();
@@ -45,9 +45,9 @@ namespace HangulClockRenderer
         {
             Console.WriteLine(image.Width);
             Console.WriteLine(image.Height);
-            var ratioX = (double)maxWidth / image.Width;
-            var ratioY = (double)maxHeight / image.Height;
-            var ratio = 0.0;
+            double ratioX = (double)maxWidth / image.Width;
+            double ratioY = (double)maxHeight / image.Height;
+            double ratio = 0.0;
             if (maxWidth < maxHeight)
             {
                 ratio = Math.Min(ratioX, ratioY);
@@ -59,13 +59,13 @@ namespace HangulClockRenderer
                 Console.WriteLine(ratio);
             }
 
-            var newWidth = (int)(image.Width * ratio);
-            var newHeight = (int)(image.Height * ratio);
+            int newWidth = (int)(image.Width * ratio);
+            int newHeight = (int)(image.Height * ratio);
 
-            Console.WriteLine(String.Format("{0} x {1}", newWidth, newHeight));
+            Console.WriteLine(string.Format("{0} x {1}", newWidth, newHeight));
 
-            var newImage = new Bitmap(newWidth, newHeight);
-            var graphics = Graphics.FromImage(newImage);
+            Bitmap newImage = new Bitmap(newWidth, newHeight);
+            Graphics graphics = Graphics.FromImage(newImage);
             graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
             graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
             graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;

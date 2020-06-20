@@ -7,10 +7,13 @@
         public int x;
         public int y;
 
+        public int originalX;
+        public int originalY;
+
         public int monitorIndex;
 
         public string deviceName;
-        public float zoomFactor;
+        public double zoomFactor;
 
         public bool isPrimary;
     }
