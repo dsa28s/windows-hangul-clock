@@ -225,7 +225,7 @@ namespace HangulClockRenderer
 
             hangulClockTopComment.setTextSize(30);
             hangulClockBottomComment.setTextSize(30);
-            hangulClockTopComment.setTextSize(30);
+            hangulClockLeftComment.setTextSize(30);
             hangulClockRightComment.setTextSize(30);
         }
 
