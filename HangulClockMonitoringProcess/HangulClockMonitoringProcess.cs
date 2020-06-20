@@ -53,8 +53,6 @@ namespace HangulClockMonitoringProcess
             {
                 try
                 {
-                    Thread.Sleep(3000);
-
                     DataKit.Realm.Refresh();
 
                     if (screenModels.Count <= 0)
@@ -187,6 +185,8 @@ namespace HangulClockMonitoringProcess
                             }
                         }
                     }
+
+                    Thread.Sleep(3000);
                 }
                 catch (Exception e)
                 {

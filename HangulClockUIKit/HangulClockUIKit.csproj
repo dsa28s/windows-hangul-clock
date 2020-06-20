@@ -108,13 +108,6 @@
     <Resource Include="Resources\minimize_normal.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\andrew-ridley-451447.jpg" />
-    <Resource Include="Resources\michel-catalisano-451800.jpg" />
-    <Resource Include="Resources\nathan-dumlao-451093.jpg" />
-    <Resource Include="Resources\nico-kramer-450511.jpg" />
-    <Resource Include="Resources\robert-zurfluh-449481.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\icon.png" />
   </ItemGroup>
   <ItemGroup>
@@ -147,6 +140,13 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\NotoSansKR-Thin-Hestia.otf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\mathew-schwartz-01hH6y7oZFk-unsplash.jpg" />
+    <Resource Include="Resources\ping-onganankun-5htrsUUbFGI-unsplash.jpg" />
+    <Resource Include="Resources\sunyu-kim-HjsWTyyVDgg-unsplash.jpg" />
+    <Resource Include="Resources\yohan-cho-Mwvhyd22Lyw-unsplash.jpg" />
+    <Resource Include="Resources\yujing-zhang-KMJbSDVWNZY-unsplash.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
