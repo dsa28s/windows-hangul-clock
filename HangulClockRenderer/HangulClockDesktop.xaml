@@ -30,18 +30,18 @@
                 <uiKit:NotoSansLabel x:Name="hangulClockLeftComment" Grid.Column="0" Margin="0, 0, 50, 50" VerticalContentAlignment="Center"  HorizontalContentAlignment="Center" />
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Height="Auto" Grid.Column="1">
                     <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
+                        <RowDefinition Height="6*"/>
+                        <RowDefinition Height="35*"/>
+                        <RowDefinition Height="6*"/>
                     </Grid.RowDefinitions>
                     <uiKit:NotoSansLabel x:Name="hangulClockTopComment" Grid.Row="0" Margin="0, 0, 0, 50"/>
-                    <uiKit:HangulClock x:Name="hangulClock" Width="350" Height="350" VerticalAlignment="Center" HorizontalAlignment="Center" ClockFontSize="35" ShowClockBold="True" Grid.Row="1">
+                    <uiKit:HangulClock x:Name="hangulClock" MinWidth="350" MinHeight="350" VerticalAlignment="Center" HorizontalAlignment="Center" ClockFontSize="35" ShowClockBold="True" Grid.Row="1">
 
                         <!--<uiKit:HangulClock.Effect>
                     <DropShadowEffect ShadowDepth="0.5" Opacity="0" BlurRadius="5" />
                 </uiKit:HangulClock.Effect>-->
                     </uiKit:HangulClock>
-                    <uiKit:HangulClockBlack x:Name="hangulClockBlack" Width="350" Height="350" VerticalAlignment="Center" HorizontalAlignment="Center" ClockFontSize="35" ShowClockBold="True" Grid.Row="1" Visibility="Hidden" />
+                    <uiKit:HangulClockBlack x:Name="hangulClockBlack" MinWidth="350" MinHeight="350" VerticalAlignment="Center" HorizontalAlignment="Center" ClockFontSize="35" ShowClockBold="True" Grid.Row="1" Visibility="Hidden" />
                     <uiKit:NotoSansLabel x:Name="hangulClockBottomComment" HorizontalContentAlignment="Center" Grid.Row="2" Margin="0, 50, 0, 50"/>
                 </Grid>
                 <uiKit:NotoSansLabel x:Name="hangulClockRightComment" Grid.Column="2" Margin="50, 0, 0, 50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
