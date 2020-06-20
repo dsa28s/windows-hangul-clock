@@ -132,7 +132,7 @@ namespace HangulClock
                 {
                     hangulClockONOFFToggle.IsChecked = isEnabledClockCurrentMonitor;
 
-                    useText.Content = isEnabledClockCurrentMonitor ? "사용중이야." : "사용중이지 않아.";
+                    useText.Content = isEnabledClockCurrentMonitor ? "사용중이에요!" : "사용중이지 않아요.";
                 });
             }).Start();
         }
