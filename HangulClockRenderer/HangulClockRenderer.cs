@@ -261,18 +261,17 @@ namespace HangulClockRenderer
 
             LogKit.Info("Boot complete!");
 
-            app.Run(hangulClockDesktop);
             new Thread(MainThread).Start();
+            app.Run(hangulClockDesktop);
         }
 
         private static void MainThread()
         {
-            DataKit DataKit = new DataKit();
-
             while (true)
             {
                 try
                 {
+                    DataKit DataKit = new DataKit();
                     DataKit.Realm.Refresh();
 
                     ClockSettingsByMonitor clockSetting = DataKit.Realm.All<ClockSettingsByMonitor>().Where(c => c.MonitorDeviceName == MonitorDeviceName).First();
