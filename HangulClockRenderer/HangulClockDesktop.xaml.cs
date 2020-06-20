@@ -28,91 +28,13 @@ namespace HangulClockRenderer
         public HangulClockDesktop()
         {
             InitializeComponent();
-
-            new Thread(() =>
-            {
-                var DataKit = new DataKit();
-                var backgroundSetting = DataKit.Realm.All<BackgroundSettingsByMonitor>().Where(c => c.MonitorDeviceName == Renderer.MonitorDeviceName).First();
-
-                if (backgroundSetting.backgroundType == BackgroundSettingsByMonitor.BackgroundType.DEFAULT)
-                {
-                    this.Dispatcher.Invoke(new Action(() =>
-                    {
-                        systemBackgroundPath = DesktopWallpaperGenerator.GetBackgroud();
-                        backgroundImage.Source = new BitmapImage(new Uri(systemBackgroundPath));
-
-                        youtubeView.Address = "";
-                        youtubeView.Visibility = Visibility.Hidden;
-                    }));
-                }
-                else if (backgroundSetting.backgroundType == BackgroundSettingsByMonitor.BackgroundType.STILL_IMAGE)
-                {
-                    backgroundPath = backgroundSetting.imgPath;
-
-                    this.Dispatcher.Invoke(new Action(() =>
-                    {
-                        if (File.Exists(backgroundPath))
-                        {
-                            backgroundImage.Source = new BitmapImage(new Uri(backgroundPath));
-                        }
-                        else
-                        {
-                            systemBackgroundPath = DesktopWallpaperGenerator.GetBackgroud();
-                            backgroundImage.Source = new BitmapImage(new Uri(systemBackgroundPath));
-                        }
-
-                        youtubeView.Address = "";
-                        youtubeView.Visibility = Visibility.Hidden;
-                    }));
-                }
-                else if (backgroundSetting.backgroundType == BackgroundSettingsByMonitor.BackgroundType.SOLID)
-                {
-                    solidColor = backgroundSetting.SolidColor;
-                    this.Dispatcher.Invoke(new Action(() =>
-                    {
-                        // backgroundImage.Source = null;
-                        BrushConverter bc = new BrushConverter();
-
-                        if (solidColor != null && solidColor != "")
-                        {
-                            overlayView.Background = (Brush)bc.ConvertFrom("#" + solidColor);
-                        }
-                        else
-                        {
-                            overlayView.Background = (Brush)bc.ConvertFrom("#000000");
-                        }
-
-                        youtubeView.Address = "";
-                        youtubeView.Visibility = Visibility.Hidden;
-                    }));
-                }
-                else
-                {
-                    youtubeVCode = backgroundSetting.YoutubeURL;
-                    this.Dispatcher.Invoke(new Action(() =>
-                    {
-                        if (youtubeVCode == "" || youtubeVCode == null)
-                        {
-                            backgroundPath = DesktopWallpaperGenerator.GetBackgroud();
-                            backgroundImage.Source = new BitmapImage(new Uri(backgroundPath));
-                        }
-                        else
-                        {
-                            youtubeView.Visibility = Visibility.Visible;
-                            youtubeView.Address = String.Format("https://www.youtube.com/embed/{0}?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&cc_load_policy=3&mute=1&playlist={0}", youtubeVCode);
-                        }
-                    }));
-                }
-
-                new Thread(CheckBackgroundChange).Start();
-            }).Start();
         }
 
         private void HideWindowFromAltTab()
         {
             WindowInteropHelper wndHelper = new WindowInteropHelper(this);
 
-            int exStyle = (int)HookKit.GetWindowLong(wndHelper.Handle, (int)HookKit.GetWindowLongFields.GWL_EXSTYLE);
+            int exStyle = HookKit.GetWindowLong(wndHelper.Handle, (int)HookKit.GetWindowLongFields.GWL_EXSTYLE);
 
             exStyle |= (int)HookKit.ExtendedWindowStyles.WS_EX_TOOLWINDOW;
             HookKit.SetWindowLong(wndHelper.Handle, HookKit.WindowLongFlags.GWL_EXSTYLE, exStyle);
@@ -120,11 +42,11 @@ namespace HangulClockRenderer
 
         private void CheckBackgroundChange()
         {
-            var DataKit = new DataKit();
+            DataKit DataKit = new DataKit();
             while (true)
             {
                 DataKit.Realm.Refresh();
-                var backgroundSetting = DataKit.Realm.All<BackgroundSettingsByMonitor>().Where(c => c.MonitorDeviceName == Renderer.MonitorDeviceName).First();
+                BackgroundSettingsByMonitor backgroundSetting = DataKit.Realm.All<BackgroundSettingsByMonitor>().Where(c => c.MonitorDeviceName == Renderer.MonitorDeviceName).First();
 
                 bool isSolid = backgroundSetting.backgroundType == BackgroundSettingsByMonitor.BackgroundType.SOLID;
                 bool isYoutube = backgroundSetting.backgroundType == BackgroundSettingsByMonitor.BackgroundType.YOUTUBE_VIDEO;
@@ -136,7 +58,7 @@ namespace HangulClockRenderer
                     youtubeView.GetBrowser().MainFrame.EvaluateScriptAsync("if (typeof css2 === 'undefined') { var css2 = '.video-annotations { display: none !important }', head = document.head, style = document.createElement('style'); style.type = 'text/css'; style.appendChild(document.createTextNode(css2)); head.appendChild(style); }");
                 }
 
-                this.Dispatcher.Invoke(new Action(() =>
+                Dispatcher.Invoke(new Action(() =>
                 {
                     if (!isSolid)
                     {
@@ -151,7 +73,7 @@ namespace HangulClockRenderer
 
                     if (systemBackgroundPath != path)
                     {
-                        this.Dispatcher.Invoke(new Action(() =>
+                        Dispatcher.Invoke(new Action(() =>
                         {
                             backgroundImage.Source = new BitmapImage(new Uri(path));
 
@@ -175,7 +97,7 @@ namespace HangulClockRenderer
                         {
                             backgroundPath = backgroundSetting.imgPath;
 
-                            this.Dispatcher.Invoke(new Action(() =>
+                            Dispatcher.Invoke(new Action(() =>
                             {
                                 if (File.Exists(backgroundPath))
                                 {
@@ -205,7 +127,7 @@ namespace HangulClockRenderer
 
                         if (systemBackgroundPath != spath)
                         {
-                            this.Dispatcher.Invoke(new Action(() =>
+                            Dispatcher.Invoke(new Action(() =>
                             {
                                 backgroundImage.Source = new BitmapImage(new Uri(spath));
 
@@ -228,7 +150,7 @@ namespace HangulClockRenderer
                     if (solidColor != solid)
                     {
                         solidColor = solid;
-                        this.Dispatcher.Invoke(new Action(() =>
+                        Dispatcher.Invoke(new Action(() =>
                         {
                             // backgroundImage.Source = null;
 
@@ -251,7 +173,7 @@ namespace HangulClockRenderer
                     if (youtubeVCode != youtubeVideo)
                     {
                         youtubeVCode = youtubeVideo;
-                        this.Dispatcher.Invoke(new Action(() =>
+                        Dispatcher.Invoke(new Action(() =>
                         {
                             if (youtubeVideo == "" || youtubeVideo == null)
                             {
@@ -261,7 +183,7 @@ namespace HangulClockRenderer
                             else
                             {
                                 youtubeView.Visibility = Visibility.Visible;
-                                youtubeView.Address = String.Format("https://www.youtube.com/embed/{0}?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&mute=1&cc_load_policy=3&playlist={0}", youtubeVCode);
+                                youtubeView.Address = string.Format("https://www.youtube.com/embed/{0}?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&mute=1&cc_load_policy=3&playlist={0}", youtubeVCode);
                                 // youtubeView.GetBrowser().MainFrame.EvaluateScriptAsync("setInterval(() => { document.getElementsByClassName('caption-window ytp-caption-window-bottom')[0].style.display = 'none'; console.clear(); }, 100);");
                             }
 
@@ -281,7 +203,7 @@ namespace HangulClockRenderer
                 {
                     Thread.Sleep(5000);
                 }
-                catch (ThreadInterruptedException e)
+                catch (ThreadInterruptedException)
                 {
 
                 }
@@ -293,10 +215,12 @@ namespace HangulClockRenderer
         {
             SystemEvents.DisplaySettingsChanged += SystemEvents_DisplaySettingsChanged;
 
-            snow = new SnowEngine(weatherCanvas, "pack://application:,,,/Resources/snow.png");
-            snow.SnowCoverage = 1;
-            snow.VerticalSpeedRatio = 0.3;
-            snow.HorizontalSpeedRatio = 0;
+            snow = new SnowEngine(weatherCanvas, "pack://application:,,,/Resources/snow.png")
+            {
+                SnowCoverage = 1,
+                VerticalSpeedRatio = 0.3,
+                HorizontalSpeedRatio = 0
+            };
             //snow.Start();
 
             hangulClockTopComment.setTextSize(30);
@@ -305,7 +229,7 @@ namespace HangulClockRenderer
             hangulClockRightComment.setTextSize(30);
         }
 
-        public void setTopCommentText(String text)
+        public void setTopCommentText(string text)
         {
             hangulClockTopComment.setContent(text);
             hangulClockLeftComment.setContent("");
@@ -313,7 +237,7 @@ namespace HangulClockRenderer
             hangulClockBottomComment.setContent("");
         }
 
-        public void setLeftCommentText(String text)
+        public void setLeftCommentText(string text)
         {
             hangulClockTopComment.setContent("");
             hangulClockLeftComment.setContent(text);
@@ -321,7 +245,7 @@ namespace HangulClockRenderer
             hangulClockBottomComment.setContent("");
         }
 
-        public void setRightCommentText(String text)
+        public void setRightCommentText(string text)
         {
             hangulClockTopComment.setContent("");
             hangulClockLeftComment.setContent("");
@@ -329,7 +253,7 @@ namespace HangulClockRenderer
             hangulClockBottomComment.setContent("");
         }
 
-        public void setBottomCommentText(String text)
+        public void setBottomCommentText(string text)
         {
             hangulClockTopComment.setContent("");
             hangulClockLeftComment.setContent("");
@@ -371,6 +295,84 @@ namespace HangulClockRenderer
         private void Desktop_Loaded(object sender, RoutedEventArgs e)
         {
             HideWindowFromAltTab();
+
+            new Thread(() =>
+            {
+                DataKit DataKit = new DataKit();
+                BackgroundSettingsByMonitor backgroundSetting = DataKit.Realm.All<BackgroundSettingsByMonitor>().Where(c => c.MonitorDeviceName == Renderer.MonitorDeviceName).First();
+
+                if (backgroundSetting.backgroundType == BackgroundSettingsByMonitor.BackgroundType.DEFAULT)
+                {
+                    Dispatcher.Invoke(new Action(() =>
+                    {
+                        systemBackgroundPath = DesktopWallpaperGenerator.GetBackgroud();
+                        backgroundImage.Source = new BitmapImage(new Uri(systemBackgroundPath));
+
+                        youtubeView.Address = "";
+                        youtubeView.Visibility = Visibility.Hidden;
+                    }));
+                }
+                else if (backgroundSetting.backgroundType == BackgroundSettingsByMonitor.BackgroundType.STILL_IMAGE)
+                {
+                    backgroundPath = backgroundSetting.imgPath;
+
+                    Dispatcher.Invoke(new Action(() =>
+                    {
+                        if (File.Exists(backgroundPath))
+                        {
+                            backgroundImage.Source = new BitmapImage(new Uri(backgroundPath));
+                        }
+                        else
+                        {
+                            systemBackgroundPath = DesktopWallpaperGenerator.GetBackgroud();
+                            backgroundImage.Source = new BitmapImage(new Uri(systemBackgroundPath));
+                        }
+
+                        youtubeView.Address = "";
+                        youtubeView.Visibility = Visibility.Hidden;
+                    }));
+                }
+                else if (backgroundSetting.backgroundType == BackgroundSettingsByMonitor.BackgroundType.SOLID)
+                {
+                    solidColor = backgroundSetting.SolidColor;
+                    Dispatcher.Invoke(new Action(() =>
+                    {
+                        // backgroundImage.Source = null;
+                        BrushConverter bc = new BrushConverter();
+
+                        if (solidColor != null && solidColor != "")
+                        {
+                            overlayView.Background = (Brush)bc.ConvertFrom("#" + solidColor);
+                        }
+                        else
+                        {
+                            overlayView.Background = (Brush)bc.ConvertFrom("#000000");
+                        }
+
+                        youtubeView.Address = "";
+                        youtubeView.Visibility = Visibility.Hidden;
+                    }));
+                }
+                else
+                {
+                    youtubeVCode = backgroundSetting.YoutubeURL;
+                    Dispatcher.Invoke(new Action(() =>
+                    {
+                        if (youtubeVCode == "" || youtubeVCode == null)
+                        {
+                            backgroundPath = DesktopWallpaperGenerator.GetBackgroud();
+                            backgroundImage.Source = new BitmapImage(new Uri(backgroundPath));
+                        }
+                        else
+                        {
+                            youtubeView.Visibility = Visibility.Visible;
+                            youtubeView.Address = string.Format("https://www.youtube.com/embed/{0}?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&cc_load_policy=3&mute=1&playlist={0}", youtubeVCode);
+                        }
+                    }));
+                }
+
+                new Thread(CheckBackgroundChange).Start();
+            }).Start();
         }
     }
 }

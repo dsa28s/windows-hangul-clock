@@ -15,72 +15,56 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Threading;
 
 namespace HangulClockRenderer
 {
-    class Renderer
+    internal class Renderer
     {
         private const string COMMENT_STRING_URL = "https://us-central1-hangul-clock.cloudfunctions.net/comment/";
 
         private static HangulClockDesktop hangulClockDesktop;
-        private static List<ScreenModel> screenModels = new List<ScreenModel>();
+        private static readonly List<ScreenModel> screenModels = new List<ScreenModel>();
         internal static string MonitorDeviceName = "";
         internal static int monitorIndeX = 0;
 
         private static DateTime lastCommentRequestTime = DateTime.MinValue;
 
         private static IntPtr hangulClockDesktopHwnd = IntPtr.Zero;
+        private static IntPtr workerw = IntPtr.Zero;
 
         private static string hu = "";
         private static string message = "";
 
-        // HANGULCLOCK RENDERER IF WHEN EXIT EVENT RECEIVED
-        enum ConsoleCtrlHandlerCode : uint
-        {
-            CTRL_C_EVENT = 0,
-            CTRL_BREAK_EVENT = 1,
-            CTRL_CLOSE_EVENT = 2,
-            CTRL_LOGOFF_EVENT = 5,
-            CTRL_SHUTDOWN_EVENT = 6
-        }
-        delegate bool ConsoleCtrlHandlerDelegate(ConsoleCtrlHandlerCode eventCode);
-        [DllImport("kernel32.dll")]
-        static extern bool SetConsoleCtrlHandler(ConsoleCtrlHandlerDelegate handlerProc, bool add);
-        static ConsoleCtrlHandlerDelegate _consoleHandler;
+        private static double primaryDisplayZoomFactor = 1;
+        private static HookKit.ConsoleCtrlHandlerDelegate _consoleHandler;
 
-        [DllImport("gdi32.dll")]
-        static extern int GetDeviceCaps(IntPtr hdc, int nIndex);
-        public enum DeviceCap
-        {
-            VERTRES = 10,
-            DESKTOPVERTRES = 117,
-        }
-
-        private static Application app = new Application();
+        private static readonly Application app = new Application();
 
         [STAThread]
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
+            NativeDPIAwareSettings();
+
             if (args != null)
             {
                 if (args.Length > 1)
                 {
-                    if (String.Equals(args[0], "/mindex"))
+                    if (string.Equals(args[0], "/mindex"))
                     {
                         if (Regex.IsMatch(args[1], @"^\d+$"))
                         {
-                            Console.WriteLine("Monitor index : " + args[1]);
-                            LogKit.Info("Monitor index : " + args[1]);
+                            LogKit.Info("HangulClockRenderer will be displayed at Monitor index : " + args[1]);
 
-                            var isRunningInstance = 0;
+                            int isRunningInstance = 0;
                             monitorIndeX = Convert.ToInt32(args[1]);
 
                             Process[] hangulClockRendererProcesses = Process.GetProcessesByName("HangulClockRenderer");
 
-                            foreach (var hangulClockRendererProcess in hangulClockRendererProcesses)
+                            foreach (Process hangulClockRendererProcess in hangulClockRendererProcesses)
                             {
                                 if (GetCommandLine(hangulClockRendererProcess).Contains($"/mindex {monitorIndeX}"))
                                 {
@@ -90,8 +74,8 @@ namespace HangulClockRenderer
 
                             if (isRunningInstance <= 1)
                             {
-                                _consoleHandler = new ConsoleCtrlHandlerDelegate(ConsoleEventHandler);
-                                SetConsoleCtrlHandler(_consoleHandler, true);
+                                _consoleHandler = new HookKit.ConsoleCtrlHandlerDelegate(ConsoleEventHandler);
+                                HookKit.SetConsoleCtrlHandler(_consoleHandler, true);
 
                                 AppDomain.CurrentDomain.ProcessExit += new EventHandler(CurrentDomain_ProcessExit);
 
@@ -99,11 +83,30 @@ namespace HangulClockRenderer
                             }
                             else
                             {
-                                Console.WriteLine("Already HangulClockRenderer Process running. Exit.");
+                                LogKit.Error("Already HangulClockRenderer process running at monitor index " + args[1] + ". Exit.");
                             }
                         }
                     }
                 }
+            }
+        }
+
+        private static void NativeDPIAwareSettings()
+        {
+            if (Environment.OSVersion.Version >= new Version(6, 3, 0)) // Windows 8.0 이상부터 지원하는 함수를 쓸거야
+            {
+                if (Environment.OSVersion.Version >= new Version(10, 0, 15063)) // Windows 10 크리에이터 업데이트 부터 방식이 바꼈어..
+                {
+                    HookKit.SetProcessDpiAwarenessContext((int)HookKit.DPI_AWARENESS_CONTEXT.DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
+                }
+                else
+                {
+                    HookKit.SetProcessDpiAwareness(HookKit.PROCESS_DPI_AWARENESS.Process_Per_Monitor_DPI_Aware);
+                }
+            }
+            else
+            {
+                HookKit.SetProcessDPIAware();
             }
         }
 
@@ -114,158 +117,104 @@ namespace HangulClockRenderer
                 hu = new DataKit().Realm.All<HangulClockCommonSetting>().First().hu;
             }).Start();
 
-            LogKit.Info("Hangul Clock Renderer process started!");
-            Console.Write("Hangul Clock Renderer process started!\n\n");
+            LogKit.Info("HangulClockRenderer main thread is started.");
 
             IntPtr progman = HookKit.FindWindow("Progman", null);
-
             IntPtr result = IntPtr.Zero;
 
             HookKit.SendMessageTimeout(progman, 0x052C, new IntPtr(0), IntPtr.Zero, HookKit.SendMessageTimeoutFlags.SMTO_NORMAL, 1000, out result);
 
-            //
-
-            IntPtr workerw = IntPtr.Zero;
-
-            // System.Windows.Forms.Screen currentScreen = System.Windows.Forms.Screen.AllScreens[monitorIndex];
-            // Console.WriteLine(currentScreen.Bounds);
-
-            try
-            {
-                MonitorDeviceName = System.Windows.Forms.Screen.AllScreens[monitorIndeX].DeviceName;
-                foreach (var item in System.Windows.Forms.Screen.AllScreens.Select((value, index) => new { Value = value, Index = index }))
-                {
-                    ScreenModel model = new ScreenModel();
-
-                    Console.WriteLine(item.Value.Bounds);
-
-                    model.width = item.Value.Bounds.Width;
-                    model.height = item.Value.Bounds.Height;
-                    model.x = item.Value.Bounds.X;
-                    model.y = item.Value.Bounds.Y;
-
-                    model.monitorIndex = item.Index;
-                    model.deviceName = item.Value.DeviceName;
-
-                    model.isPrimary = item.Value.Primary;
-
-                    screenModels.Add(model);
-                }
-            }
-            catch (Exception e)
-            {
-                Application.Current.Shutdown();
-            }
-
             hangulClockDesktop = new HangulClockDesktop();
+
+            HookKit.MonitorEnumDelegate enumDisplayMonitorsCallback = EnumDeviceMonitorDelegate;
+            HookKit.EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero, enumDisplayMonitorsCallback, 0);
 
             HookKit.NativeDisplay.DISPLAY_DEVICE d = new HookKit.NativeDisplay.DISPLAY_DEVICE();
             d.cb = Marshal.SizeOf(d);
 
-            var isRequiredZoomFactorFractal = true;
+            int mIdx = 0;
 
             for (uint id = 0; HookKit.EnumDisplayDevices(null, id, ref d, 0); id++)
             {
-                Console.WriteLine(d.StateFlags);
+                d.cb = Marshal.SizeOf(d);
 
-                if (d.StateFlags == HookKit.NativeDisplay.DisplayDeviceStateFlags.PrimaryDevice
-                        || d.StateFlags == HookKit.NativeDisplay.DisplayDeviceStateFlags.AttachedToDesktop
-                        || d.StateFlags == (HookKit.NativeDisplay.DisplayDeviceStateFlags.PrimaryDevice | HookKit.NativeDisplay.DisplayDeviceStateFlags.AttachedToDesktop))
+                HookKit.NativeDisplay.DEVMODE dm = HookKit.GetDevMode();
+
+                if (HookKit.EnumDisplaySettingsEx(d.DeviceName, -1, ref dm, 0) != 0)
                 {
+                    ScreenModel model = screenModels.Find((m) => m.deviceName == d.DeviceName);
+                    System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.AllScreens.Where((s) => s.DeviceName == d.DeviceName).FirstOrDefault();
+                    model.deviceName = d.DeviceName;
+                    model.isPrimary = (d.StateFlags & HookKit.NativeDisplay.DisplayDeviceStateFlags.PrimaryDevice) != 0;
+                    model.width = dm.dmPelsWidth;
+                    model.height = dm.dmPelsHeight;
+                    model.zoomFactor = (double)model.width / screen.Bounds.Width;
+                    model.monitorIndex = mIdx;
 
-                    Console.Write("OK");
-                    d.cb = Marshal.SizeOf(d);
+                    mIdx++;
 
-                    HookKit.NativeDisplay.DEVMODE dm = HookKit.GetDevMode();
-
-                    if (HookKit.EnumDisplaySettingsEx(d.DeviceName, -1, ref dm, 0) != 0)
+                    if (model.isPrimary && model.zoomFactor > 1)
                     {
-                        foreach (var item in screenModels)
-                        {
-                            if (String.Equals(item.deviceName, d.DeviceName))
-                            {
-                                item.zoomFactor = (float)dm.dmPelsWidth / (float)item.width;
-
-                                item.width = dm.dmPelsWidth;
-                                item.height = dm.dmPelsHeight;
-
-                                Console.WriteLine(item.zoomFactor);
-
-                                if (item.zoomFactor <= 1.0)
-                                {
-                                    isRequiredZoomFactorFractal = false;
-                                }
-                            }
-                        }
-
-                        foreach (var item in screenModels)
-                        {
-                            if (String.Equals(item.deviceName, d.DeviceName))
-                            {
-                                if (isRequiredZoomFactorFractal)
-                                {
-                                    // Console.WriteLine("asdfsadfsadfsafdsdfa");
-                                    item.x = (int)(item.x * item.zoomFactor);
-                                    item.y = (int)(item.y * item.zoomFactor);
-                                }
-                            }
-                        }
+                        primaryDisplayZoomFactor = model.zoomFactor;
                     }
+
+                    model.x = (int)(model.x * primaryDisplayZoomFactor);
+                    model.y = (int)(model.y * primaryDisplayZoomFactor);
+
+
+                    LogKit.Info(string.Format("{0} : Resolution ({1} x {2}) without DPI / XY({3}, {4}) / IsPrimary({5}) / Scale({6})", model.deviceName, model.width, model.height, model.originalX, model.originalY, model.isPrimary, model.zoomFactor));
                 }
             }
 
-            screenModels.Sort((e1, e2) => e2.x.CompareTo(e1.x));
-            screenModels.Sort((e1, e2) => e2.y.CompareTo(e1.y));
+            MonitorDeviceName = screenModels[monitorIndeX].deviceName;
 
-            int beforeX = 0;
-            int beforeY = 0;
-
-            // var primaryScreen = screenModels.Where(screen => (screen.isPrimary)).First();
-
-            bool requiredSort = false;
-            bool isNotChange = false;
-
-            foreach (var item in screenModels)
+            // X 축부터 재정렬
+            // X 축에 음수가 있다면, 제일 작은 축을 0으로 변경 해줘야 함
+            if (screenModels.FindAll((element) => element.x < 0).Count > 0)
             {
-                if (item.x < 0)
-                {
-                    requiredSort = true;
-                }
+                screenModels.Sort((e1, e2) => e1.x.CompareTo(e2.x));
 
-                if (requiredSort)
+                int minXValue = 0;
+
+                foreach (var item in screenModels.Select((screen, index) => new { index, screen }))
                 {
-                    if (!isNotChange)
+                    ScreenModel screen = item.screen;
+                    int index = item.index;
+
+                    if (index == 0)
                     {
-                        beforeX = Math.Abs(item.x);
-                        isNotChange = true;
+                        minXValue = Math.Abs(screen.x);
                     }
 
-                    item.x = item.x + beforeX; // 0
+                    screen.x = screen.x + minXValue;
                 }
             }
 
-            requiredSort = false;
-            isNotChange = false;
-
-            foreach (var item in screenModels)
+            // Y 축도 재정렬
+            // Y 축에 음수가 있다면, 제일 작은 축을 0으로 변경 해줘야 함
+            if (screenModels.FindAll((element) => element.y < 0).Count > 0)
             {
-                if (item.y < 0)
-                {
-                    requiredSort = true;
-                }
+                screenModels.Sort((e1, e2) => e1.y.CompareTo(e2.y));
 
-                if (requiredSort)
+                int minYValue = 0;
+
+                foreach (var item in screenModels.Select((screen, index) => new { index, screen }))
                 {
-                    if (!isNotChange)
+                    ScreenModel screen = item.screen;
+                    int index = item.index;
+
+                    if (index == 0)
                     {
-                        beforeY = Math.Abs(item.y);
-                        isNotChange = true;
+                        minYValue = Math.Abs(screen.y);
                     }
 
-                    item.y = item.y + beforeY;
+                    screen.y = screen.y + minYValue;
                 }
             }
 
+            LogKit.Info("Inserting HangulClock to index 1 layer in windows explorer workerw...");
+
+            // 탐색기에 후킹
             HookKit.EnumWindows(new HookKit.EnumWindowsProc((topHandle, topParamHandle) =>
             {
                 IntPtr p = HookKit.FindWindowEx(topHandle, IntPtr.Zero, "SHELLDLL_DefView", IntPtr.Zero);
@@ -278,42 +227,47 @@ namespace HangulClockRenderer
                 return true;
             }), IntPtr.Zero);
 
-            //  IntPtr dc = HookKit.GetDCEx(workerw, IntPtr.Zero, (HookKit.DeviceContextValues)0x403);
-
             hangulClockDesktop.Loaded += new RoutedEventHandler(async (s, e) =>
             {
-                // const UInt32 WS_POPUP = 0x80000000;
-                // const UInt32 WS_CHILD = 0x40000000;
-                // UInt32 style = (UInt32)HookKit.GetWindowLong(hangulClockDesktopHwnd, -16);
-                // style = (style & ~(WS_POPUP)) | WS_CHILD; // | 0x00C00000 | 0x10000000 | 0x04000000 | 0x02000000;
-
                 hangulClockDesktopHwnd = new WindowInteropHelper(hangulClockDesktop).Handle;
+
+                ScreenModel currentScreen = screenModels.Where(screen => (screen.monitorIndex == monitorIndeX)).First();
+
+                hangulClockDesktop.WindowStartupLocation = WindowStartupLocation.Manual;
+                hangulClockDesktop.Left = currentScreen.originalX;
+                hangulClockDesktop.Top = currentScreen.originalY;
+
+                // 만약에 각각의 모니터의 DPI 가 100% 를 넘는게 2개 이상인 경우, {width=0, height=0} 으로는
+                // 올바르게 표시되지 않는 문제가 있엉...
+                if (screenModels.FindAll((models) => models.zoomFactor > 1).Count <= 1)
+                {
+                    hangulClockDesktop.Width = 0;
+                    hangulClockDesktop.Height = 0;
+                }
+                else
+                {
+                    hangulClockDesktop.Left = -10000;
+                    hangulClockDesktop.Top = -10000;
+                }
 
                 HookKit.SetParent(hangulClockDesktopHwnd, workerw);
 
-                // HookKit.SetWindowLong(hangulClockDesktopHwnd, HookKit.WindowLongFlags.GWL_STYLE, (int)style);
+                await Task.Delay(1000);
 
-                var currentScreen = screenModels.Where(screen => (screen.monitorIndex == monitorIndeX)).First();
-
-                /* hangulClockDesktop.Width = currentScreen.width;
-                hangulClockDesktop.Height = currentScreen.height;
-
-                hangulClockDesktop.Left = currentScreen.x;
-                hangulClockDesktop.Top = currentScreen.y; */
-
-                Console.WriteLine(String.Format("x : {0}, y : {1} / {2} x {3}", currentScreen.x, currentScreen.y, currentScreen.width, currentScreen.height));
-                HookKit.MoveWindow(hangulClockDesktopHwnd, currentScreen.x, currentScreen.y, (int)(currentScreen.width), (int)(currentScreen.height), true);
+                HookKit.SetWindowPos(hangulClockDesktopHwnd, new IntPtr(0x01), (int)(currentScreen.x / primaryDisplayZoomFactor), (int)(currentScreen.y / primaryDisplayZoomFactor), (int)(currentScreen.width / primaryDisplayZoomFactor), (int)(currentScreen.height / primaryDisplayZoomFactor), HookKit.SetWindowPosFlags.NoActivate | HookKit.SetWindowPosFlags.FrameChanged);
             });
 
             // hangulClockDesktop.Show();
 
-            new Thread(MainThread).Start();
+            LogKit.Info("Boot complete!");
+
             app.Run(hangulClockDesktop);
+            new Thread(MainThread).Start();
         }
 
         private static void MainThread()
         {
-            var DataKit = new DataKit();
+            DataKit DataKit = new DataKit();
 
             while (true)
             {
@@ -321,8 +275,8 @@ namespace HangulClockRenderer
                 {
                     DataKit.Realm.Refresh();
 
-                    var clockSetting = DataKit.Realm.All<ClockSettingsByMonitor>().Where(c => c.MonitorDeviceName == MonitorDeviceName).First();
-                    var commentSetting = DataKit.Realm.All<CommentSettingsByMonitor>().Where(c => c.MonitorDeviceName == MonitorDeviceName).First();
+                    ClockSettingsByMonitor clockSetting = DataKit.Realm.All<ClockSettingsByMonitor>().Where(c => c.MonitorDeviceName == MonitorDeviceName).First();
+                    CommentSettingsByMonitor commentSetting = DataKit.Realm.All<CommentSettingsByMonitor>().Where(c => c.MonitorDeviceName == MonitorDeviceName).First();
 
                     int clockSize = clockSetting.ClockSize;
                     bool isWhiteClick = clockSetting.IsWhiteClock;
@@ -351,11 +305,11 @@ namespace HangulClockRenderer
                             HangulKit.HANGUL_INFO partOfName = HangulKit.HangulJaso.DevideJaso(name[name.Length - 1]);
                             if (partOfName.chars[2] == ' ')
                             {
-                                comment = String.Format("{0}야, {1}", name, message);
+                                comment = string.Format("{0}야, {1}", name, message);
                             }
                             else
                             {
-                                comment = String.Format("{0}아, {1}", name, message);
+                                comment = string.Format("{0}아, {1}", name, message);
                             }
                         }
                         else
@@ -363,7 +317,7 @@ namespace HangulClockRenderer
                             comment = message;
                         }
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
 
                     }
@@ -395,43 +349,51 @@ namespace HangulClockRenderer
 
                     Thread.Sleep(5000);
                 }
-                catch (ThreadInterruptedException e)
+                catch (ThreadInterruptedException)
                 {
 
                 }
             }
         }
 
-        static void CurrentDomain_ProcessExit(object sender, EventArgs e)
+        private static void CurrentDomain_ProcessExit(object sender, EventArgs e)
         {
-            HookKit.SetParent(hangulClockDesktopHwnd, IntPtr.Zero);
+            // HookKit.SetParent(hangulClockDesktopHwnd, IntPtr.Zero);
             Console.WriteLine("HangulClockRenderer : Kill!");
             // Environment.Exit(0);
         }
 
-        static bool ConsoleEventHandler(ConsoleCtrlHandlerCode eventCode)
+        private static bool ConsoleEventHandler(ConsoleCtrlHandlerCode eventCode)
         {
-            HookKit.SetParent(hangulClockDesktopHwnd, IntPtr.Zero);
-            /* if (hangulClockDesktop != null)
-            {
-                hangulClockDesktop.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
-                {
-                    hangulClockDesktop.Close();
-                }));
-            } */
-
-            /* app.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
-            {
-                app.Shutdown();
-            })); */
-
-            // HookKit.SendMessage(hangulClockDesktopHwnd, HookKit.WM_SYSCOMMAND, HookKit.SC_CLOSE, IntPtr.Zero);
-            //HookKit.MoveWindow(hangulClockDesktopHwnd, 0, 0, 0, 0, true);
+            // HookKit.SetParent(hangulClockDesktopHwnd, IntPtr.Zero);
 
             Console.WriteLine("HangulClockRenderer : Stop!");
             Environment.Exit(0);
 
-            return (false);
+            return false;
+        }
+
+        private static bool EnumDeviceMonitorDelegate(IntPtr hDesktop, IntPtr hdc, ref HookKit.RECT prect, int d)
+        {
+            HookKit.MONITORINFOEX monitorInfo = new HookKit.MONITORINFOEX
+            {
+                Size = Marshal.SizeOf(typeof(HookKit.MONITORINFOEX))
+            };
+
+            HookKit.GetMonitorInfo(hDesktop, ref monitorInfo);
+
+            ScreenModel model = new ScreenModel
+            {
+                deviceName = monitorInfo.DeviceName,
+                originalX = monitorInfo.Monitor.Left,
+                originalY = monitorInfo.Monitor.Top,
+                x = monitorInfo.Monitor.Left,
+                y = monitorInfo.Monitor.Top
+            };
+
+            screenModels.Add(model);
+
+            return true;
         }
 
         private static string loadCommentFromServer()
@@ -474,7 +436,7 @@ namespace HangulClockRenderer
                     return message;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Console.WriteLine("Failed to load comment.");
                 return "오늘도 너가 있어 아름다워.";
@@ -486,11 +448,11 @@ namespace HangulClockRenderer
             using (ManagementObjectSearcher searcher = new ManagementObjectSearcher($"SELECT CommandLine FROM Win32_Process WHERE ProcessId = {process.Id}"))
             using (ManagementObjectCollection objects = searcher.Get())
             {
-                var singleOrDefault = objects.Cast<ManagementBaseObject>().SingleOrDefault();
+                ManagementBaseObject singleOrDefault = objects.Cast<ManagementBaseObject>().SingleOrDefault();
 
                 if (singleOrDefault != null)
                 {
-                    var commandLine = singleOrDefault["CommandLine"];
+                    object commandLine = singleOrDefault["CommandLine"];
 
                     if (commandLine != null)
                     {

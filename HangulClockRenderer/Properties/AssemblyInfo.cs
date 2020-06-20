@@ -1,7 +1,5 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Windows.Media;
 
 // 어셈블리에 대한 일반 정보는 다음 특성 집합을 통해 
 // 제어됩니다. 어셈블리와 관련된 정보를 수정하려면
@@ -14,7 +12,6 @@ using System.Windows.Media;
 [assembly: AssemblyCopyright("Copyright © 2018 Dora Lee. All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: DisableDpiAwareness]
 
 // ComVisible을 false로 설정하면 이 어셈블리의 형식이 COM 구성 요소에 
 // 표시되지 않습니다. COM에서 이 어셈블리의 형식에 액세스하려면
@@ -36,3 +33,5 @@ using System.Windows.Media;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("3.0.0.*")]
 [assembly: AssemblyFileVersion("3.0.0.1")]
+
+// [assembly: DisableDpiAwareness]

@@ -77,6 +77,7 @@ namespace HangulClockLogKit
             try
             {
                 txtWriter.Write(logMessage + Environment.NewLine);
+                Console.WriteLine(logMessage);
             }
             catch (Exception ex)
             {
