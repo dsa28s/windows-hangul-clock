@@ -13,9 +13,9 @@
         <FontFamily x:Key="NanumSquareRegular">/Resources/#NanumSquare</FontFamily>
     </UserControl.Resources>
     <Grid>
-        <Label Content="한글시계 - 너가 있어 아름다운 오늘" Foreground="White" FontSize="25" FontFamily="{StaticResource NanumSquareBold}" Margin="0,129,0,529" HorizontalContentAlignment="Center" />
-        <Label Content="버전 3 베타 1" Foreground="White" FontSize="15" FontFamily="{StaticResource NanumSquareRegular}" Margin="0,171,0,487" HorizontalContentAlignment="Center" />
-        <Label Content="개발자 : Lee Dora (leeshoon1344@gmail.com)" Foreground="White" FontSize="15" FontFamily="{StaticResource NanumSquareRegular}" Margin="0,273,0,385" HorizontalContentAlignment="Center" />
+        <Label Content="한글시계 - 네가 있어 아름다운 오늘" Foreground="White" FontSize="25" FontFamily="{StaticResource NanumSquareBold}" Margin="0,129,0,529" HorizontalContentAlignment="Center" />
+        <Label Content="버전 3 베타 2" Foreground="White" FontSize="15" FontFamily="{StaticResource NanumSquareRegular}" Margin="0,171,0,487" HorizontalContentAlignment="Center" />
+        <Label Content="개발자 : Lee Dora (lee@sanghun.io)" Foreground="White" FontSize="15" FontFamily="{StaticResource NanumSquareRegular}" Margin="0,273,0,385" HorizontalContentAlignment="Center" />
         <Label Content="개발자 Github : https://github.com/dsa28s" Foreground="White" FontSize="15" FontFamily="{StaticResource NanumSquareRegular}" Margin="0,315,0,343" HorizontalContentAlignment="Center" />
         <Label Content="한글시계 for Windows 코드 : https://github.com/dsa28s/windows-hangul-clock" Foreground="White" FontSize="15" FontFamily="{StaticResource NanumSquareRegular}" Margin="0,357,0,301" HorizontalContentAlignment="Center" />
         <Label Content="라이센스 : GPLv3" Foreground="White" FontSize="13" FontFamily="{StaticResource NanumSquareRegular}" Margin="0,399,0,259" HorizontalContentAlignment="Center" />

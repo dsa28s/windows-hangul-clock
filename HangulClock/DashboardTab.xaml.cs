@@ -79,9 +79,10 @@ namespace HangulClock
                         {
                             updateText.Content = "업데이트 있음.";
 
-                            Process updateProcess = new Process();
-                            updateProcess.StartInfo.FileName = "HangulClockUpdateManager.exe";
-                            updateProcess.Start();
+                            Process p = new Process();
+                            p.StartInfo = new ProcessStartInfo("HangulClockUpdateManager");
+
+                            p.Start();
                         }
                         else
                         {
