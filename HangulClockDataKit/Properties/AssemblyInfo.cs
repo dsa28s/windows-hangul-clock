@@ -1,6 +1,5 @@
-﻿using System.Resources;
-using System.Reflection;
-using System.Runtime.CompilerServices;
+﻿using System.Reflection;
+using System.Resources;
 using System.Runtime.InteropServices;
 
 // 어셈블리에 대한 일반 정보는 다음 특성 집합을 통해 
@@ -9,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("HangulClock DataKit")]
 [assembly: AssemblyDescription("DataKit for HangulClock")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Dora Lee (leeshoon1344@gmail.com)")]
-[assembly: AssemblyProduct("한글시계 - 너가 있어 아름다운 오늘")]
-[assembly: AssemblyCopyright("Copyright © 2018 Dora Lee. All rights reserved.")]
+[assembly: AssemblyCompany("Dora Lee (lee@sanghun.io)")]
+[assembly: AssemblyProduct("한글시계 - 네가 있어 아름다운 오늘")]
+[assembly: AssemblyCopyright("Copyright © 2018 - 2020 Dora Lee. All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -34,6 +33,6 @@ using System.Runtime.InteropServices;
 // 기본값으로 할 수 있습니다.
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("3.0.0.*")]
-[assembly: AssemblyFileVersion("3.0.0.1")]
+[assembly: AssemblyFileVersion("3.0.0.2")]
 [assembly: NeutralResourcesLanguage("")]
 

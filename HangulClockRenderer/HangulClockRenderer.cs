@@ -79,7 +79,14 @@ namespace HangulClockRenderer
 
                                 AppDomain.CurrentDomain.ProcessExit += new EventHandler(CurrentDomain_ProcessExit);
 
-                                start();
+                                if (monitorIndeX < System.Windows.Forms.Screen.AllScreens.Count())
+                                {
+                                    start();
+                                }
+                                else
+                                {
+                                    LogKit.Error("Monitor index out of range. Exit.");
+                                }
                             }
                             else
                             {
@@ -357,16 +364,14 @@ namespace HangulClockRenderer
 
         private static void CurrentDomain_ProcessExit(object sender, EventArgs e)
         {
-            // HookKit.SetParent(hangulClockDesktopHwnd, IntPtr.Zero);
-            Console.WriteLine("HangulClockRenderer : Kill!");
-            // Environment.Exit(0);
+            LogKit.Info("Received current domain exit event. Kill renderer process.");
         }
 
         private static bool ConsoleEventHandler(ConsoleCtrlHandlerCode eventCode)
         {
             // HookKit.SetParent(hangulClockDesktopHwnd, IntPtr.Zero);
 
-            Console.WriteLine("HangulClockRenderer : Stop!");
+            LogKit.Info("Received Ctrl+C keypress event. Stop renderer process.");
             Environment.Exit(0);
 
             return false;
@@ -401,7 +406,7 @@ namespace HangulClockRenderer
             {
                 if (lastCommentRequestTime == DateTime.MinValue || (lastCommentRequestTime != DateTime.MinValue && (DateTime.Now - lastCommentRequestTime).TotalSeconds > 3600)) // 1시간에 한번씩 문구 체크하기
                 {
-                    Console.WriteLine("Updating comment from server...");
+                    LogKit.Info("Updating comment from server...");
 
                     lastCommentRequestTime = DateTime.Now;
 
@@ -423,22 +428,23 @@ namespace HangulClockRenderer
                     // JSON Parsing
 
                     JObject obj = JObject.Parse(result);
-                    return obj["message"].ToString();
+                    return String.Join("\n", ((string)obj["message"]).Split(','));
                 }
                 else
                 {
                     if (message == "")
                     {
-                        message = "오늘도 너가 있어 아름다워.";
+                        message = "남을 위해 사는 착한 사람 말고,너를 위해 사는 좋은 사람이 되길";
                     }
 
-                    return message;
+                    return String.Join("\n", message.Split(','));
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Console.WriteLine("Failed to load comment.");
-                return "오늘도 너가 있어 아름다워.";
+                LogKit.Error("Failed to load comment from server.");
+                LogKit.Error(e.ToString());
+                return String.Join("\n", "남을 위해 사는 착한 사람 말고,너를 위해 사는 좋은 사람이 되길".Split(','));
             }
         }
 
