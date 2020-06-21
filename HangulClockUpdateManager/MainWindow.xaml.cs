@@ -1,29 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Threading;
-using System.Net;
-using System.IO;
-
-using HangulClockUIKit;
-using HangulClockKit;
-using HangulClockDataKit;
+﻿using HangulClockDataKit;
 using HangulClockDataKit.Model;
+using HangulClockKit;
+using HangulClockUIKit;
 using Newtonsoft.Json.Linq;
-
-using Path = System.IO.Path;
+using System;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Threading;
+using System.Windows;
+using System.Windows.Input;
+using Path = System.IO.Path;
 
 namespace HangulClockUpdateManager
 {
@@ -102,7 +90,7 @@ namespace HangulClockUpdateManager
                             updateButton.IsEnabled = false;
                             updateComment.IsEnabled = false;
                         }
-                        
+
                         loadingIndicator.Visibility = Visibility.Hidden;
                     });
                 }
@@ -131,7 +119,7 @@ namespace HangulClockUpdateManager
 
         private void Wc_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            
+
         }
 
         private void Wc_DownloadFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)

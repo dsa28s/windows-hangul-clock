@@ -6,12 +6,12 @@ using System.Windows;
 // 어셈블리에 대한 일반 정보는 다음 특성 집합을 통해 
 // 제어됩니다. 어셈블리와 관련된 정보를 수정하려면
 // 이러한 특성 값을 변경하세요.
-[assembly: AssemblyTitle("한글시계 - 너가 있어 아름다운 오늘")]
+[assembly: AssemblyTitle("한글시계 - 네가 있어 아름다운 오늘")]
 [assembly: AssemblyDescription("한글시계를 설정할 수 있는 메인 프로그램입니다.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Dora Lee (leeshoon1344@gmail.com")]
+[assembly: AssemblyCompany("Dora Lee (lee@sanghun.io")]
 [assembly: AssemblyProduct("한글시계 - 너가 있어 아름다운 오늘")]
-[assembly: AssemblyCopyright("Copyright © 2018 Dora Lee. All rights reserved.")]
+[assembly: AssemblyCopyright("Copyright © 2018 - 2020 Dora Lee. All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -51,6 +51,6 @@ using System.Windows;
 // 지정되도록 할 수 있습니다.
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("3.0.0.*")]
-[assembly: AssemblyFileVersion("3.0.0.1")]
+[assembly: AssemblyFileVersion("3.0.0.2")]
 [assembly: NeutralResourcesLanguage("ko-KR")]
 

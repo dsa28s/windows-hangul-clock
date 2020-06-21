@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("HangulClock Monitoring Service")]
 [assembly: AssemblyDescription("Monitoring Service for Hangul Clock")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Dora Lee (leeshoon1344@gmail.com)")]
-[assembly: AssemblyProduct("한글시계 - 너가 있어 아름다운 오늘")]
-[assembly: AssemblyCopyright("Copyright © 2018 Dora Lee. All rights reserved.")]
+[assembly: AssemblyCompany("Dora Lee (lee@sanghun.io)")]
+[assembly: AssemblyProduct("한글시계 - 네가 있어 아름다운 오늘")]
+[assembly: AssemblyCopyright("Copyright © 2018 - 2020 Dora Lee. All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("3.0.0.1")]
-[assembly: AssemblyFileVersion("3.0.0.1")]
+[assembly: AssemblyVersion("3.0.0.2")]
+[assembly: AssemblyFileVersion("3.0.0.2")]
