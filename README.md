@@ -1,43 +1,66 @@
-Copyright. 2017 MR.LEE(LEE SANG HUN) / 이 프로그램은 저작권으로 보호됩니다.
+<p align="center">
+  <img src="https://raw.githubusercontent.com/dsa28s/windows-hangul-clock/master/Resources/hangulclock-icon.png" width="100" height="100">
+</p>
 
-# 한글시계 - 오늘도 수고한 당신에게
-### Hangul Clock for Windows (Desktop Widget)
-![Screenshot!](https://raw.githubusercontent.com/dsa28s/windows-hangul-clock/master/Screenshot/shot6.PNG)
-![Screenshot!](https://raw.githubusercontent.com/dsa28s/windows-hangul-clock/master/Screenshot/shot1.PNG)
-![Screenshot!](https://raw.githubusercontent.com/dsa28s/windows-hangul-clock/master/Screenshot/shot3.png)
-![Screenshot!](https://raw.githubusercontent.com/dsa28s/windows-hangul-clock/master/Screenshot/shot4.png)
-![Screenshot!](https://raw.githubusercontent.com/dsa28s/windows-hangul-clock/master/Screenshot/shot2.png)
-"누군가에게 위로받고싶어" 라고 생각이 들어 감성적으로 만들었어요.
-한글로 이루어진 시계와 맨 위에는 위로의 말이 출력된답니다. 
-바탕화면 위젯으로 사용할 수 있으며 마치 바탕화면처럼(?) 사용한답니다. 
+<h1 align="center">한글시계 - 네가 있어 아름다운 오늘</h1>
+<h4 align="center">"누군가에게 위로받고싶어" 라고 생각이 들어 간단하게 시작한 프로젝트에요! 한글로 이루어진 시계와 위로의 말이 출력되고, 바탕화면 위젯으로 사용할 수 있어요!</h4>
+<p align="center">
+  <img src=https://img.shields.io/badge/windows--hangul--clock-v3--beta2-blue.svg?style=flat-square&logo=npm">
+  <img src="https://img.shields.io/badge/license-GPLv3-brightgreen.svg?style=flat-square">
+</p>
 
-## 한글시계 사용하기
-다운로드 : https://hangulclock.today
+<p align="center">
+  <img src="https://raw.githubusercontent.com/dsa28s/windows-hangul-clock/master/Resources/single-monitor-screenshot.jpg" width="100%">
+</p>
 
-### 설치 위치
-C:\Program Files\Hangul Clock\
+<p align="center">
+  <img src="https://raw.githubusercontent.com/dsa28s/windows-hangul-clock/master/Resources/dashboard-screenshot.jpg" width="100%">
+</p>
 
-### 실행조건
-Windows 7+
+<br>
 
-### 
-Windows 8.1
-Windows 10
-Windows Server 2012 R2
+## 한글시계는 이런 기능을 지원해요!
 
-### 문구
-```
-예 : 상훈아, 오늘도 많이 힘들었지? / 상훈아, 나 요즘 우울해...
-```
-문구는 서버에서 불러오거나 사용자가 직접 설정할 수 있습니다.
+- 모니터 별로 한글시계 설정
+- 단색, 이미지, 유튜브 영상으로 배경화면 설정
+- 위로 문구
+- 자동으로 위로 문구 설정
 
-## 라이센스
-GPLv3(GNU General Public License v3)
+<br>
 
-## Authors
-* **MR.LEE(leeshoon1344@gmail.com) / LEE SANG HUN** - *Main developer* - [한국디지털미디어고등학교 3학년](https://github.com/dsa28s)
+## 멀티 모니터 기능
 
-## 버전 히스토리
-* **2.6.0** - *Out node.js / Upgrade HangulClockServer / Fix issue*
-* **2.5.0** - *Change UI / Customizing Text / Hangul Clock Size / Bug fix*
-* **2.3.1** - *First Publishing*
+모니터가 여러대 연결되어있을 경우, 모니터 별로 한글시계 활성화 / 비활성화, 설정을 변경할 수 있습니다.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/dsa28s/windows-hangul-clock/master/Resources/multi-monitor-screenshot.png" width="100%">
+</p>
+
+<br>
+
+
+## 한글시계를 초대형 시계로 만들어주신 '긱블 (Geekble)' 팀
+
+소프트웨어 한글시계를 초대형 시계로 제작해주신 [긱블 (Geekble)](https://www.youtube.com/channel/UCp94pzrtA5wPyZazbDq0CXA) 님에게 감사의 말씀 드립니다!
+
+영상 보러가기 ↓
+
+[![긱블 - 한글시계](https://img.youtube.com/vi/3OnIf-UtNqs/0.jpg)](https://www.youtube.com/watch?v=3OnIf-UtNqs)
+
+<br>
+
+## 다른 플랫폼의 한글시계
+
+- [맥용 한글시계 Github 바로가기](https://github.com/dsa28s/mac-hanguldesktop-clock)
+- [안드로이드용 한글시계 Github 바로가기](https://github.com/neo81389/HangulClock)
+- 리눅스용 한글시계 (개발중)
+- [iOS용 한글시계 Github 바로가기](https://github.com/minsOne/HangulClockApp)
+- [갤럭시 워치용 한글시계 Github 바로가기](https://github.com/JangIsaac/HangulWatchTizen)
+
+<br>
+
+## 라이선스
+
+해당 프로젝트로부터 파생된 '한글시계 소프트웨어 버전' 은 모두 GPLv3 라이선스를 가지고 있습니다.
+
+**한글시계의 원작자는 이호민님입니다. 원작자와 허가 하에 시계의 배열 (5x5 -> 6x6) 을 변형하여 개발되었습니다.**
