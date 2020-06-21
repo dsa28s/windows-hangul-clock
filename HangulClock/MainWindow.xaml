@@ -13,7 +13,7 @@
         AllowsTransparency="True"
         Background="Transparent"
         BorderBrush="Transparent"
-        Title="한글시계 - 너가 있어 아름다운 오늘" Height="700" Width="1024" Loaded="Window_Loaded"
+        Title="한글시계 - 네가 있어 아름다운 오늘" Height="700" Width="1024" Loaded="Window_Loaded"
         UseLayoutRounding="True">
     <Window.Resources>
         <FontFamily x:Key="NanumSquareBold">/Resources/#NanumSquare Bold</FontFamily>
@@ -49,7 +49,7 @@
                 </uiKit:FadeInOutImageControl.Triggers>
             </uiKit:FadeInOutImageControl>
             <Image x:Name="logo" HorizontalAlignment="Left" Height="54" VerticalAlignment="Top" Width="54" Margin="21,21,0,0" />
-            <Label Content="너가 있어 아름다운 오늘" HorizontalAlignment="Left" Margin="80,26,0,0" VerticalAlignment="Top" Foreground="White" Width="167" FontSize="14" FontFamily="{StaticResource NanumSquareRegular}"/>
+            <Label Content="네가 있어 아름다운 오늘" HorizontalAlignment="Left" Margin="80,26,0,0" VerticalAlignment="Top" Foreground="White" Width="167" FontSize="14" FontFamily="{StaticResource NanumSquareRegular}"/>
             <Label Content="한글시계" HorizontalAlignment="Left" Margin="80,46,0,0" VerticalAlignment="Top" Foreground="White" Width="167" FontSize="14" FontFamily="{StaticResource NanumSquareBold}" />
             <Label x:Name="tab_dashboard" Content="대시보드" HorizontalAlignment="Left" Margin="265,39,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Foreground="White" Width="75" FontSize="14" FontFamily="{StaticResource NanumSquareBold}" Height="26" MouseDown="tab_dashboard_MouseDown" />
             <Label x:Name="tab_clocksetting" Content="시계" HorizontalAlignment="Left" Margin="345,39,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Foreground="White" Width="75" FontSize="14" FontFamily="{StaticResource NanumSquareBold}" Height="26" Opacity="0.3" MouseDown="tab_clocksetting_MouseDown"/>

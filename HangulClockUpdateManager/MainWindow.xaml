@@ -12,7 +12,7 @@
         Title="한글시계 업데이트" Height="550" Width="800">
     <Grid Loaded="Grid_Loaded">
         <Image x:Name="hangulClockIcon" Width="64" Height="64" Margin="365,29,365,428" />
-        <Label Foreground="Black" FontSize="20" FontWeight="Thin" Content="한글시계 - 너가 있어 아름다운 오늘" Margin="0,98,0,369" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></Label>
+        <Label Foreground="Black" FontSize="20" FontWeight="Thin" Content="한글시계 - 네가 있어 아름다운 오늘" Margin="0,98,0,369" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></Label>
         <Label x:Name="hangulClockCurrentVersion" Foreground="Black" FontSize="12" FontWeight="Thin" Content="현재 설치된 버전 : " Margin="0,131,0,355" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
         <Label x:Name="newVersionAvailable" Foreground="Black" FontSize="14" FontWeight="Thin" Content="새로운 업데이트가 있습니다." Margin="0,166,0,309" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
         <TextBox x:Name="updateComment" IsReadOnly="True" Margin="159,217,158,91"></TextBox>
