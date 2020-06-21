@@ -14,7 +14,7 @@
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/dsa28s/windows-hangul-clock/master/Resources/dashboard-screenshot.jpg" width="100%">
+  <img src="https://raw.githubusercontent.com/dsa28s/windows-hangul-clock/master/Resources/dashboard-screenshot.png" width="100%">
 </p>
 
 <br>
