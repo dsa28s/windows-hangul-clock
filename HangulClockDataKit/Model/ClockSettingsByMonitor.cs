@@ -10,5 +10,6 @@ namespace HangulClockDataKit.Model
         public int ClockSize { get; set; }
 
         public bool isUseHangulClock { get; set; }
+        public string FontName { get; set; }
     }
 }

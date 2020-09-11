@@ -6,10 +6,6 @@
              xmlns:local="clr-namespace:HangulClockUIKit"
              mc:Ignorable="d" 
              Width="320" Height="320">
-    <UserControl.Resources>
-        <FontFamily x:Key="NotoSansKRMedium">/Resources/#Noto Sans KR Medium</FontFamily>
-        <FontFamily x:Key="NotoSansKRRegular">/Resources/#Noto Sans KR Regular</FontFamily>
-    </UserControl.Resources>
     <Grid>
         <Rectangle Fill="#FF000000" HorizontalAlignment="Left" Height="6.5" VerticalAlignment="Top" Width="40"/>
         <Rectangle Fill="#FF000000" HorizontalAlignment="Left" Height="40" VerticalAlignment="Top" Width="6.5"/>
@@ -33,47 +29,47 @@
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
-            <Label Grid.Column="0" Grid.Row="0" x:Name="hangulClock_element_11" Content="한" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
-            <Label Grid.Column="1" Grid.Row="0" x:Name="hangulClock_element_12" Content="두" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
-            <Label Grid.Column="2" Grid.Row="0" x:Name="hangulClock_element_13" Content="세" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
-            <Label Grid.Column="3" Grid.Row="0" x:Name="hangulClock_element_14" Content="네" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
-            <Label Grid.Column="4" Grid.Row="0" x:Name="hangulClock_element_15" Content="다" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
-            <Label Grid.Column="5" Grid.Row="0" x:Name="hangulClock_element_16" Content="섯" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
+            <Label Grid.Column="0" Grid.Row="0" x:Name="hangulClock_element_11" Content="한" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
+            <Label Grid.Column="1" Grid.Row="0" x:Name="hangulClock_element_12" Content="두" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
+            <Label Grid.Column="2" Grid.Row="0" x:Name="hangulClock_element_13" Content="세" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
+            <Label Grid.Column="3" Grid.Row="0" x:Name="hangulClock_element_14" Content="네" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
+            <Label Grid.Column="4" Grid.Row="0" x:Name="hangulClock_element_15" Content="다" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
+            <Label Grid.Column="5" Grid.Row="0" x:Name="hangulClock_element_16" Content="섯" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
 
-            <Label Grid.Column="0" Grid.Row="1" x:Name="hangulClock_element_21" Content="여" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
-            <Label Grid.Column="1" Grid.Row="1" x:Name="hangulClock_element_22" Content="섯" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
-            <Label Grid.Column="2" Grid.Row="1" x:Name="hangulClock_element_23" Content="일" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
-            <Label Grid.Column="3" Grid.Row="1" x:Name="hangulClock_element_24" Content="곱" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
-            <Label Grid.Column="4" Grid.Row="1" x:Name="hangulClock_element_25" Content="여" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
-            <Label Grid.Column="5" Grid.Row="1" x:Name="hangulClock_element_26" Content="덟" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
+            <Label Grid.Column="0" Grid.Row="1" x:Name="hangulClock_element_21" Content="여" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
+            <Label Grid.Column="1" Grid.Row="1" x:Name="hangulClock_element_22" Content="섯" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
+            <Label Grid.Column="2" Grid.Row="1" x:Name="hangulClock_element_23" Content="일" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
+            <Label Grid.Column="3" Grid.Row="1" x:Name="hangulClock_element_24" Content="곱" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
+            <Label Grid.Column="4" Grid.Row="1" x:Name="hangulClock_element_25" Content="여" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
+            <Label Grid.Column="5" Grid.Row="1" x:Name="hangulClock_element_26" Content="덟" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
 
-            <Label Grid.Column="0" Grid.Row="2" x:Name="hangulClock_element_31" Content="아" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
-            <Label Grid.Column="1" Grid.Row="2" x:Name="hangulClock_element_32" Content="홉" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
-            <Label Grid.Column="2" Grid.Row="2" x:Name="hangulClock_element_33" Content="열" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
-            <Label Grid.Column="3" Grid.Row="2" x:Name="hangulClock_element_34" Content="한" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
-            <Label Grid.Column="4" Grid.Row="2" x:Name="hangulClock_element_35" Content="두" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
-            <Label Grid.Column="5" Grid.Row="2" x:Name="hangulClock_element_36" Content="시" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
+            <Label Grid.Column="0" Grid.Row="2" x:Name="hangulClock_element_31" Content="아" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
+            <Label Grid.Column="1" Grid.Row="2" x:Name="hangulClock_element_32" Content="홉" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
+            <Label Grid.Column="2" Grid.Row="2" x:Name="hangulClock_element_33" Content="열" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
+            <Label Grid.Column="3" Grid.Row="2" x:Name="hangulClock_element_34" Content="한" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
+            <Label Grid.Column="4" Grid.Row="2" x:Name="hangulClock_element_35" Content="두" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
+            <Label Grid.Column="5" Grid.Row="2" x:Name="hangulClock_element_36" Content="시" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
 
-            <Label Grid.Column="0" Grid.Row="3" x:Name="hangulClock_element_41" Content="자" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
-            <Label Grid.Column="1" Grid.Row="3" x:Name="hangulClock_element_42" Content="이" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
-            <Label Grid.Column="2" Grid.Row="3" x:Name="hangulClock_element_43" Content="삼" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
-            <Label Grid.Column="3" Grid.Row="3" x:Name="hangulClock_element_44" Content="사" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
-            <Label Grid.Column="4" Grid.Row="3" x:Name="hangulClock_element_45" Content="오" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
-            <Label Grid.Column="5" Grid.Row="3" x:Name="hangulClock_element_46" Content="십" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
+            <Label Grid.Column="0" Grid.Row="3" x:Name="hangulClock_element_41" Content="자" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
+            <Label Grid.Column="1" Grid.Row="3" x:Name="hangulClock_element_42" Content="이" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
+            <Label Grid.Column="2" Grid.Row="3" x:Name="hangulClock_element_43" Content="삼" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
+            <Label Grid.Column="3" Grid.Row="3" x:Name="hangulClock_element_44" Content="사" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
+            <Label Grid.Column="4" Grid.Row="3" x:Name="hangulClock_element_45" Content="오" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
+            <Label Grid.Column="5" Grid.Row="3" x:Name="hangulClock_element_46" Content="십" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
 
-            <Label Grid.Column="0" Grid.Row="4" x:Name="hangulClock_element_51" Content="정" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
-            <Label Grid.Column="1" Grid.Row="4" x:Name="hangulClock_element_52" Content="일" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
-            <Label Grid.Column="2" Grid.Row="4" x:Name="hangulClock_element_53" Content="이" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
-            <Label Grid.Column="3" Grid.Row="4" x:Name="hangulClock_element_54" Content="삼" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
-            <Label Grid.Column="4" Grid.Row="4" x:Name="hangulClock_element_55" Content="사" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
-            <Label Grid.Column="5" Grid.Row="4" x:Name="hangulClock_element_56" Content="육" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
+            <Label Grid.Column="0" Grid.Row="4" x:Name="hangulClock_element_51" Content="정" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
+            <Label Grid.Column="1" Grid.Row="4" x:Name="hangulClock_element_52" Content="일" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
+            <Label Grid.Column="2" Grid.Row="4" x:Name="hangulClock_element_53" Content="이" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
+            <Label Grid.Column="3" Grid.Row="4" x:Name="hangulClock_element_54" Content="삼" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
+            <Label Grid.Column="4" Grid.Row="4" x:Name="hangulClock_element_55" Content="사" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
+            <Label Grid.Column="5" Grid.Row="4" x:Name="hangulClock_element_56" Content="육" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
 
-            <Label Grid.Column="0" Grid.Row="5" x:Name="hangulClock_element_61" Content="오" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
-            <Label Grid.Column="1" Grid.Row="5" x:Name="hangulClock_element_62" Content="오" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
-            <Label Grid.Column="2" Grid.Row="5" x:Name="hangulClock_element_63" Content="칠" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
-            <Label Grid.Column="3" Grid.Row="5" x:Name="hangulClock_element_64" Content="팔" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
-            <Label Grid.Column="4" Grid.Row="5" x:Name="hangulClock_element_65" Content="구" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
-            <Label Grid.Column="5" Grid.Row="5" x:Name="hangulClock_element_66" Content="분" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" FontFamily="{StaticResource NotoSansKRRegular}" Opacity="0.2" />
+            <Label Grid.Column="0" Grid.Row="5" x:Name="hangulClock_element_61" Content="오" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
+            <Label Grid.Column="1" Grid.Row="5" x:Name="hangulClock_element_62" Content="오" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
+            <Label Grid.Column="2" Grid.Row="5" x:Name="hangulClock_element_63" Content="칠" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
+            <Label Grid.Column="3" Grid.Row="5" x:Name="hangulClock_element_64" Content="팔" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
+            <Label Grid.Column="4" Grid.Row="5" x:Name="hangulClock_element_65" Content="구" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
+            <Label Grid.Column="5" Grid.Row="5" x:Name="hangulClock_element_66" Content="분" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="-10" FontSize="30" Opacity="0.2" />
         </Grid>
     </Grid>
 </UserControl>
