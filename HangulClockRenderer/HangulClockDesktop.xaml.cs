@@ -287,6 +287,12 @@ namespace HangulClockRenderer
             }
         }
 
+        public void SetClockFont(string fontName)
+        {
+            BrushConverter bc = new BrushConverter();
+            hangulClock.FontFamily = new FontFamily(fontName);
+        }
+
         private void SystemEvents_DisplaySettingsChanged(object sender, EventArgs e)
         {
 

@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Threading;
+using System.Drawing;
 
 namespace HangulClockRenderer
 {
@@ -286,6 +287,19 @@ namespace HangulClockRenderer
 
                     int clockSize = clockSetting.ClockSize;
                     bool isWhiteClick = clockSetting.IsWhiteClock;
+                    string fontName;
+
+                    try
+                    {
+                        var cvt = new FontConverter();
+                        Font f = cvt.ConvertFromString(clockSetting.FontName) as Font;
+                        fontName = f.Name;
+                    }
+                    catch
+                    {
+                        fontName = "/Resources/#Noto Sans KR Regular";
+                    }
+
                     int clockDirection = commentSetting.DirectionOfComment;
 
                     string name = commentSetting.Name;
@@ -334,6 +348,7 @@ namespace HangulClockRenderer
                         hangulClockDesktop.ucScale.ScaleY = (double)clockSize / 100;
 
                         hangulClockDesktop.SetClockColor(isWhiteClick);
+                        hangulClockDesktop.SetClockFont(fontName);
 
                         if (clockDirection == CommentSettingsByMonitor.CommentDirection.TOP)
                         {

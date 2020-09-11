@@ -13,6 +13,30 @@
         <FontFamily x:Key="NanumSquareRegular">/Resources/#NanumSquare</FontFamily>
     </UserControl.Resources>
     <Grid>
+        <Label x:Name="clockFontText" Content="시계 글꼴" Foreground="White" FontFamily="{StaticResource NanumSquareRegular}" FontSize="17" Margin="643,235,289,207" />
+        <Button x:Name="clockFontValueText" Content="Noto Sans" FontFamily="{StaticResource NanumSquareRegular}" FontSize="17" Margin="520,232,401,432" Click="clockFontValueText_Click" BorderBrush="White">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="White"/>
+                            <Setter Property="Foreground" Value="Black"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
         <uiKit:HangulClock x:Name="hangulClock" Width="310" Height="310" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="120,194,0,196" ClockFontSize="30" ShowClockBold="True" />
         <!-- <uiKit:MinimalButton x:Name="clockPositionSettingButton" ButtonText="시계 위치 설정" Width="150" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="200,530,0,110" /> -->
         
