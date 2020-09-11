@@ -291,6 +291,7 @@ namespace HangulClockRenderer
         {
             BrushConverter bc = new BrushConverter();
             hangulClock.FontFamily = new FontFamily(fontName);
+            hangulClockBlack.FontFamily = new FontFamily(fontName);
         }
 
         private void SystemEvents_DisplaySettingsChanged(object sender, EventArgs e)
