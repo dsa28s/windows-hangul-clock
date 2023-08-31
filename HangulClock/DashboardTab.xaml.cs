@@ -19,22 +19,25 @@ namespace HangulClock
     /// </summary>
     public partial class DashboardTab : UserControl
     {
-        private const String UPDATE_CHECK_URL = "https://us-central1-hangul-clock.cloudfunctions.net/version/";
+        // norhu1130 - fix update crash
+        // private const String UPDATE_CHECK_URL = "https://us-central1-hangul-clock.cloudfunctions.net/version/";
         private System.Timers.Timer updateDelayTimer;
 
         public DashboardTab()
         {
             InitializeComponent();
 
-            updateText.Content = "업데이트를 확인하는 중...";
+            updateText.Content = "업데이트 없음. 최신 버전";
 
+            /* norhu1130 - fix update crash
             updateDelayTimer = new System.Timers.Timer(3000);
             updateDelayTimer.Elapsed += UpdateDelayTimer_Elapsed;
-            updateDelayTimer.Start();
+            updateDelayTimer.Start();*/
 
             versionText.Content = $"한글시계 v {VersionKit.HANGULCLOCK_VERSION} (for Windows)";
         }
 
+        /* norhu1130 - fix update crash
         private void UpdateDelayTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             updateDelayTimer.Stop();
@@ -91,7 +94,7 @@ namespace HangulClock
                     });
                 }
             }).Start();
-        }
+        }*/
 
         public async void loadInitData()
         {
